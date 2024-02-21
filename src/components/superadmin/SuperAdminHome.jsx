@@ -3,12 +3,16 @@ import { Modal } from "antd";
 import DataTable from "react-data-table-component";
 import { useFormik } from "formik";
 import { AdminSchema, AdminInitValues } from "../../validations/admin";
-import { createUsers, getAdminForSuperAdmin } from "../../services/service";
+import { EditAdminForSuperAdmin, createUsers, getAdminForSuperAdmin } from "../../services/service";
 import Loader from "../utils/loader";
+import {  FaEdit, } from "react-icons/fa";
+import { MdDelete } from "react-icons/md"
 const Admin = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loader, setLoader] = useState(false);
   const [admins, setAdmins] = useState([]);
+  const [id, setId] = useState("");
+  const [edit, setEdit] = useState(false);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -21,13 +25,13 @@ const Admin = () => {
     initialValues: AdminInitValues,
     validationSchema: AdminSchema,
     onSubmit: (values) => {
-      submitForms(values);
+      edit ? EditForms(values) : submitForms(values);
     },
   });
   const submitForms = async (value) => {
     setLoader(true);
     try {
-        let serverData = {...value,...{role:'admin'}}
+      let serverData = { ...value, ...{ role: 'admin' } }
       let val = await createUsers(serverData);
       console.log(val);
       handleCancel();
@@ -59,6 +63,29 @@ const Admin = () => {
   useEffect(() => {
     getAdmins();
   }, []);
+  const handleEdit = (data) => {
+    AdminInitValues.name = data.name;
+    AdminInitValues.phoneNumber = data.phoneNumber;
+    AdminInitValues.address = data.address;
+    setId(data._id);
+    setEdit(true);
+    setIsModalOpen(true);
+    console.log(data);
+  };
+
+  const EditForms = async (values) => {
+    setLoader(true);
+    try {
+      let val = await EditAdminForSuperAdmin(id, values);
+      console.log(val);
+      getAdmins();
+      handleCancel();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoader(false);
+    }
+  };
 
   const columns = [
     {
@@ -77,7 +104,48 @@ const Admin = () => {
       name: <h1 className="text-lg text-gray-500">Address</h1>,
       selector: (row) => row.address,
     },
+    {
+      name: (
+        <h1 className="text-lg text-gray-500">
+          Actions
+        </h1>
+      ),
+      selector: (row) => row.actions,
+      cell: (row) => (
+        <>
+          <>
+            <FaEdit className='size-5 cursor-pointer' onClick={handleEdit} /><span className='ml-2'>{row.id}</span>
+            <MdDelete className='size-5 cursor-pointer' /><span className='ml-2'>{row.id}</span>
+          </>
+        </>
+      ),
+    },
   ];
+  const customStyles = {
+    rows: {
+      style: {
+        minHeight: "48px", // override the row height
+        minWidth: "800px",
+      },
+    },
+    headCells: {
+      style: {
+        paddingLeft: "8px", // override the cell padding for head cells
+        paddingRight: "8px",
+        backgroundColor: "#F3F4F6",
+        color: "#6c737f",
+        fontWeight: "bold",
+      },
+    },
+    cells: {
+      style: {
+        paddingLeft: "10px", // override the cell padding for data cells
+        paddingRight: "10px",
+        fontSize: "16px",
+        color: "#364353",
+      },
+    },
+  };
   return (
     <div>
       {loader ? <Loader /> : null}
@@ -94,8 +162,8 @@ const Admin = () => {
           </button>
         </div>
       </div>
-      <div className="px-10 pt-10">
-        <DataTable columns={columns} data={admins} fixedHeader />
+      <div className="px-10 pt-10 rounded-md">
+        <DataTable columns={columns} data={admins} fixedHeader customStyles={customStyles} pagination />
       </div>
       <div>
         <Modal

@@ -6,7 +6,7 @@ import DataTable from "react-data-table-component";
 import Loader from '../utils/loader';
 
 function Payments() {
-  const [loader,setLoader] = useState(false)
+  const [loader, setLoader] = useState(false)
   const handleChange = (value) => {
     setLoader(true);
     console.log(`selected ${value}`);
@@ -94,8 +94,8 @@ function Payments() {
 
   return (
     <div>
-      {loader?<Loader data={loader} />:null}
-      <div className='text-center pt-10 text-xl'>
+      {loader ? <Loader data={loader} /> : null}
+      <div className='text-center pt-10 text-xl  font-bold'>
         Payments
       </div>
       <div className='flex w-[95%] pl-10 gap-10 pt-7'>

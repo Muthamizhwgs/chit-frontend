@@ -12,7 +12,7 @@ import Loader from '../utils/loader';
 function ChitMaster() {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [err, setErr] = React.useState('');
-  // const [chits, setChits] = React.useState([]);
+  const [chits, setChits] = React.useState([]);
   // eslint-disable-next-line no-unused-vars
   const [filteredData, setFilteredData] = React.useState([]);
   // eslint-disable-next-line no-unused-vars
@@ -21,18 +21,18 @@ function ChitMaster() {
   const showModal = () => {
     setIsModalOpen(true);
   };
-  const chits = [
-    {
-      chitName: "1Lacs", chitAmount: "100000", group: "A", date: "16-02-2024"
-    },
-    {
-      chitName: "2Lacs", chitAmount: "100000", group: "A", date: "16/02/2024"
-    },
-    {
-      chitName: "3Lacs", chitAmount: "100000", group: "A", date: "16/02/2024"
-    },
+  // const chits = [
+  //   {
+  //     chitName: "1Lacs", chitAmount: "100000", group: "A", date: "16-02-2024"
+  //   },
+  //   {
+  //     chitName: "2Lacs", chitAmount: "100000", group: "A", date: "16/02/2024"
+  //   },
+  //   {
+  //     chitName: "3Lacs", chitAmount: "100000", group: "A", date: "16/02/2024"
+  //   },
 
-  ]
+  // ]
   const forms = useFormik({
     initialValues: ChitMasterinitValue,
     validationSchema: ChitMasterSchema,
@@ -98,6 +98,7 @@ function ChitMaster() {
         </h1>
       ),
       selector: (row) => row.chitName,
+      sortable: true,
     },
     {
       name: (
@@ -164,7 +165,7 @@ function ChitMaster() {
     <>
       {loader ? <Loader data={loader} /> : null}
       <div>
-        <div className='flex justify-between max-w-[95%] pt-5'>
+        <div className='flex justify-between max-w-[95%] pt-10 font-bold'>
           <div></div>
           <div className='text-xl'>
             Chit Master
@@ -185,7 +186,6 @@ function ChitMaster() {
                 data={chits}
                 fixedHeader
                 pagination
-                bordered
                 customStyles={customStyles}
               />
             </div> :

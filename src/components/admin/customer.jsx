@@ -4,8 +4,8 @@ import { CustomerSchema, CustomerInitValue } from '../../validations/customers';
 import { useFormik } from 'formik';
 import { createUsers, getChitUsers } from "../../services/service"
 import DataTable from "react-data-table-component";
-import { FaCheckCircle, FaEdit } from "react-icons/fa";
-import { MdCancel, MdDelete } from "react-icons/md";
+import { FaEdit } from "react-icons/fa";
+import { MdDelete } from "react-icons/md";
 // eslint-disable-next-line no-unused-vars
 import DateFormat from '../../components/date';
 import Loader from '../utils/loader';
@@ -67,10 +67,10 @@ function Customers() {
     }
   }
   const chengeEdit = () => {
-    setIsModalOpen(true);
+    setIsModalOpen(true)
   }
   const chengeDelete = () => {
-      
+
   }
 
   const columns = [
@@ -114,16 +114,10 @@ function Customers() {
       selector: (row) => row.reference,
       cell: (row) => (
         <>
-          {row.edit ? (
-            <>
-              <FaCheckCircle className='size-5 text-green-500 cursor-pointer' onClick={chengeEdit()} /><span className='ml-2'>{row.id}</span>
-              <MdCancel className='size-5 text-red-600 cursor-pointer' onClick={chengeEdit()} /><span className='ml-2'>{row.id}</span>
-            </>
-          ) :
-            <>
-              <FaEdit className='size-5 cursor-pointer' onClick={chengeEdit()} /><span className='ml-2'>{row.id}</span>
-              <MdDelete className='size-5 cursor-pointer' onClick={chengeDelete()} /><span className='ml-2'>{row.id}</span>
-            </>}
+          <>
+            <FaEdit className='size-5 cursor-pointer' onClick={chengeEdit} /><span className='ml-2'>{row.id}</span>
+            <MdDelete className='size-5 cursor-pointer' onClick={chengeDelete} /><span className='ml-2'>{row.id}</span>
+          </>
         </>
       ),
     },

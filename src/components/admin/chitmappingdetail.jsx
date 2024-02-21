@@ -3,8 +3,8 @@ import React from 'react';
 import DataTable from "react-data-table-component";
 import { useLocation } from 'react-router-dom';
 import { getChitMapDetailsById } from "../../services/service"
-import CurrencyComponent from '../../utils/currency';
-import Loader from '../../utils/loader';
+import CurrencyComponent from '../utils/currency';
+import Loader from '../utils/loader';
 
 function ChitMapDetails() {
   const location = useLocation();

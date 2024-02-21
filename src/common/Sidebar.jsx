@@ -4,6 +4,12 @@ import React, { Fragment } from 'react';
 import { NavLink, useLocation } from 'react-router-dom'
 import { RiAdminFill } from "react-icons/ri";
 import { PiMoneyBold } from "react-icons/pi";
+import { icons } from 'antd/es/image/PreviewGroup';
+import { HiViewGridAdd, HiUserAdd } from "react-icons/hi";
+import { RiAuctionFill } from "react-icons/ri";
+import { TbReportAnalytics } from "react-icons/tb";
+import { BsFillPersonLinesFill } from "react-icons/bs";
+import { IoMdCash } from "react-icons/io";
 
 function Adminsidebar() {
     const role = localStorage.getItem("chitsRole")
@@ -13,134 +19,111 @@ function Adminsidebar() {
 
     const superAdmin = [
         {
-            title:"Admin",
-            path:"/homepage/admin",
+            title: "Admin",
+            path: "/homepage/admin",
 
         },
         {
-            title:"Auction",
-            path:"/homepage/auction"
+            title: "Auction",
+            path: "/homepage/auction"
         }
     ]
 
-    const Admin =[ 
+    const Admin = [
         {
-            title:"chit master",
-            path:"/homepage/chitmaster"
+            title: "Chit Master",
+            path: "/homepage/chitmaster",
+            icons: <HiViewGridAdd />
         },
         {
-            title:"customers",
-            path: "/homepage/customer"
+            title: "Customers",
+            path: "/homepage/customer",
+            icons: <HiUserAdd />
         },
         {
-            title:"chitMapping",
-            path:"/homepage/chitmapping"
+            title: "Chit Mapping",
+            path: "/homepage/chitmapping",
+            icons: <BsFillPersonLinesFill />,
         },
         {
-            title:"auction",
-            path:"/homepage/auction"
+            title: "Auction",
+            path: "/homepage/admin/auction",
+            icons: <RiAuctionFill />
         },
         {
-            title:"payments",
-            path:"/homepage/payments"
+            title: "Payments",
+            path: "/homepage/payments",
+            icons: <IoMdCash />
         },
         {
-            title:"reports",
-            path:"/homepage/reports"
+            title: "Reports",
+            path: "/homepage/reports",
+            icons: <TbReportAnalytics />
         }
     ]
     const user = [
         {
-            title:"chits",
-            path:"/homepage/chits",
+            title: "chits",
+            path: "/homepage/chits",
+            icons: <PiMoneyBold />
         },
         {
-            title:"auction",
-            path:"/homepage/auction"
+            title: "auction",
+            path: "/homepage/user/auction",
+            icons: <RiAuctionFill />
         }
     ]
     return (
         <>
-        <h1 className='text-white  pt-5 text-center flex justify-center'><PiMoneyBold  size={50}/></h1>
+            <h1 className='text-white  pt-5 text-center flex justify-center'><PiMoneyBold size={50} /></h1>
             {
-                role==="superAdmin" && 
+                role === "superAdmin" &&
                 <div className='  flex flex-col gap-5 pt-10'>
-                        <Fragment>
-                            <NavLink
+                    <Fragment>
+                        <NavLink
                             to={'/homepage/admin'}
-                            className={`w-[90%] mx-auto py-2 ${location.pathname === '/homepage/admin'?'bg-slate-200 rounded-full':''}`}
-                            >
-                                <div className='w-[80%] m-auto'>
-                                    <h1 className={`flex gap-2  items-center text-xl text-[#176b87]`}><RiAdminFill />Admin</h1>
-                                </div>
-                            </NavLink>
-                        </Fragment> 
+                            className={`w-[90%] mx-auto py-2 ${location.pathname === '/homepage/admin' ? 'bg-slate-200 rounded-full' : ''}`}
+                        >
+                            <div className='w-[80%] m-auto'>
+                                <h1 className={`flex gap-2  items-center text-xl text-[#176b87]`}><RiAdminFill />Admin</h1>
+                            </div>
+                        </NavLink>
+                    </Fragment>
                 </div>
-                
+
             }
             {
-                role==="admin" && 
+                role === "admin" &&
                 <div className='flex flex-col gap-5 pt-10'>
-                    {Admin.map((menu, ind)=>(
+                    {Admin.map((menu, ind) => (
                         <Fragment key={ind}>
                             <NavLink
-                            to={menu.path}
-                            isActive={(match,location)=>{
-                                return (
-                                    match || location.pathname.startsWith(menu.path + "/chitmaster") // Assuming child routes have paths like /homepage/institutes/child
-                                  );
-                            }}
-                            style={({ isActive }) => {
-                                return isActive  
-                                  ? {
-                                      background: `${
-                                        open
-                                          ? "bg-white"
-                                          : "bg-[#176b87]"
-                                      }`,
-                                    }
-                                  : null
-                              }}
-              
+                                to={menu.path}
+                                className={`w-[90%] mx-auto py-3 ${location.pathname === `${menu.path}` ? 'bg-slate-200 rounded-full text-[#176b87]' : 'text-white'}`}
+
                             >
-                                <div>
-                                    <h1 className='text-white'>{menu.title}</h1>
+                                <div className='w-[80%] m-auto'>
+                                    <h1 className='flex gap-2  items-center text-xl'>{menu.icons}{menu.title}</h1>
                                 </div>
                             </NavLink>
-                        </Fragment> 
+                        </Fragment>
                     ))}
                 </div>
             }
             {
-                role==="customer" && 
+                role === "customer" &&
                 <div className='flex flex-col gap-5 pt-10'>
-                    {user.map((menu, ind)=>(
+                    {user.map((menu, ind) => (
                         <Fragment key={ind}>
                             <NavLink
-                            to={menu.path}
-                            isActive={(match,location)=>{
-                                return (
-                                    match || location.pathname.startsWith(menu.path + "/chit") // Assuming child routes have paths like /homepage/institutes/child
-                                  );
-                            }}
-                            style={({ isActive }) => {
-                                return isActive  
-                                  ? {
-                                      background: `${
-                                        open
-                                          ? "bg-white"
-                                          : "bg-[#176b87]"
-                                      }`,
-                                    }
-                                  : null
-                              }}
-              
+                                to={menu.path}
+                                className={`w-[90%] mx-auto py-3 ${location.pathname === `${menu.path}` ? 'bg-slate-200 rounded-full text-[#176b87]' : 'text-white'}`}
                             >
-                                <div>
-                                    <h1 className='text-white'>{menu.title}</h1>
+                                <div className='w-[80%] m-auto'>
+                                    <h1 className='flex gap-2 items-center text-xl'>{menu.icons}{menu.title}</h1>
                                 </div>
                             </NavLink>
-                        </Fragment> 
+                        </Fragment>
                     ))}
                 </div>
             }
@@ -155,7 +138,7 @@ function Adminsidebar() {
 
 
 
-    
+
         // <div className='w-full h-full bg-white'>
         //     <div className='flex justify-center'>
         //         <h1 className='text-3xl text-black'>Chit</h1>
