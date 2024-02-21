@@ -274,7 +274,7 @@ function ChitMapping() {
           getchitmaps.map((data, ind) => (
             // eslint-disable-next-line react/jsx-key
             <div className='w-full rounded-md bg-[#f1faf9] p-2 drop-shadow-md cursor-pointer'>
-              <Link to={'/chitmapdetails?id=' + data._id}>
+              <Link to={'/homepage/chitmapping/chitmapdetails?id=' + data._id}>
                 <div className='grid md:grid-cols-3 sm:grid-cols-2 grid-cols-2 lg:grid-cols-6  xl:grid-cols-6 bg-white p-2 rounded cursor-pointer'>
                   <section className='flex flex-col'>
                     <p className='font-bold'>{data.chitName}</p>

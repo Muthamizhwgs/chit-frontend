@@ -67,7 +67,7 @@ function Customers() {
     }
   }
   const chengeEdit = () => {
-    setIsModalOpen(true)
+    setIsModalOpen(true);
   }
   const chengeDelete = () => {
 
@@ -109,12 +109,12 @@ function Customers() {
     {
       name: (
         <h1 className="text-lg text-gray-500">
-          Actions
         </h1>
       ),
       selector: (row) => row.reference,
       cell: (row) => (
         <>
+
           <>
             <FaEdit className='size-5 cursor-pointer' onClick={chengeEdit} /><span className='ml-2'>{row.id}</span>
             <MdDelete className='size-5 cursor-pointer' onClick={chengeDelete} /><span className='ml-2'>{row.id}</span>
