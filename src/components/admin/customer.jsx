@@ -9,6 +9,7 @@ import { MdDelete } from "react-icons/md";
 // eslint-disable-next-line no-unused-vars
 import DateFormat from '../../components/date';
 import Loader from '../utils/loader';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 function Customers() {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
@@ -19,7 +20,7 @@ function Customers() {
   // eslint-disable-next-line no-unused-vars
   const [searchTerm, setSearchTerm] = React.useState("");
   const [loader, setLoader] = React.useState(false);
-
+  const navigate = useNavigate()
 
 
   const showModal = () => {
@@ -43,7 +44,7 @@ function Customers() {
   const submitForms = async (value) => {
     setLoader(true)
     try {
-      await createUsers(value)
+      await createUsers({...value,...{role:"customer"}})
       handleCancel()
       getChit()
       setErr(null);
@@ -61,7 +62,10 @@ function Customers() {
       setUsers(values.data)
       // eslint-disable-next-line no-empty
     } catch (error) {
-
+      console.log(error.response.status)
+      if(error.response.status == 401){
+        navigate('/')
+      }
     } finally {
       setLoader(false)
     }
@@ -88,7 +92,7 @@ function Customers() {
           Name
         </h1>
       ),
-      selector: (row) => row.Name,
+      selector: (row) => row.name,
     },
     {
       name: (
@@ -199,9 +203,9 @@ function Customers() {
           <div className='flex flex-col justify-center'>
             <div className='flex flex-col mb-4'>
               <label className='pl-4'> Customer Name :</label>
-              <input type="text" placeholder='Enter Customer Name' className='h-10 pl-3 border drop-shadow-lg w-[93%] hover:focus-within:outline-none rounded-md ml-3' name='Name' id="Name" onBlur={forms.handleBlur} value={forms.values.Name} onChange={forms.handleChange} />
+              <input type="text" placeholder='Enter Customer Name' className='h-10 pl-3 border drop-shadow-lg w-[93%] hover:focus-within:outline-none rounded-md ml-3' name='name' id="name" onBlur={forms.handleBlur} value={forms.values.name} onChange={forms.handleChange} />
             </div>
-            {forms.errors.Name && forms.touched.Name ? <div style={{ width: "100%", color: "red", paddingLeft: "15px" }}>{forms.errors.Name}</div> : null}
+            {forms.errors.name && forms.touched.name ? <div style={{ width: "100%", color: "red", paddingLeft: "15px" }}>{forms.errors.name}</div> : null}
 
 
             <div className='flex flex-col mb-4'>
@@ -213,9 +217,9 @@ function Customers() {
 
             <div className='flex flex-col mb-4'>
               <label className='pl-4'>Address:</label>
-              <input type="text" placeholder='Enter Address' className='h-10 pl-3 border drop-shadow-lg w-[93%] hover:focus-within:outline-none rounded-md ml-3' name='adress' id="adress" onBlur={forms.handleBlur} value={forms.values.adress} onChange={forms.handleChange} />
+              <input type="text" placeholder='Enter Address' className='h-10 pl-3 border drop-shadow-lg w-[93%] hover:focus-within:outline-none rounded-md ml-3' name='address' id="address" onBlur={forms.handleBlur} value={forms.values.address} onChange={forms.handleChange} />
             </div>
-            {forms.errors.adress && forms.touched.adress ? <div style={{ width: "100%", color: "red", paddingLeft: "15px" }}>{forms.errors.adress}</div> : null}
+            {forms.errors.address && forms.touched.address ? <div style={{ width: "100%", color: "red", paddingLeft: "15px" }}>{forms.errors.address}</div> : null}
 
             <div className='flex flex-col mb-4'>
               <label className='pl-4'>Reference name :</label>
@@ -223,14 +227,14 @@ function Customers() {
                 className='h-10 border drop-shadow-lg w-[93%] hover:focus-within:outline-none rounded-md ml-3'
                 placeholder="Select Date"
                 options={[
-                  { value: '5', label: 'Admin' },
+                  { value: 'admin', label: 'Admin' },
                 ]}
               />
             </div>
             {forms.errors.reference && forms.touched.reference ? <div style={{ width: "100%", color: "red", paddingLeft: "15px" }}>{forms.errors.reference}</div> : null}
             {err ? <div style={{ width: "100%", color: "red", paddingLeft: "15px" }}>{err}</div> : null}
             <div className='flex justify-center'>
-              <button className='bg-[#176B87] w-36 h-[35px] text-white font-bold rounded-md' onClick={forms.handleSubmit}>Submit</button>
+              <button type='submit' className='bg-[#176B87] w-36 h-[35px] text-white font-bold rounded-md' onClick={forms.handleSubmit}>Submit</button>
             </div>
           </div>
         </Modal>
