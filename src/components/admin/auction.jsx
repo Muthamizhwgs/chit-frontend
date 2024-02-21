@@ -81,7 +81,7 @@ const Actions = () => {
           chits.map((data, ind) => (
             // eslint-disable-next-line react/jsx-key
             <div className='h-fit w-[90%] rounded-md bg-[#f1faf9] drop-shadow-md '>
-              <Link to={'/Chitdetails?id=' + data._id}>
+              <Link to={'/homepage/admin/auction/auctiondetails/?id=' + data._id}>
                 <div className='flex justify-between px-4 mt-2 flex-nowrap'>
                   <h3>{data.chitName}</h3>
                   <div className='flex gap-2'><FaEdit className=' cursor-pointer' /><FaTrash className=' cursor-pointer' /></div>
