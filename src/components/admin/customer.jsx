@@ -104,11 +104,12 @@ function Customers() {
           Address
         </h1>
       ),
-      selector: (row) => row.adress,
+      selector: (row) => row.address,
     },
     {
       name: (
         <h1 className="text-lg text-gray-500">
+          Actions
         </h1>
       ),
       selector: (row) => row.reference,
