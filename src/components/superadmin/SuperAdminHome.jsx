@@ -5,10 +5,12 @@ import { useFormik } from "formik";
 import { AdminSchema, AdminInitValues } from "../../validations/admin";
 import { createUsers, getAdminForSuperAdmin } from "../../services/service";
 import Loader from "../utils/loader";
+import { useNavigate } from "react-router-dom";
 const Admin = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loader, setLoader] = useState(false);
   const [admins, setAdmins] = useState([]);
+  const navigate = useNavigate()
 
   const showModal = () => {
     setIsModalOpen(true);
