@@ -61,6 +61,7 @@ function Adminsidebar() {
             icons: <TbReportAnalytics />
         }
     ]
+
     const user = [
         {
             title: "chits",
@@ -73,6 +74,7 @@ function Adminsidebar() {
             icons: <RiAuctionFill />
         }
     ]
+
     return (
         <>
             <h1 className='text-white  pt-5 text-center flex justify-center'><PiMoneyBold size={50} /></h1>
@@ -99,7 +101,7 @@ function Adminsidebar() {
                         <Fragment key={ind}>
                             <NavLink
                                 to={menu.path}
-                                className={`w-[90%] mx-auto py-3 ${location.pathname === `${menu.path}` ? 'bg-slate-200 rounded-full text-[#176b87]' : 'text-white'}`}
+                                className={`w-[90%] mx-auto py-3 ${location.pathname.includes(menu.path) ? 'bg-slate-200 rounded-full text-[#176b87]' : 'text-white'}`}
 
                             >
                                 <div className='w-[80%] m-auto'>
