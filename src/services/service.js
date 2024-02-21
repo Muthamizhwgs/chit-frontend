@@ -49,3 +49,8 @@ export const getChitMapDetailsById = async (id)=>{
     let ApiResponse = await useAxiosInterceptors.get("chit/getChits/"+id)
     return ApiResponse
 }
+
+export const getAdminForSuperAdmin = async ()=>{
+    let ApiResponse = await useAxiosInterceptors.get("users/getAdmin/users")
+    return ApiResponse
+} 
