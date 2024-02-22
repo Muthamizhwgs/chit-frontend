@@ -91,7 +91,7 @@ const Adminsidebar = React.memo(({ handleToggle, open }) => {
         <div
         className={`${
             open ? "w-[260px]" : "lg:w-[6%] w-[15%]"
-        } bg-primary left-0 fixed duration-500 h-screen  overflow-x-hidden bg-[#176b87] flex flex-col justify-around `}
+        } bg-primary left-0 fixed duration-500 h-screen  overflow-x-hidden bg-[#176b87] flex flex-col ${ role === "admin" ? ' justify-around ' : 'justify-between py-5'} relative`}
         >
             <div>
                 {open ? (
@@ -116,15 +116,16 @@ const Adminsidebar = React.memo(({ handleToggle, open }) => {
                  </div> 
                  )}
             </div>
-            <div>
+            <div className={`${role !== 'admin' ? 'xl:-mt-80 lg:-mt-72' : ''}`}>
             {
                 role === "superAdmin" &&
-                <div className='flex flex-col gap-5'>
+                <div className=''>
+                    <div className='flex flex-col gap-5'>
                     <Fragment>
                         <NavLink
                             to={'/homepage/admin'}         
                         >
-                            <div className={`flex items-center  ${location.pathname === '/homepage/admin' ? 'bg-slate-200 rounded-full' : ''}  ${open ? "py-2 mx-4" : "py-1 px-4 mx-2 justify-center"}`}>
+                            <div className={`flex items-center  ${location.pathname === '/homepage/admin' ? 'bg-slate-200 rounded-full' : ''}  ${open ? "py-2 mx-4" : "py-1 px-4 mx-2 justify-center"} `}>
                                 <div className={`${open ? 'ml-4' : ''}`}>
                                     
                                     {
@@ -138,11 +139,14 @@ const Adminsidebar = React.memo(({ handleToggle, open }) => {
                         </NavLink>
                     </Fragment>
                 </div>
+                </div>
+                
 
             }
             {
                 role === "admin" &&
-                <div className='flex flex-col gap-5'>
+                <div>
+                    <div className='flex flex-col gap-5'>
                     {Admin.map((menu, ind) => (
                         <Fragment key={ind}>
                             <NavLink
@@ -162,6 +166,7 @@ const Adminsidebar = React.memo(({ handleToggle, open }) => {
                             </NavLink>
                         </Fragment>
                     ))}
+                </div>
                 </div>
             }
             {
