@@ -1,4 +1,6 @@
 import React, { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+import Breadcrumbs from '../utils/Breadcrumbs';
 import { Modal, Select, Radio, } from 'antd';
 import { ChitMasterSchema, ChitMasterinitValue } from '../../validations/chitMaster';
 import { useFormik } from 'formik';
@@ -148,12 +150,18 @@ function ChitMaster() {
     //   });
     // setFilteredData(result);
   }, [])
+
+  const location = useLocation();
+  const pathname = location.pathname;
+  const paths = pathname.split('/').filter(path => path);
+
   return (
     <>
       {loader ? <Loader data={loader} /> : null}
       <div>
         <div className='flex justify-between max-w-[95%] pt-10 font-bold'>
-          <div></div>
+          <div>
+          </div>
           <div className='text-xl'>
             Chit Master
           </div>

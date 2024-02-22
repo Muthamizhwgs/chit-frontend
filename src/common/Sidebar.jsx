@@ -10,12 +10,22 @@ import { RiAuctionFill } from "react-icons/ri";
 import { TbReportAnalytics } from "react-icons/tb";
 import { BsFillPersonLinesFill } from "react-icons/bs";
 import { IoMdCash } from "react-icons/io";
+import { MdKeyboardArrowLeft } from "react-icons/md";
+import { IoMdLogOut } from "react-icons/io";
+import { FaBars } from "react-icons/fa"
 
-function Adminsidebar() {
+const Adminsidebar = React.memo(({ handleToggle, open }) => {
     const role = localStorage.getItem("chitsRole")
     console.log("role", role);
     let location = useLocation()
     // console.log(location.pathname,"locations")
+
+
+    const Logout = async () => {
+        localStorage.removeItem("chits");
+        localStorage.removeItem("chitsRole");
+        // navigate('/')
+      };
 
     const superAdmin = [
         {
@@ -75,19 +85,55 @@ function Adminsidebar() {
         }
     ]
 
+    
+
     return (
-        <>
-            <h1 className='text-white  pt-5 text-center flex justify-center'><PiMoneyBold size={50} /></h1>
+        <div
+        className={`${
+            open ? "w-[260px]" : "lg:w-[6%] w-[15%]"
+        } bg-primary left-0 fixed duration-500 h-screen  overflow-x-hidden bg-[#176b87] flex flex-col justify-around `}
+        >
+            <div>
+                {open ? (
+                 <div className='flex justify-between items-center'>
+                    <div></div>
+                    <h1 className='text-white flex justify-center'><PiMoneyBold size={50} /></h1>
+                    <MdKeyboardArrowLeft 
+                     className={`cursor-pointer w-7 h-7  mr-2 hover:bg-white bg-[#176b87] rounded-full transition duration-300 text-white hover:text-[#176b87]`}
+                     onClick={handleToggle}
+                    />
+                    
+                 </div>
+                 ) : (
+                 <div>
+                    <div className="w-full flex justify-center items-center h-full ">
+                        <FaBars
+                            className={` cursor-pointer w-7 h-7  text-white
+                        `}
+                            onClick={handleToggle}
+                        />
+                    </div>
+                 </div> 
+                 )}
+            </div>
+            <div>
             {
                 role === "superAdmin" &&
-                <div className='  flex flex-col gap-5 pt-10'>
+                <div className='flex flex-col gap-5'>
                     <Fragment>
                         <NavLink
-                            to={'/homepage/admin'}
-                            className={`w-[90%] mx-auto py-2 ${location.pathname === '/homepage/admin' ? 'bg-slate-200 rounded-full' : ''}`}
+                            to={'/homepage/admin'}         
                         >
-                            <div className='w-[80%] m-auto'>
-                                <h1 className={`flex gap-2  items-center text-xl text-[#176b87]`}><RiAdminFill />Admin</h1>
+                            <div className={`flex items-center  ${location.pathname === '/homepage/admin' ? 'bg-slate-200 rounded-full' : ''}  ${open ? "py-2 mx-4" : "py-1 px-4 mx-2 justify-center"}`}>
+                                <div className={`${open ? 'ml-4' : ''}`}>
+                                    
+                                    {
+                                        open ? 
+                                        <h1 className={`flex gap-2  items-center text-lg text-[#176b87]`}><RiAdminFill />Admin</h1>
+                                        :
+                                        <h1 className={`flex gap-2  items-center text-lg w-10 h-10 text-[#176b87] justify-center`}><RiAdminFill /></h1>
+                                    }
+                                </div>
                             </div>
                         </NavLink>
                     </Fragment>
@@ -96,16 +142,22 @@ function Adminsidebar() {
             }
             {
                 role === "admin" &&
-                <div className='flex flex-col gap-5 pt-10'>
+                <div className='flex flex-col gap-5'>
                     {Admin.map((menu, ind) => (
                         <Fragment key={ind}>
                             <NavLink
-                                to={menu.path}
-                                className={`w-[90%] mx-auto py-3 ${location.pathname.includes(menu.path) ? 'bg-slate-200 rounded-full text-[#176b87]' : 'text-white'}`}
-
+                                to={menu.path}      
                             >
-                                <div className='w-[80%] m-auto'>
-                                    <h1 className='flex gap-2  items-center text-xl'>{menu.icons}{menu.title}</h1>
+                                <div  className={` flex  items-center    ${location.pathname.includes(menu.path) ? 'bg-slate-200 rounded-full text-[#176b87]' : 'text-white'} ${open ? "py-2 mx-4" : "py-1 px-4 mx-2 justify-center"}`}
+>
+                                    <div className={`${open ? 'ml-4' : ''}`}>
+                                        {
+                                            open ? <h1 className='flex gap-2  items-center text-lg'>{menu.icons}{menu.title}</h1>
+                                            :
+                                            <h1 className='flex gap-2  items-center text-lg w-10 h-10 justify-center'>{menu.icons}</h1>
+                                        }
+                                        
+                                    </div>
                                 </div>
                             </NavLink>
                         </Fragment>
@@ -114,22 +166,43 @@ function Adminsidebar() {
             }
             {
                 role === "customer" &&
-                <div className='flex flex-col gap-5 pt-10'>
+                <div className='flex flex-col gap-5'>
                     {user.map((menu, ind) => (
                         <Fragment key={ind}>
                             <NavLink
-                                to={menu.path}
-                                className={`w-[90%] mx-auto py-3 ${location.pathname === `${menu.path}` ? 'bg-slate-200 rounded-full text-[#176b87]' : 'text-white'}`}
+                                to={menu.path}                
                             >
-                                <div className='w-[80%] m-auto'>
-                                    <h1 className='flex gap-2 items-center text-xl'>{menu.icons}{menu.title}</h1>
+                                <div className={` flex  items-center    ${location.pathname.includes(menu.path) ? 'bg-slate-200 rounded-full text-[#176b87]' : 'text-white'} ${open ? "py-2 mx-4" : "py-1 px-4 mx-2 justify-center"}`}>
+                                    <div className={`${open ? 'ml-4' : ''}`}>
+                                        {
+                                            open ? 
+                                            <h1 className='flex gap-2  items-center text-lg'>{menu.icons}{menu.title}</h1>
+                                            :
+                                            <h1 className='flex gap-2  items-center text-lg w-10 h-10 justify-center'>{menu.icons}</h1>
+
+                                        }
+                                    </div>
                                 </div>
                             </NavLink>
                         </Fragment>
                     ))}
                 </div>
             }
-        </>
+            </div>
+            <div>
+                {
+                    open ? 
+                    <h1 className=" text-slate-200 cursor-pointer flex items-center justify-center " onClick={Logout}>
+                    <IoMdLogOut /> Logout
+                   </h1>
+                    : 
+                   <h1 className=" text-slate-200 cursor-pointer flex items-center justify-center " onClick={Logout}>
+                   <IoMdLogOut />
+                  </h1>
+                }
+                
+            </div>
+        </div>
 
 
 
@@ -159,6 +232,6 @@ function Adminsidebar() {
 
         // </div>
     )
-}
+})
 
 export default Adminsidebar
