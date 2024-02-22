@@ -3,13 +3,14 @@ import React from 'react'
 import { Select, message, Drawer } from 'antd';
 import { getChitsList, getUserList, createMap, getChitsMaps } from "../../services/service"
 const { Option } = Select;
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Loader from '../utils/loader';
 import { GoDotFill } from "react-icons/go";
+import CurrencyComponent from '../utils/currency';
 
 
 function ChitMapping() {
-
+let navigate = useNavigate()
   const [userSelect, setuserSelect] = React.useState([]);
   const [chit, setChit] = React.useState([]);
   const [chitUsers, setchitUsers] = React.useState([]);
@@ -33,7 +34,6 @@ function ChitMapping() {
 
   let arr = [];
   const getusers = async () => {
-    setLoader(true)
     if (chitId == '') {
       error()
     } else {
@@ -55,7 +55,6 @@ function ChitMapping() {
   }
 
   const chitChange = async (id) => {
-    setLoader(true)
     if (chitCount < 20) {
       setChetMap(chitmap => {
         return chitmap.map(item => {
@@ -70,7 +69,6 @@ function ChitMapping() {
 
 
   const chitChangereduce = async (id) => {
-    console.log(id)
     setChetMap(chitmap => {
       return chitmap.map(item => {
         if (item._id === id) {
@@ -87,7 +85,6 @@ function ChitMapping() {
       (accumulator, currentValue) => accumulator + currentValue.chit,
       0,
     );
-    console.log(chit)
     setChitCount(sum)
   }, [chitmap]);
 
@@ -97,10 +94,11 @@ function ChitMapping() {
     try {
       let serverdata = await getChitsList()
       setChit(serverdata.data);
-      console.log("chit " + serverdata.data)
     } catch (error) {
       console.error("Error fetching chits:", error);
-
+      if(error.response.status == 401){
+        navigate('/')
+      }
     } finally {
       setLoader(false)
     }
@@ -112,7 +110,9 @@ function ChitMapping() {
       setchitUsers(users.data)
       // eslint-disable-next-line no-empty
     } catch (error) {
-
+      if(error.response.status == 401){
+        navigate('/')
+      }
     } finally {
       setLoader(false)
 
@@ -167,57 +167,20 @@ function ChitMapping() {
       chitId: chitId,
       chitMaps: chitmap
     }
-
     try {
       let apiRes = await createMap(serSendData);
       console.log(apiRes.data)
       getChitMaps()
       onClose()
-      // eslint-disable-next-line no-empty
     } catch (error) {
+      if(error.response.status == 401){
+        navigate('/')
+      }
     } finally {
       setLoader(false)
     }
     console.log(serSendData)
   }
-
-  // const chits = [{
-  //   _id: 'id1',
-  //   active: true,
-  //   chitAmount: 1,
-  //   chitName: 'dippam',
-  //   createdAt: '12-12-12',
-  //   describeDate: "4",
-  //   group: 'Silakidum',
-  //   months: 12,
-  //   noOfPeople: 8,
-  //   updatedAt: '11-11-11',
-  //   status: 'Pending'
-  // }, {
-  //   _id: 'id2',
-  //   active: false,
-  //   chitAmount: 1000,
-  //   chitName: 'dappam',
-  //   createdAt: '11-11-11',
-  //   describeDate: "4",
-  //   group: 'Silakidum',
-  //   months: 24,
-  //   noOfPeople: 10,
-  //   updatedAt: '11-11-11',
-  //   status: 'Completed'
-  // }, {
-  //   _id: 'id3',
-  //   active: true,
-  //   chitAmount: 100000,
-  //   chitName: 'dappam',
-  //   createdAt: '10-10-10',
-  //   describeDate: "4",
-  //   group: 'Silakidum',
-  //   months: 20,
-  //   noOfPeople: 12,
-  //   updatedAt: '11-11-11',
-  //   status: 'Pending'
-  // }];
 
   return (
     <>
@@ -257,7 +220,7 @@ function ChitMapping() {
           {
             chitUsers.map((item, ind) => (
               // eslint-disable-next-line react/jsx-key
-              <Option value={ind}>{item.Name} - {item.phoneNumber} </Option>
+              <Option value={ind}>{item.name} - {item.phoneNumber} </Option>
             ))
           }
         </Select>
@@ -285,7 +248,7 @@ function ChitMapping() {
                   </section>
                   <section className=''>
                     <p className='font-bold'>Amount</p>
-                    <p>{data.chitAmount}</p>
+                    <p><CurrencyComponent amount={data.chitAmount}/></p>
                   </section>
                   <section className=''>
                     <p className='font-bold'>Group</p>
@@ -315,7 +278,7 @@ function ChitMapping() {
             chitmap.map((e) => (
               <>
                 <div className='w-full flex space-y-2 items-center'>
-                  <label className='w-[90%]'>{e.Name}</label>
+                  <label className='w-[90%]'>{e.name}</label>
                   <button onClick={() => { e.chit > 1 ? chitChangereduce(e._id) : null }} className='bg-[#176B87] w-6 text-white'>-</button><input type="number" value={e.chit} className='border-2 w-10 text-center pl-1' disabled /> <button onClick={() => { chitChange(e._id) }} className='bg-[#176B87] w-6 text-white'>+</button>
                 </div>
               </>

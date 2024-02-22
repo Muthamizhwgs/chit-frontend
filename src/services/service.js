@@ -58,3 +58,13 @@ export const EditAdminForSuperAdmin = async (id, data) => {
     const ApiResponse = await useAxiosInterceptors.put("users/getAdmin/users" + id, data)
     return ApiResponse
 }
+
+export const UpdateChituserById = async (id,data)=>{
+    const ApiResponse = await useAxiosInterceptors.put("users/updateChitAdmins/"+id, data)
+    return ApiResponse
+}
+
+export const getUsersByAdmin = async()=>{
+    const ApiResponse = await useAxiosInterceptors.get("users/getUsersfor/reference");
+    return ApiResponse
+}

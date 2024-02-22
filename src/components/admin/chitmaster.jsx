@@ -18,21 +18,10 @@ function ChitMaster() {
   // eslint-disable-next-line no-unused-vars
   const [searchTerm, setSearchTerm] = React.useState("");
   const [loader, setLoader] = React.useState(false)
+  
   const showModal = () => {
     setIsModalOpen(true);
   };
-  // const chits = [
-  //   {
-  //     chitName: "1Lacs", chitAmount: "100000", group: "A", date: "16-02-2024"
-  //   },
-  //   {
-  //     chitName: "2Lacs", chitAmount: "100000", group: "A", date: "16/02/2024"
-  //   },
-  //   {
-  //     chitName: "3Lacs", chitAmount: "100000", group: "A", date: "16/02/2024"
-  //   },
-
-  // ]
   const forms = useFormik({
     initialValues: ChitMasterinitValue,
     validationSchema: ChitMasterSchema,
@@ -63,11 +52,9 @@ function ChitMaster() {
 
   const getChit = async () => {
     setLoader(true)
-
     try {
       let values = await getChits();
       setChits(values.data)
-      // eslint-disable-next-line no-empty
     } catch (error) {
 
     } finally {

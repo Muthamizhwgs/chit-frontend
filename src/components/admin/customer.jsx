@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Modal, Select } from 'antd';
 import { CustomerSchema, CustomerInitValue } from '../../validations/customers';
 import { useFormik } from 'formik';
-import { createUsers, getChitUsers } from "../../services/service"
+import { createUsers, getChitUsers, UpdateChituserById, getUsersByAdmin } from "../../services/service"
 import DataTable from "react-data-table-component";
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
@@ -20,6 +20,10 @@ function Customers() {
   // eslint-disable-next-line no-unused-vars
   const [searchTerm, setSearchTerm] = React.useState("");
   const [loader, setLoader] = React.useState(false);
+  const [edit, setEdit] = React.useState(false);
+  const [id, setId] = React.useState('');
+  const [referenceUser, setReferenceUser] = React.useState([])
+
   const navigate = useNavigate()
 
 
@@ -32,12 +36,18 @@ function Customers() {
     initialValues: CustomerInitValue,
     validationSchema: CustomerSchema,
     onSubmit: (values) => {
-      submitForms(values)
+     edit?EditSubmit(values): submitForms(values)
     },
   })
   const handleCancel = () => {
     setIsModalOpen(false);
+    forms.values.address = '',
+    forms.values.name = '',
+    forms.values.reference = '',
+    forms.values.address = '',
+    forms.values.phoneNumber = '',
     forms.resetForm()
+    setEdit(false)
     setErr('')
   };
 
@@ -47,6 +57,10 @@ function Customers() {
       await createUsers({...value,...{role:"customer"}})
       handleCancel()
       getChit()
+    getReferenceUSers();
+
+    setEdit(false)
+
       setErr(null);
     } catch (error) {
       setErr(error.response.data.message);
@@ -70,9 +84,31 @@ function Customers() {
       setLoader(false)
     }
   }
-  const chengeEdit = () => {
+
+  const chengeEdit = (val) => {
+    forms.values.name = val.name
+    forms.values.address = val.address
+    forms.values.phoneNumber = val.phoneNumber
+    forms.values.reference = val.reference
+    setEdit(true);
     setIsModalOpen(true);
   }
+
+const EditSubmit = async (values)=>{
+  console.log(values)
+  try {
+    let val = await UpdateChituserById(id,values)
+    console.log(val,"response")
+    getChit()
+    handleCancel()
+    
+  } catch (error) {
+    if(error.response.status == 401){
+      navigate('/')
+    }
+  }
+}
+
   const chengeDelete = () => {
 
   }
@@ -113,15 +149,16 @@ function Customers() {
     {
       name: (
         <h1 className="text-lg text-gray-500">
+          Action
         </h1>
       ),
       selector: (row) => row.reference,
       cell: (row) => (
         <>
-
+          
           <>
-            <FaEdit className='size-5 cursor-pointer' onClick={chengeEdit} /><span className='ml-2'>{row.id}</span>
-            <MdDelete className='size-5 cursor-pointer' onClick={chengeDelete} /><span className='ml-2'>{row.id}</span>
+            <FaEdit className='size-5 cursor-pointer' onClick={()=>{chengeEdit(row),setId(row._id)}} color='#176b87'/><span className='ml-2'>{row.id}</span>
+            <MdDelete className='size-5 cursor-pointer' onClick={chengeDelete} color='red'/><span className='ml-2'>{row.id}</span>
           </>
         </>
       ),
@@ -154,15 +191,26 @@ function Customers() {
     },
   };
 
+const getReferenceUSers = async ()=>{
+  setLoader(true)
+  try {
+    let values = await getUsersByAdmin();
+    setReferenceUser(values.data)
+  } catch (error) {
+    if(error.response.status == 401){
+      navigate('/')
+    }
+  }finally{
+    setLoader(false)
+  }
+}
+
   useEffect(() => {
     getChit();
-    // const result =
-    //   chits &&
-    //   chits.filter((value) => {
-    //     return value.group.match(group);
-    //   });
-    // setFilteredData(result);
+    getReferenceUSers();
   }, [])
+
+  console.log(forms.values);
   return (
     <>
       {loader ? <Loader data={loader} /> : null}
@@ -199,7 +247,7 @@ function Customers() {
 
       {/* Models */}
       <div>
-        <Modal title="Add Customers" height={'260px'} open={isModalOpen} onCancel={handleCancel} footer={null}   >
+        <Modal title={edit?"Edit Customer":'Add Customers'} height={'260px'} open={isModalOpen} onCancel={handleCancel} footer={null}   >
           <div className='flex flex-col justify-center'>
             <div className='flex flex-col mb-4'>
               <label className='pl-4'> Customer Name :</label>
@@ -210,7 +258,7 @@ function Customers() {
 
             <div className='flex flex-col mb-4'>
               <label className='pl-4'> Phone number :</label>
-              <input type="number" placeholder='Enter Phone Number' className='h-10 pl-3 border drop-shadow-lg w-[93%] hover:focus-within:outline-none rounded-md ml-3' name='phoneNumber' id="phoneNumber" onBlur={forms.handleBlur} value={forms.values.phoneNumber} onChange={forms.handleChange} />
+              <input type="number" disabled={edit}  placeholder='Enter Phone Number' className='h-10 pl-3 border drop-shadow-lg w-[93%] hover:focus-within:outline-none rounded-md ml-3' name='phoneNumber' id="phoneNumber" onBlur={forms.handleBlur} value={forms.values.phoneNumber} onChange={forms.handleChange} />
             </div>
             {forms.errors.phoneNumber && forms.touched.phoneNumber ? <div style={{ width: "100%", color: "red", paddingLeft: "15px" }}>{forms.errors.phoneNumber}</div> : null}
 
@@ -223,13 +271,15 @@ function Customers() {
 
             <div className='flex flex-col mb-4'>
               <label className='pl-4'>Reference name :</label>
-              <Select name='reference' id="reference" onBlur={forms.handleBlur} onChange={(e) => forms.setFieldValue('reference', e)} value={forms.values.reference}
+              {edit?<Select name='reference' id="reference" onBlur={forms.handleBlur} onChange={(e) => forms.setFieldValue('reference', e)}
                 className='h-10 border drop-shadow-lg w-[93%] hover:focus-within:outline-none rounded-md ml-3'
-                placeholder="Select Date"
-                options={[
-                  { value: 'admin', label: 'Admin' },
-                ]}
-              />
+                placeholder="Select reference" 
+                options={referenceUser && referenceUser.map((e)=>({value:e.id, label:e.name}))}
+              />:<Select name='reference' id="reference" onBlur={forms.handleBlur} onChange={(e) => forms.setFieldValue('reference', e)}
+              className='h-10 border drop-shadow-lg w-[93%] hover:focus-within:outline-none rounded-md ml-3'
+              placeholder="Select reference"
+              options={referenceUser && referenceUser.map((e)=>({value:e.id, label:e.name}))}
+            />}
             </div>
             {forms.errors.reference && forms.touched.reference ? <div style={{ width: "100%", color: "red", paddingLeft: "15px" }}>{forms.errors.reference}</div> : null}
             {err ? <div style={{ width: "100%", color: "red", paddingLeft: "15px" }}>{err}</div> : null}
