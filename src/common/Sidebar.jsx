@@ -116,7 +116,7 @@ const Adminsidebar = React.memo(({ handleToggle, open }) => {
                  </div> 
                  )}
             </div>
-            <div className={`${role !== 'admin' ? 'absolute -translate-x-1/2 -translate-y-1/2 top-[25%] left-1/2' : ''}`}>
+            <div className={`${role !== 'admin' ? 'xl:-mt-80 lg:-mt-72 -mt-96' : ''}`}>
             {
                 role === "superAdmin" &&
                 <div className=''>
@@ -125,7 +125,7 @@ const Adminsidebar = React.memo(({ handleToggle, open }) => {
                         <NavLink
                             to={'/homepage/admin'}         
                         >
-                            <div className={`flex items-center  ${location.pathname === '/homepage/admin' ? 'bg-slate-200 rounded-full' : ''}  ${open ? "py-2 " : "py-1 "} w-56`}>
+                            <div className={`flex items-center  ${location.pathname === '/homepage/admin' ? 'bg-slate-200 rounded-full' : ''}  ${open ? "py-2 mx-4" : "py-1 px-4 mx-2 justify-center"} `}>
                                 <div className={`${open ? 'ml-4' : ''}`}>
                                     
                                     {
@@ -177,7 +177,7 @@ const Adminsidebar = React.memo(({ handleToggle, open }) => {
                             <NavLink
                                 to={menu.path}                
                             >
-                                <div className={` flex  items-center    ${location.pathname.includes(menu.path) ? 'bg-slate-200 rounded-full text-[#176b87]' : 'text-white'} ${open ? "py-2 " : "py-1 "} w-56`}>
+                                <div className={` flex  items-center    ${location.pathname.includes(menu.path) ? 'bg-slate-200 rounded-full text-[#176b87]' : 'text-white'} ${open ? "py-2 mx-4" : "py-1 px-4 mx-2 justify-center"}`}>
                                     <div className={`${open ? 'ml-4' : ''}`}>
                                         {
                                             open ? 
