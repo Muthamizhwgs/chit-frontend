@@ -51,7 +51,7 @@ const Chits = () => {
       <div className='flex justify-center max-w-[95%] pt-5'>
         <div></div>
         <div className='text-xl'>
-          <h1>Chit Mapping</h1>
+          <h1>My Chits</h1>
         </div>
       </div>
 
