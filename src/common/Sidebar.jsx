@@ -90,8 +90,8 @@ const Adminsidebar = React.memo(({ handleToggle, open }) => {
     return (
         <div
         className={`${
-            open ? "w-[260px]" : "lg:w-[6%] w-[15%]"
-        } bg-primary left-0 fixed duration-500 h-screen  overflow-x-hidden bg-[#176b87] flex flex-col ${ role === "admin" ? ' justify-around ' : 'justify-between py-5'} relative`}
+            open ? "w-40 sm:w-[260px]" : "lg:w-[6%] w-[15%]"
+        } bg-primary left-0 top-0  fixed duration-500 h-screen   overflow-x-hidden bg-[#176b87] flex flex-col ${ role === "admin" ? ' justify-around ' : 'justify-between py-5'} relative`}
         >
             <div>
                 {open ? (
@@ -130,9 +130,9 @@ const Adminsidebar = React.memo(({ handleToggle, open }) => {
                                     
                                     {
                                         open ? 
-                                        <h1 className={`flex gap-2  items-center text-lg text-[#176b87]`}><RiAdminFill />Admin</h1>
+                                        <h1 className={`flex gap-2  items-center sm:text-lg text-sm text-[#176b87]`}><RiAdminFill />Admin</h1>
                                         :
-                                        <h1 className={`flex gap-2  items-center text-lg w-10 h-10 text-[#176b87] justify-center`}><RiAdminFill /></h1>
+                                        <h1 className={`flex gap-2  items-center sm:text-lg text-sm w-10 h-10 text-[#176b87] justify-center`}><RiAdminFill /></h1>
                                     }
                                 </div>
                             </div>
@@ -156,9 +156,9 @@ const Adminsidebar = React.memo(({ handleToggle, open }) => {
 >
                                     <div className={`${open ? 'ml-4' : ''}`}>
                                         {
-                                            open ? <h1 className='flex gap-2  items-center text-lg'>{menu.icons}{menu.title}</h1>
+                                            open ? <h1 className='flex gap-2  items-center sm:text-lg text-sm'>{menu.icons}{menu.title}</h1>
                                             :
-                                            <h1 className='flex gap-2  items-center text-lg w-10 h-10 justify-center'>{menu.icons}</h1>
+                                            <h1 className='flex gap-2  items-center sm:text-lg text-sm w-10 h-10 justify-center'>{menu.icons}</h1>
                                         }
                                         
                                     </div>
@@ -181,9 +181,9 @@ const Adminsidebar = React.memo(({ handleToggle, open }) => {
                                     <div className={`${open ? 'ml-4' : ''}`}>
                                         {
                                             open ? 
-                                            <h1 className='flex gap-2  items-center text-lg'>{menu.icons}{menu.title}</h1>
+                                            <h1 className='flex gap-2  items-center sm:text-lg text-sm'>{menu.icons}{menu.title}</h1>
                                             :
-                                            <h1 className='flex gap-2  items-center text-lg w-10 h-10 justify-center'>{menu.icons}</h1>
+                                            <h1 className='flex gap-2  items-center sm:text-lg text-sm w-10 h-10 justify-center'>{menu.icons}</h1>
 
                                         }
                                     </div>

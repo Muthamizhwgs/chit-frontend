@@ -95,10 +95,10 @@ function Payments() {
   return (
     <div>
       {loader ? <Loader data={loader} /> : null}
-      <div className='text-center pt-10 text-xl  font-bold'>
+      <div className='text-center pt-10 text-xl font-bold pb-5'>
         Payments
       </div>
-      <div className='flex w-[95%] pl-10 gap-10 pt-7'>
+      <div className='w-[95%] grid xl:grid-cols-4 gap-5 xl:gap-0  grid-cols-1 place-items-center py-5'>
         <div>
           <Select
             defaultValue="Select Category"

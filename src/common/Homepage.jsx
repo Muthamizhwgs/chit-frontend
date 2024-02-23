@@ -27,7 +27,7 @@ const Homepage = () => {
           
 
       <div className={`${
-          open ? "absolute  grow left-[262px] right-0 h-[100vh]" : "absolute grow lg:left-[6%] left-[15%] right-0 h-auto"
+          open ? "absolute  grow sm:left-[262px] left-40 right-0 h-[100vh]" : "absolute grow lg:left-[6%] left-[15%] right-0 h-auto"
         } duration-500  bg-white`}>
          <Breadcrumbs
             paths={paths.map((path, index) => ({

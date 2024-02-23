@@ -159,14 +159,14 @@ function ChitMaster() {
     <>
       {loader ? <Loader data={loader} /> : null}
       <div>
-        <div className='flex justify-between max-w-[95%] pt-10 font-bold'>
+        <div className='flex xs:flex-row flex-col xs:justify-between items-center gap-3 xs:gap-0 max-w-[95%] pt-10 font-bold'>
           <div>
           </div>
           <div className='text-xl'>
             Chit Master
           </div>
           <div className=''>
-            <button onClick={showModal} className=' bg-[#176B87] flex justify-center items-center text-white w-28 gap-1 rounded-md h-8'>
+            <button onClick={showModal} className=' bg-[#176B87] flex justify-center items-center text-white w-28 gap-1 rounded-md h-8 xs:text-base text-sm'>
               {/* <FaPlus className='text-white size-4' /> */}
               New Chit
             </button>

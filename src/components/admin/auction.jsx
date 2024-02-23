@@ -57,7 +57,7 @@ const Actions = () => {
       <hr className='w-full h-0.5 bg-slate-300 mt-5' />
 
       {/* cards design */}
-      <section className='flex w-[95%] m-auto gap-4 mt-4 items-center mb-4'>
+      <section className='flex w-[95%] m-auto gap-4 mt-4 xs:flex-row flex-col  items-center mb-4'>
         Chit Name:<Select
           defaultValue="select chit"
           style={{
@@ -75,7 +75,7 @@ const Actions = () => {
         </Select>
       </section>
 
-      <div className='w-[95%] m-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5'>
+      <div className='w-[95%] m-auto grid grid-cols-1 md:grid-cols-2 place-items-center lg:grid-cols-3 gap-5'>
         {
           // eslint-disable-next-line no-unused-vars
           chits.map((data, ind) => (
