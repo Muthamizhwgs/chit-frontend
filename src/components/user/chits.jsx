@@ -1,10 +1,12 @@
 // eslint-disable-next-line no-unused-vars
 import { Select } from 'antd';
+import React, { useEffect } from 'react';
 const { Option } = Select;
-import { Link } from 'react-router-dom'
-
+import { Link, useNavigate } from 'react-router-dom'
+import { getMyChits } from "../../services/service"
 const Chits = () => {
-
+  const [ mychit,setMychit ] = React.useState([]);
+  let navigate = useNavigate()
   const chits = [{
     _id: 'id1',
     active: true,
@@ -46,6 +48,22 @@ const Chits = () => {
   const handleChange = () => {
 
   }
+
+  const getMyChitss = async ()=>{
+    try {
+      let val = await getMyChits()
+      setMychit(val.data)
+    } catch (error) {
+      if(error.response.status == 401){
+        navigate('/')
+      }
+    }
+  }
+
+useEffect(()=>{
+  getMyChitss()
+},[])
+
   return (
     <div>
       <div className='flex justify-center max-w-[95%] pt-5'>
