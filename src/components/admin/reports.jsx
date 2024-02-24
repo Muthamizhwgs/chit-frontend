@@ -14,12 +14,12 @@ function Report() {
                 <p className='font-bold text-xl'>20</p>
               </div>
 
-              <div className='p-5 bg-white flex justify-between w-[100%] rounded-lg py-8' >
+              <div className='p-5 bg-[#c1c5c5] flex justify-between w-[100%] rounded-lg py-8' >
                 <p>On Going</p>
                 <p className='font-bold text-xl'>30</p>
               </div>
 
-              <div className='p-5 bg-white flex justify-between w-[100%] rounded-lg py-8'>
+              <div className='p-5 bg-[#c1c5c5] flex justify-between w-[100%] rounded-lg py-8'>
                 <p>Completed</p>
                 <p className='font-bold text-xl'>100</p>
               </div>
