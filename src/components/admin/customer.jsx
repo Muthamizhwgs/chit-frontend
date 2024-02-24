@@ -215,21 +215,21 @@ const getReferenceUSers = async ()=>{
     <>
       {loader ? <Loader data={loader} /> : null}
       <div>
-        <div className='flex justify-between max-w-[95%] pt-5'>
+        <div className='flex xs:justify-between flex-col xs:flex-row items-center gap-2 xs:gap-0 max-w-[95%] py-5'>
           <div></div>
-          <div className='text-xl'>
+          <div className='text-xl font-semibold'>
             Customers
           </div>
           <div className=''>
-            <button onClick={showModal} className=' bg-[#176B87] flex justify-center items-center text-white w-32 gap-1 rounded-md h-8'>
+            <button onClick={showModal} className=' bg-[#176B87] flex justify-center items-center text-white w-32 gap-1 rounded-md h-10 xs:text-base text-sm'>
               {/* <FaPlus className='text-white size-4' /> */}
               Add customers
             </button>
           </div>
         </div>
 
-        <div className='w-[95%] m-auto'>
-          <input type="text" placeholder='Enter Customer Name or Phone Number' className='w-[30%] h-10 pl-2  border-2 border-black-100 rounded-md' />
+        <div className='w-[95%] m-auto xs:block flex items-center justify-center'>
+          <input type="text" placeholder='Enter Customer Name or Phone Number' className='sm:w-72 xs:w-60 w-52 h-10 pl-2  border-2 border-black-100 rounded-md placeholder:text-[10.5px] xs:placeholder:text-xs  sm:placeholder:text-sm' />
         </div>
 
         <div className='w-[95%] m-auto mt-5 overflow-auto'>

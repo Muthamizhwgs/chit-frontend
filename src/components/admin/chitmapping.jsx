@@ -189,15 +189,17 @@ let navigate = useNavigate()
       <div className='flex justify-center max-w-[95%] pt-5'>
         <div></div>
         <div className='text-xl'>
-          <h1>Chit Mapping</h1>
+          <h1 className='font-semibold py-2'>Chit Mapping</h1>
         </div>
       </div>
 
-      <div className=' flex w-[95%] m-auto gap-4 mt-4 items-center mb-4'>
-        Chit Name:<Select
+      <div className=' flex xl:flex-row flex-col w-[95%] m-auto gap-4 mt-4 items-center mb-4'>
+        <div className='flex xs:flex-row flex-col justify-center items-center gap-2'>
+        <p className=''>Chit Name :</p><Select
           defaultValue="select chit"
+          className='ml-2'
           style={{
-            width: 120,
+            width: 160,
           }}
           onChange={handleChange}
         >
@@ -209,12 +211,12 @@ let navigate = useNavigate()
             ))
           }
         </Select>
+        </div>
 
-        Select Users  <Select
+        <div className={`flex xs:flex-row flex-col justify-center items-center gap-2 `}>
+        <p>Select Users :</p>  <Select
+          className='lg:w-96 w-40'
           mode="multiple"
-          style={{
-            width: 500,
-          }}
           onChange={handleSelectChange}
         >
           {
@@ -224,8 +226,9 @@ let navigate = useNavigate()
             ))
           }
         </Select>
+        </div>
 
-        <div>
+        <div className='py-5'>
           <button onClick={getusers} className='bg-[#176B87] flex justify-center items-center text-white w-32 gap-1 rounded-md h-8'> Map Chit </button>
         </div>
       </div>

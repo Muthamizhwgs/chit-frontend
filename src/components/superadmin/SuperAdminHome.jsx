@@ -114,7 +114,7 @@ const Admin = () => {
       cell: (row) => (
         <>
           <>
-            <FaEdit className='size-5 cursor-pointer' onClick={handleEdit} /><span className='ml-2'>{row.id}</span>
+            <FaEdit className='size-5 cursor-pointer' onClick={()=>{handleEdit(row),setId(row._id)}} /><span className='ml-2'>{row.id}</span>
             <MdDelete className='size-5 cursor-pointer' /><span className='ml-2'>{row.id}</span>
           </>
         </>
@@ -149,7 +149,7 @@ const Admin = () => {
   return (
     <div>
       {loader ? <Loader /> : null}
-      <div className="flex justify-between max-w-[95%] pt-5">
+      <div className="flex xs:flex-row flex-col items-center gap-5 xs:gap-0  xs:justify-between max-w-[95%] pt-5">
         <div></div>
         <div className="text-xl">Manage Admins</div>
         <div className="">

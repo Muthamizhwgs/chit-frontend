@@ -68,13 +68,13 @@ useEffect(()=>{
     <div>
       <div className='flex justify-center max-w-[95%] pt-5'>
         <div></div>
-        <div className='text-xl'>
-          <h1>My Chits</h1>
+        <div className='text-xl py-5'>
+          <h1 className='font-semibold'>My Chits</h1>
         </div>
       </div>
 
       {/* cards design */}
-      <section className=' flex w-[95%] m-auto gap-4 mt-4 items-center mb-4'>
+      <section className='py-5 flex xs:flex-row flex-col w-[95%] m-auto gap-4 mt-4 items-center mb-4'>
         Chit Name:<Select
           defaultValue="select chit"
           style={{
