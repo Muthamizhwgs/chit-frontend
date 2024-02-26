@@ -24,7 +24,7 @@ function App() {
         <Route path='/' element={<Pages />} />
         <Route path='/homepage' element={<Homepage />}>
           <Route path='/homepage/admin' element={<Admin />} />
-          <Route path='/homepage/auction' element={<Actions />} />
+          <Route path='/homepage/chitauction' element={<Actions />} />
 
 
           {/* admin */}
@@ -32,14 +32,14 @@ function App() {
           <Route path='/homepage/customer' element={<Customer />} />
           <Route path='/homepage/chitmapping' element={<ChitMapping />} />
           <Route path='/homepage/chitmapping/chitmapdetails' element={<ChitMapDetails />} />
-          <Route path='/homepage/admin/auction' element={<Auction />} />
-          <Route path='/homepage/admin/auction/auctiondetails' element={<Auctiondetails />} />
+          <Route path='/homepage/manageauction' element={<Auction />} />
+          <Route path='/homepage/auction/auctiondetails' element={<Auctiondetails />} />
           <Route path='/homepage/payments' element={<Payments />} />
           <Route path='/homepage/reports' element={<Reports />} />
 
           {/* user */}
           <Route path='/homepage/chits' element={<Chits />} />
-          <Route path='/homepage/user/auction' element={<Actions />} />
+          <Route path='/homepage/auction' element={<Actions />} />
         </Route>
       </Routes>
     </>
