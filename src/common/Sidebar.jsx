@@ -27,6 +27,7 @@ const Adminsidebar = React.memo(({ handleToggle, open }) => {
         // navigate('/')
       };
 
+    // eslint-disable-next-line no-unused-vars
     const superAdmin = [
         {
             title: "Admin",
@@ -49,6 +50,10 @@ const Adminsidebar = React.memo(({ handleToggle, open }) => {
             title: "Customers",
             path: "/homepage/customer",
             icons: <HiUserAdd />
+        },
+        {
+            title: "Company Creation",
+            path:"/homepage/companyCreation",
         },
         {
             title: "Chit Mapping",
