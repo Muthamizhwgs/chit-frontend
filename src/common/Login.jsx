@@ -4,7 +4,6 @@ import { LoginSchema, LoginInitialValue } from "../validations/Login";
 import { Login } from '../services/service';
 import { useNavigate } from 'react-router-dom';
 import { PoweroffOutlined } from '@ant-design/icons';
-import { Button } from 'antd';
 import Loader from '../components/utils/loader';
 import {message } from 'antd';
 

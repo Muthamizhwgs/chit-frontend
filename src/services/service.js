@@ -73,3 +73,19 @@ export const getMyChits = async ()=>{
     let ApiResponse = await useAxiosInterceptors.get("chit/getchit/byUser")
     return ApiResponse
 }
+
+export const companyCreation = async (data)=>{
+    let ApiResponse = await useAxiosInterceptors.post("chit/creatCompany", data)
+    return ApiResponse
+}
+
+export const getAllCompany = async ()=>{
+    let ApiResponse = await useAxiosInterceptors.get("chit/creatCompany")
+    return ApiResponse
+}
+
+export const  editCompany = async (id, data)=>{
+    let ApiResponse = await useAxiosInterceptors.put("chit/company/"+id, data)
+    return ApiResponse
+
+}
