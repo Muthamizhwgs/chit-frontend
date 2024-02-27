@@ -71,7 +71,7 @@ const AuctionDetails = () => {
 
                     <>
                         <div className='flex justify-center'>
-                            <button className='bg-[#176B87] w-28 h-[32px] text-white font-bold rounded-md' onClick={showModal}>{row.id}Auction</button>
+                            <button className='bg-[#176B87] w-28 h-[32px] text-white font-bold rounded-md' onClick={showModal}>{row.id}Place bid</button>
                         </div>
                     </>
                 </>
@@ -110,14 +110,8 @@ const AuctionDetails = () => {
                 <h1 className='text-center font-bold text-xl '>Chits Details</h1>
                 <DataTable columns={columns} data={chit} customStyles={customStyles} fixedHeader pagination className='pt-10' />
             </div>
-            <Modal title="Auction" height={'260px'} open={isModalOpen} onCancel={handleCancel} footer={null}   >
+            <Modal title="Place bid for this month" height={'260px'} open={isModalOpen} onCancel={handleCancel} footer={null}   >
                 <div className='flex flex-col justify-center'>
-                    <div className='flex flex-col mb-4'>
-                        <label className='pl-4'> Chit Name :</label>
-                        <input type="text" placeholder='Enter Chit Name' className='h-10 pl-3 border drop-shadow-lg w-[93%] hover:focus-within:outline-none rounded-md ml-3' name='chitName' id="chitName" onBlur={forms.handleBlur} value={forms.values.chitName} onChange={forms.handleChange} />
-                    </div>
-                    {forms.errors.chitName && forms.touched.chitName ? <div style={{ width: "100%", color: "red", paddingLeft: "15px" }}>{forms.errors.chitName}</div> : null}
-
                     <div className='flex flex-col mb-4'>
                         <label className='pl-4'> Chit Amount :</label>
                         <input type="number" placeholder='Enter Chit Amount' className='h-10 pl-3 border drop-shadow-lg w-[93%] hover:focus-within:outline-none rounded-md ml-3' name='chitAmount' id="chitAmount" onBlur={forms.handleBlur} value={forms.values.chitAmount} onChange={forms.handleChange} />
