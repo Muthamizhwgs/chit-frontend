@@ -5,7 +5,7 @@ const { Option } = Select;
 import { Link, useNavigate } from 'react-router-dom'
 import { getMyChits } from "../../services/service"
 const Chits = () => {
-  const [ mychit,setMychit ] = React.useState([]);
+  const [mychit, setMychit] = React.useState([]);
   let navigate = useNavigate()
   const chits = [{
     _id: 'id1',
@@ -49,24 +49,24 @@ const Chits = () => {
 
   }
 
-  const getMyChitss = async ()=>{
+  const getMyChitss = async () => {
     try {
       let val = await getMyChits()
       setMychit(val.data)
     } catch (error) {
-      if(error.response.status == 401){
+      if (error.response.status == 401) {
         navigate('/')
       }
     }
   }
 
-useEffect(()=>{
-  getMyChitss()
-},[])
+  useEffect(() => {
+    getMyChitss()
+  }, [])
 
   return (
     <div>
-      <div className='flex justify-center max-w-[95%] pt-5'>
+      <div className='flex justify-center max-w-[95%]'>
         <div></div>
         <div className='text-xl py-5'>
           <h1 className='font-semibold'>My Chits</h1>

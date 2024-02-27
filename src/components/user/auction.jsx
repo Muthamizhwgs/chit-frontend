@@ -66,9 +66,9 @@ const Actions = () => {
   return (
     <>
       <div>
-        <h1 className='text-center text-xl font-bold'>Auction</h1>
+        <h1 className='text-center text-xl font-bold pt-5'>Auction</h1>
       </div>
-      <div className='w-[95%] m-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5'>
+      <div className='w-[95%] m-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 pt-10'>
         {
           // eslint-disable-next-line no-unused-vars
           chits.map((data, ind) => (

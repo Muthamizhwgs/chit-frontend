@@ -1,11 +1,29 @@
 import React from 'react'
 import CurrencyComponent from '../utils/currency';
 import DataTable from 'react-data-table-component';
-import DateFormat from '../date';
+import { Modal } from 'antd';
+import { useFormik } from 'formik';
+import { AuctionInitValues, AuctionSchema } from '../../validations/auction';
+
 
 const AuctionDetails = () => {
+    const [isModalOpen, setIsModalOpen] = React.useState(false);
+    const showModal = () => {
+        setIsModalOpen(true);
+    };
+    const forms = useFormik({
+        initialValues: AuctionInitValues,
+        validationSchema: AuctionSchema,
+        // onSubmit: (values) => {
+        //     submitForms(values)
+        // },
+    })
+    const handleCancel = () => {
+        setIsModalOpen(false);
+        forms.resetForm()
+    };
     const chit = [
-        { chitName:"A"},
+        { chitName: "Chit--1", chitAmount: "100000", group: "A" },
     ]
     const columns = [
         {
@@ -44,11 +62,21 @@ const AuctionDetails = () => {
         {
             name: (
                 <h1 className="text-lg text-gray-500">
-                    Group
+                    Auction
                 </h1>
             ),
-            selector: (row) => row.group,
-       }
+            selector: (row) => row.reference,
+            cell: (row) => (
+                <>
+
+                    <>
+                        <div className='flex justify-center'>
+                            <button className='bg-[#176B87] w-28 h-[32px] text-white font-bold rounded-md' onClick={showModal}>{row.id}Auction</button>
+                        </div>
+                    </>
+                </>
+            ),
+        },
 
     ]
     const customStyles = {
@@ -78,10 +106,28 @@ const AuctionDetails = () => {
     };
     return (
         <>
-            <div>
-                <h1 className='text-center font-bold text-xl p-5'>Chits Details</h1>
-                <DataTable columns={columns} customStyles={customStyles} fixedHeader pagination />
+            <div className='p-10'>
+                <h1 className='text-center font-bold text-xl '>Chits Details</h1>
+                <DataTable columns={columns} data={chit} customStyles={customStyles} fixedHeader pagination className='pt-10' />
             </div>
+            <Modal title="Auction" height={'260px'} open={isModalOpen} onCancel={handleCancel} footer={null}   >
+                <div className='flex flex-col justify-center'>
+                    <div className='flex flex-col mb-4'>
+                        <label className='pl-4'> Chit Name :</label>
+                        <input type="text" placeholder='Enter Chit Name' className='h-10 pl-3 border drop-shadow-lg w-[93%] hover:focus-within:outline-none rounded-md ml-3' name='chitName' id="chitName" onBlur={forms.handleBlur} value={forms.values.chitName} onChange={forms.handleChange} />
+                    </div>
+                    {forms.errors.chitName && forms.touched.chitName ? <div style={{ width: "100%", color: "red", paddingLeft: "15px" }}>{forms.errors.chitName}</div> : null}
+
+                    <div className='flex flex-col mb-4'>
+                        <label className='pl-4'> Chit Amount :</label>
+                        <input type="number" placeholder='Enter Chit Amount' className='h-10 pl-3 border drop-shadow-lg w-[93%] hover:focus-within:outline-none rounded-md ml-3' name='chitAmount' id="chitAmount" onBlur={forms.handleBlur} value={forms.values.chitAmount} onChange={forms.handleChange} />
+                    </div>
+                    {forms.errors.chitAmount && forms.touched.chitAmount ? <div style={{ width: "100%", color: "red", paddingLeft: "15px" }}>{forms.errors.chitAmount}</div> : null}
+                    <div className='flex justify-center'>
+                        <button className='bg-[#176B87] w-36 h-[35px] text-white font-bold rounded-md' onClick={forms.handleSubmit}>Submit</button>
+                    </div>
+                </div>
+            </Modal>
         </>
     )
 }

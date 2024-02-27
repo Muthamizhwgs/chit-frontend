@@ -15,6 +15,7 @@ import { IoMdLogOut } from "react-icons/io";
 import { FaBars } from "react-icons/fa"
 import { BsBuildingFillAdd } from "react-icons/bs";
 
+// eslint-disable-next-line react/display-name
 const Adminsidebar = React.memo(({ handleToggle, open }) => {
     const role = localStorage.getItem("chitsRole")
     console.log("role", role);
