@@ -10,6 +10,7 @@ import { MdDelete } from "react-icons/md";
 import DateFormat from '../../components/date';
 import Loader from '../utils/loader';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { Switch } from 'antd';
 
 function Customers() {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
@@ -23,6 +24,7 @@ function Customers() {
   const [edit, setEdit] = React.useState(false);
   const [id, setId] = React.useState('');
   const [referenceUser, setReferenceUser] = React.useState([])
+  const [status, setStatus] = React.useState(false);
 
   const navigate = useNavigate()
 
@@ -109,6 +111,28 @@ const EditSubmit = async (values)=>{
   }
 }
 
+// const handleStatus = async (id, value) => {
+//   const newStatus = value ? 0 : 1;
+//   try {
+//     await axios
+//       .put(`${apiUrl}/collegebranchstatus/${id}`, {
+//         status: newStatus,
+//       })
+//       .then((res) => {
+//         if (res.status === 200) {
+//           toast.success(
+//             `User ${newStatus ? "activated" : "deactivated"} successfully`
+//           );
+//           setStatus(!status);
+//         }
+//       });
+//   } catch (error) {
+//     toast.error(error.message);
+//   }
+// };
+
+
+
   const chengeDelete = () => {
 
   }
@@ -145,6 +169,32 @@ const EditSubmit = async (values)=>{
         </h1>
       ),
       selector: (row) => row.address,
+    },
+    {
+      name: <h1 className="text-lg text-gray-500">Status</h1>,
+      selector: (row) => (
+        <>
+          <div className="flex flex-row items-center ">
+            <Switch
+              checkedChildren={``}
+              unCheckedChildren={``}
+              // checked={row.status === 1}
+              onChange={() => handleStatus(row.branchId, row.status === 1)}
+              // className={
+              //   row.status === 1
+              //     ? "custom-switch-checked"
+              //     : "custom-switch-unchecked"
+              // }
+              className={
+                row.status === 1
+                  ? "custom-switch-checked"
+                  : "custom-switch-unchecked"
+              }
+            />
+          </div>
+        </>
+      ),
+      // width:"150px"
     },
     {
       name: (

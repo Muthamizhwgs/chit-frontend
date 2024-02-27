@@ -98,9 +98,10 @@ const Adminsidebar = React.memo(({ handleToggle, open }) => {
     return (
         <div
             className={` ${open ? "w-40 sm:w-[260px]" : "lg:w-[6%] w-[15%]"
-                } bg-primary duration-500 h-screen   overflow-x-hidden bg-[#176b87] flex flex-col ${role === "admin" ? ' justify-around ' : 'justify-between py-5'} relative`}
+                } bg-primary duration-500 h-screen   overflow-x-hidden bg-[#176b87] flex flex-col justify-between py-5 relative`}
         >
             <div>
+                <div className='py-5'>
                 {open ? (
                     <div className='flex justify-between items-center'>
                         <div></div>
@@ -122,8 +123,8 @@ const Adminsidebar = React.memo(({ handleToggle, open }) => {
                         </div>
                     </div>
                 )}
-            </div>
-            <div className={`${role !== 'admin' ? 'xl:-mt-80 lg:-mt-72 -mt-96' : ''}`}>
+                </div>
+                <div className='py-5'>
                 {
                     role === "superAdmin" &&
                     <div className=''>
@@ -200,7 +201,9 @@ const Adminsidebar = React.memo(({ handleToggle, open }) => {
                         ))}
                     </div>
                 }
+                </div>
             </div>
+            
             <div>
                 {
                     open ?
