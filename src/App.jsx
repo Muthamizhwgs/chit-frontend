@@ -14,6 +14,7 @@ import Chits from './components/user/chits'
 import ChitMapDetails from './components/admin/chitmappingdetail'
 import Auctiondetails from './components/admin/auctiondetails'
 import Company from './components/admin/company'
+import ReportTable from './components/admin/reportTable'
 
 function App() {
 
@@ -38,6 +39,7 @@ function App() {
           <Route path='/homepage/auction/auctiondetails' element={<Auctiondetails />} />
           <Route path='/homepage/payments' element={<Payments />} />
           <Route path='/homepage/reports' element={<Reports />} />
+          <Route path='/homepage/report/reportDetails' element={<ReportTable />} />
 
           {/* user */}
           <Route path='/homepage/chits' element={<Chits />} />
