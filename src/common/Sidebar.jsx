@@ -96,8 +96,8 @@ const Adminsidebar = React.memo(({ handleToggle, open }) => {
 
     return (
         <div
-            className={`${open ? "w-40 sm:w-[260px]" : "lg:w-[6%] w-[15%]"
-                } bg-primary left-0 top-0  fixed duration-500 h-screen   overflow-x-hidden bg-[#176b87] flex flex-col ${role === "admin" ? ' justify-around ' : 'justify-between py-5'} relative`}
+            className={` ${open ? "w-40 sm:w-[260px]" : "lg:w-[6%] w-[15%]"
+                } bg-primary duration-500 h-screen   overflow-x-hidden bg-[#176b87] flex flex-col ${role === "admin" ? ' justify-around ' : 'justify-between py-5'} relative`}
         >
             <div>
                 {open ? (
