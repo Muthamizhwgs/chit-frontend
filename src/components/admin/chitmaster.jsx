@@ -234,7 +234,6 @@ function ChitMaster() {
             </div>
             {forms.errors.chitName && forms.touched.chitName ? <div style={{ width: "100%", color: "red", paddingLeft: "15px" }}>{forms.errors.chitName}</div> : null}
 
-
             <div className='flex flex-col mb-4'>
               <label className='pl-4'> Chit Amount :</label>
               <input type="number" placeholder='Enter Chit Amount' className='h-10 pl-3 border drop-shadow-lg w-[93%] hover:focus-within:outline-none rounded-md ml-3' name='chitAmount' id="chitAmount" onBlur={forms.handleBlur} value={forms.values.chitAmount} onChange={forms.handleChange} />
