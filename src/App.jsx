@@ -36,10 +36,10 @@ function App() {
           <Route path='/homepage/chitmapping' element={<ChitMapping />} />
           <Route path='/homepage/chitmapping/chitmapdetails' element={<ChitMapDetails />} />
           <Route path='/homepage/manageauction' element={<Auction />} />
-          <Route path='/homepage/auction/auctiondetails' element={<Auctiondetails />} />
+          <Route path='/homepage/manageauction/auctiondetails' element={<Auctiondetails />} />
           <Route path='/homepage/payments' element={<Payments />} />
           <Route path='/homepage/reports' element={<Reports />} />
-          <Route path='/homepage/report/reportDetails' element={<ReportTable />} />
+          <Route path='/homepage/reports/reportDetails' element={<ReportTable />} />
 
           {/* user */}
           <Route path='/homepage/chits' element={<Chits />} />
