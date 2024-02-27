@@ -6,11 +6,13 @@ import { useNavigate } from 'react-router-dom';
 import { PoweroffOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import Loader from '../components/utils/loader';
+import {message } from 'antd';
 
 function Pages() {
   const [err, setErr] = React.useState(null);
   const [loadings, setLoadings] = React.useState(false);
   const [loader, setLoader] = React.useState(false)
+  const [messageApi, contextHolder] = message.useMessage();
 
   const navigate = useNavigate();
 
@@ -43,7 +45,10 @@ function Pages() {
         navigate('/homepage/chits')
       }
     } catch (error) {
-      setErr(error.response.data.message);
+      messageApi.open({
+        type: 'error',
+        content: error.response.data.message,
+      });
     }finally{
       setLoadings(false)
     setLoader(false)
@@ -54,6 +59,7 @@ function Pages() {
   return (
     <>
     {loader?<Loader/>:null}
+    {contextHolder}
     <div className='w-full h-screen bg-[#176B87] flex items-center md:justify-end justify-center'>
       <div className='md:w-1/2 w-full h-[85%] bg-[#EEF5FF] md:mr-10 mx-5 md:ml-0 rounded-[10px] py-5'>
         <div className='w-full h-24 flex justify-center '>
@@ -61,19 +67,19 @@ function Pages() {
         </div>
         <h2 className='text-2xl text-center mt-5 mb-14 font-semibold'>Login Here!</h2>
         <form onSubmit={forms.handleSubmit} className=' flex flex-col justify-center items-center '>
-          <div className=''>
-            <label className='sm:text-lg font-semibold mr-2'>Phone number :</label>
-            <input type="number" placeholder='Enter phone number' className='h-10 pl-3 border drop-shadow-lg lg:w-80 hover:focus-within:outline-none' name='phoneNumber' id="phoneNumber" onBlur={forms.handleBlur} value={forms.values.phoneNumber} onChange={forms.handleChange} />
+          <div className='flex flex-col'>
+            <label className='sm:text-lg font-semibold mr-2 mb-1'>Phone Number</label>
+            <input type="number" placeholder='Enter Phone Number' required className='h-10 pl-3 border drop-shadow-lg lg:w-80 hover:focus-within:outline-none' name='phoneNumber' id="phoneNumber" onBlur={forms.handleBlur} value={forms.values.phoneNumber} onChange={forms.handleChange} />
           </div>
-          {forms.errors.phoneNumber && forms.touched.phoneNumber ? <div style={{ width: "59%", color: "red", textAlign: "end" }}>{forms.errors.phoneNumber}</div> : null}
-          <div className='pt-10'>
-            <label className='sm:text-lg font-semibold mr-12'>Password :</label>
-            <input type="password" placeholder='Enter Password' className='h-10 pl-3 border drop-shadow-lg lg:w-80 hover:focus-within:outline-none' name='password' id="password" onBlur={forms.handleBlur} value={forms.values.password} onChange={forms.handleChange} />
+          {/* {forms.errors.phoneNumber && forms.touched.phoneNumber ? <div style={{ width: "50%", color: "red", textAlign: "end"  }}>{forms.errors.phoneNumber}</div> : null} */}
+          <div className='pt-10 flex flex-col'>
+            <label className='sm:text-lg font-semibold mr-12 mb-1'>Password</label>
+            <input type="password" placeholder='Enter Password' required className='h-10 pl-3 border drop-shadow-lg lg:w-80 hover:focus-within:outline-none' name='password' id="password" onBlur={forms.handleBlur} value={forms.values.password} onChange={forms.handleChange} />
           </div>
-          {forms.errors.password && forms.touched.password ? <div style={{ width: "59%", color: "red", textAlign: "end" }}>{forms.errors.password}</div> : null}
+          {/* {forms.errors.password && forms.touched.password ? <div style={{ width: "50%", color: "red", textAlign: "end" }}>{forms.errors.password}</div> : null} */}
           {err != null ? <div style={{ width: "70%", color: "red", textAlign: "end" }}>{err}</div> : null}
           <div className='w-[75%] mt-8 h-8 flex justify-center items-center pt-10'>
-            <button type='submit' className='bg-[#176B87] px-5 py-2 rounded-md text-white font-bold'> {loadings?<PoweroffOutlined />:null}  Log In</button>
+            <button type='submit' className='bg-[#176B87] px-10 py-2 rounded-md text-white text-lg font-bold'> {loadings?<PoweroffOutlined />:null}Login</button>
           </div>
         </form>
       </div>

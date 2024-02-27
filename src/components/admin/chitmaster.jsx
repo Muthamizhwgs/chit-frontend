@@ -175,7 +175,7 @@ function ChitMaster() {
 
         {
           chits.length > 0 ?
-            <div className='w-[95%] m-auto mt-5 h-[88vh] overflow-auto'>
+            <div className='w-[95%] m-auto mt-5 h-[75vh] overflow-auto'>
               <DataTable
                 columns={columns}
                 data={chits}

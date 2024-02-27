@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import React, { Fragment } from 'react';
 
-import { NavLink, useLocation } from 'react-router-dom'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { RiAdminFill } from "react-icons/ri";
 import { PiMoneyBold } from "react-icons/pi";
 import { icons } from 'antd/es/image/PreviewGroup';
@@ -18,20 +18,20 @@ const Adminsidebar = React.memo(({ handleToggle, open }) => {
     const role = localStorage.getItem("chitsRole")
     console.log("role", role);
     let location = useLocation()
+    let navigate = useNavigate()
     // console.log(location.pathname,"locations")
 
 
     const Logout = async () => {
         localStorage.removeItem("chits");
         localStorage.removeItem("chitsRole");
-        // navigate('/')
+        navigate('/')
       };
 
     const superAdmin = [
         {
             title: "Admin",
             path: "/homepage/admin",
-
         },
         {
             title: "Auction",
@@ -181,7 +181,7 @@ const Adminsidebar = React.memo(({ handleToggle, open }) => {
                                     <div className={`${open ? 'ml-4' : ''}`}>
                                         {
                                             open ? 
-                                            <h1 className='flex gap-2  items-center sm:text-lg text-sm'>{menu.icons}{menu.title}</h1>
+                                            <h1 className='flex gap-2 font-Lato  items-center sm:text-lg text-sm'>{menu.icons}{menu.title}</h1>
                                             :
                                             <h1 className='flex gap-2  items-center sm:text-lg text-sm w-10 h-10 justify-center'>{menu.icons}</h1>
 
