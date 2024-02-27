@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import React, { Fragment } from 'react';
 
-import { NavLink, useLocation } from 'react-router-dom'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { RiAdminFill } from "react-icons/ri";
 import { PiMoneyBold } from "react-icons/pi";
 import { icons } from 'antd/es/image/PreviewGroup';
@@ -19,13 +19,14 @@ const Adminsidebar = React.memo(({ handleToggle, open }) => {
     const role = localStorage.getItem("chitsRole")
     console.log("role", role);
     let location = useLocation()
+    let navigate = useNavigate()
     // console.log(location.pathname,"locations")
 
 
     const Logout = async () => {
         localStorage.removeItem("chits");
         localStorage.removeItem("chitsRole");
-        // navigate('/')
+        navigate('/')
     };
 
     // eslint-disable-next-line no-unused-vars
@@ -33,7 +34,6 @@ const Adminsidebar = React.memo(({ handleToggle, open }) => {
         {
             title: "Admin",
             path: "/homepage/admin",
-
         },
         {
             title: "Auction",
@@ -96,8 +96,8 @@ const Adminsidebar = React.memo(({ handleToggle, open }) => {
 
     return (
         <div
-            className={`${open ? "w-40 sm:w-[260px]" : "lg:w-[6%] w-[15%]"
-                } bg-primary left-0 top-0  fixed duration-500 h-screen   overflow-x-hidden bg-[#176b87] flex flex-col ${role === "admin" ? ' justify-around ' : 'justify-between py-5'} relative`}
+            className={` ${open ? "w-40 sm:w-[260px]" : "lg:w-[6%] w-[15%]"
+                } bg-primary duration-500 h-screen   overflow-x-hidden bg-[#176b87] flex flex-col ${role === "admin" ? ' justify-around ' : 'justify-between py-5'} relative`}
         >
             <div>
                 {open ? (

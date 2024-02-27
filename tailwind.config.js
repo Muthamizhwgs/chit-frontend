@@ -8,8 +8,13 @@ export default {
     extend: {
       screens:{
         xs:"442px"
+      },
+      fontFamily:{
+        Inter: ["inter"],
+        Lato:["lato"]
       }
     },
+    
   },
   plugins: [],
 }

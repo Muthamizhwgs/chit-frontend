@@ -49,12 +49,11 @@ const Actions = () => {
     <div>
       <div className='flex justify-center max-w-[95%] pt-5'>
         <div></div>
-        <div className='text-xl pt-5 font-bold'>
+        <div className='text-xl py-5 font-bold'>
           <h1>Manage Auction</h1>
 
         </div>
       </div>
-      <hr className='w-full h-0.5 bg-slate-300 mt-5' />
 
       {/* cards design */}
       <section className='flex w-[95%] m-auto gap-4 mt-4 xs:flex-row flex-col  items-center mb-4'>
