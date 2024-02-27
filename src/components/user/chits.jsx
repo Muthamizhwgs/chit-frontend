@@ -3,9 +3,13 @@ import { Select } from 'antd';
 import React, { useEffect } from 'react';
 const { Option } = Select;
 import { Link, useNavigate } from 'react-router-dom'
-import { getMyChits } from "../../services/service"
+import { getChitReports } from "../../services/customer.service"
+import Loader from '../utils/loader';
+import CurrencyComponent from '../utils/currency';
 const Chits = () => {
   const [ mychit,setMychit ] = React.useState([]);
+  const [loader, setLoader] = React.useState(false)
+
   let navigate = useNavigate()
   const chits = [{
     _id: 'id1',
@@ -50,13 +54,16 @@ const Chits = () => {
   }
 
   const getMyChitss = async ()=>{
+    setLoader(true)
     try {
-      let val = await getMyChits()
+      let val = await getChitReports()
       setMychit(val.data)
     } catch (error) {
       if(error.response.status == 401){
         navigate('/')
       }
+    }finally{
+      setLoader(false)
     }
   }
 
@@ -65,6 +72,8 @@ useEffect(()=>{
 },[])
 
   return (
+    <>
+    {loader?<Loader/>:null}
     <div>
       <div className='flex justify-center max-w-[95%] pt-5'>
         <div></div>
@@ -95,34 +104,32 @@ useEffect(()=>{
       <div className='w-[95%] m-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5'>
         {
           // eslint-disable-next-line no-unused-vars
-          chits.map((data, ind) => (
+          mychit.map((data, ind) => (
             // eslint-disable-next-line react/jsx-key
             <div className='h-fit w-[90%] rounded-md bg-[#f1faf9] drop-shadow-md cursor-pointer'>
-
               <div className='flex justify-between px-4 mt-2 flex-nowrap'>
                 <h3>{data.chitName}</h3>
                 <div className=''>{data.active ? <p className='text-green-600'>Active</p> : <p className='text-red-600'>InActive</p>}</div>
               </div>
               <div className='flex px-4 justify-between mt-2'>
-                <h4>customer: {data.noOfPeople}</h4>
+                <h4>Bidding: {data.completedCount?data.completedCount:0}/{data.no_of_Chit}  </h4>
                 <h4>months: {data.months}</h4>
               </div>
               <div className='flex px-4 justify-between mt-2'>
                 <h4>Auctions: 0 / {data.months}</h4>
-                <h4 className={data.status == 'Pending' ? 'text-red-600' : 'text-green-300'}>{data.status}</h4>
+                <h4> monthly : <CurrencyComponent amount={data.monthlyInstallment} /></h4>
               </div>
               <div className='flex px-4 justify-between mt-2'>
                 <h4>{data.group}</h4>
-                <h4>₹ {data.chitAmount}</h4>
+                <h4><CurrencyComponent amount={data.chitAmount} /></h4>
               </div>
 
             </div>
           ))
         }
-
-
       </div>
     </div>
+    </>
   )
 }
 

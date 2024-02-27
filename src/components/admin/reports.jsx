@@ -6,27 +6,54 @@ import { BsThreeDots } from "react-icons/bs";
 import { FaCheckCircle } from "react-icons/fa";
 import { RiHandCoinFill } from "react-icons/ri";
 import { Link } from 'react-router-dom';
-
+import { getChitReports } from "../../services/service"
+import Loader from '../utils/loader';
 
 function Report() {
+  const [ reports, setReport ] = React.useState({});
+  const [ loader, setLoader ] = React.useState(false);
+
+
+
+  const getReports = async ()=>{
+    setLoader(true)
+    try {
+        let val = await getChitReports()
+        setReport(val.data)
+    } catch (error) {
+      if (error.response.status == 401) {
+        console.log(error)
+        navigate("/");
+      }
+    }finally{
+      setLoader(false)
+    }
+  }
+
+  React.useEffect(()=>{
+    getReports()
+  },[])
+
   const report = [
     {
       icons: <RiHandCoinFill className="size-5 text-blue-500" />,
       name: "Total Chits",
-      value: "20",
+      value: reports.totalChit?reports.totalChit:0,
     },
     {
       icons: <GrInProgress className="size-5 text-orange-400" />,
       name: "On Going",
-      value: "30",
+      value: reports.progress?reports.progress:0,
     },
     {
       icons: <FaCheckCircle className="size-5 text-green-500" />,
       name: "Completed",
-      value: "100"
+      value: reports.complated?reports.complated:0,
     }
   ]
   return (
+    <>
+    {loader?<Loader/>:null}
     <div>
       <h1 className='text-xl font-bold pt-10 text-center'>Reports</h1>
       <div className='p-5'>
@@ -50,6 +77,7 @@ function Report() {
       </div>
 
     </div>
+    </>
   )
 }
 

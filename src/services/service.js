@@ -89,3 +89,8 @@ export const  editCompany = async (id, data)=>{
     return ApiResponse
 
 }
+
+export const getChitReports = async ()=>{
+    let ApiResponse = await useAxiosInterceptors.get("chit/getChitReports")
+    return ApiResponse
+}
