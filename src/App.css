@@ -1,0 +1,11 @@
+/* Checked State */
+.custom-switch-checked {
+    background-color: #176B87 !important; 
+    font-size: "12px" !important;
+  }
+  
+  /* Unchecked State */
+  .custom-switch-unchecked {
+    background-color: gray !important; 
+    font-size: "12px" !important;
+  }
