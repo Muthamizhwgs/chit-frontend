@@ -106,9 +106,9 @@ const Auctiondetails = () => {
     };
 
     return (
-        <div>
-            <h1 className='text-xl text-center pt-10 font-bold'>Actions Details</h1>
-            <DataTable columns={columns} data={A} customStyles={customStyles} className='pt-5' />
+        <div className='px-10'>
+            <h1 className='text-xl text-center font-bold py-5'>Actions Details</h1>
+            <DataTable columns={columns} data={A} customStyles={customStyles} pagination fixedHeader className='' />
         </div>
     )
 }

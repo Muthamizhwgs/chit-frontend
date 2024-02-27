@@ -10,6 +10,7 @@ import { MdDelete } from "react-icons/md";
 import DateFormat from '../../components/date';
 import Loader from '../utils/loader';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { Switch } from 'antd';
 
 function Customers() {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
@@ -23,6 +24,8 @@ function Customers() {
   const [edit, setEdit] = React.useState(false);
   const [id, setId] = React.useState('');
   const [referenceUser, setReferenceUser] = React.useState([])
+  const [status, setStatus] = React.useState(false);
+
 
   const navigate = useNavigate()
 
@@ -109,6 +112,45 @@ const EditSubmit = async (values)=>{
   }
 }
 
+const Active_Inactive = async (Id,data)=>{
+  let active;
+  if(data.active == true){
+    active = false
+  }else{
+    active = true
+  }
+  try {
+    let val = await UpdateChituserById(Id,{active:active})
+    getChit()
+  } catch (error) {
+    if(error.response.status == 401){
+      navigate('/')
+    }
+  }
+}
+
+// const handleStatus = async (id, value) => {
+//   const newStatus = value ? 0 : 1;
+//   try {
+//     await axios
+//       .put(`${apiUrl}/collegebranchstatus/${id}`, {
+//         status: newStatus,
+//       })
+//       .then((res) => {
+//         if (res.status === 200) {
+//           toast.success(
+//             `User ${newStatus ? "activated" : "deactivated"} successfully`
+//           );
+//           setStatus(!status);
+//         }
+//       });
+//   } catch (error) {
+//     toast.error(error.message);
+//   }
+// };
+
+
+
   const chengeDelete = () => {
 
   }
@@ -147,6 +189,27 @@ const EditSubmit = async (values)=>{
       selector: (row) => row.address,
     },
     {
+      name: <h1 className="text-lg text-gray-500">Status</h1>,
+      selector: (row) => (
+        <>
+          <div className="flex flex-row items-center ">
+            <Switch
+              checkedChildren={``}
+              unCheckedChildren={``}
+              onChange={() => Active_Inactive(row._id,row)}  
+              defaultChecked={row.active}
+              className={
+                row.active
+                  ? "custom-switch-checked"
+                  : "custom-switch-unchecked"
+              }
+            />
+          </div>
+        </>
+      ),
+      // width:"150px"
+    },
+    {
       name: (
         <h1 className="text-lg text-gray-500">
           Action
@@ -158,7 +221,7 @@ const EditSubmit = async (values)=>{
           
           <>
             <FaEdit className='size-5 cursor-pointer' onClick={()=>{chengeEdit(row),setId(row._id)}} color='#176b87'/><span className='ml-2'>{row.id}</span>
-            <MdDelete className='size-5 cursor-pointer' onClick={chengeDelete} color='red'/><span className='ml-2'>{row.id}</span>
+            {/* <MdDelete className='size-5 cursor-pointer' onClick={chengeDelete} color='red'/><span className='ml-2'>{row.id}</span> */}
           </>
         </>
       ),

@@ -59,7 +59,7 @@ const Chits = () => {
       let val = await getChitReports()
       setMychit(val.data)
     } catch (error) {
-      if(error.response.status == 401){
+      if (error.response.status == 401) {
         navigate('/')
       }
     }finally{
@@ -67,15 +67,15 @@ const Chits = () => {
     }
   }
 
-useEffect(()=>{
-  getMyChitss()
-},[])
+  useEffect(() => {
+    getMyChitss()
+  }, [])
 
   return (
     <>
     {loader?<Loader/>:null}
     <div>
-      <div className='flex justify-center max-w-[95%] pt-5'>
+      <div className='flex justify-center max-w-[95%]'>
         <div></div>
         <div className='text-xl py-5'>
           <h1 className='font-semibold'>My Chits</h1>

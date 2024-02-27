@@ -79,11 +79,14 @@ const Actions = () => {
           // eslint-disable-next-line no-unused-vars
           chits.map((data, ind) => (
             // eslint-disable-next-line react/jsx-key
-            <div className='h-fit w-[90%] rounded-md bg-[#f1faf9] drop-shadow-md '>
-              <Link to={'/homepage/auction/auctiondetails/?id=' + data._id}>
+            <div className='h-fit w-[90%] rounded-md bg-[#f1faf9] border-s-2 border-b-2 border-gray-200 drop-shadow-md '>
+              <Link to={'/homepage/manageauction/auctiondetails/?id=' + data._id}>
                 <div className='flex justify-between px-4 mt-2 flex-nowrap'>
                   <h3>{data.chitName}</h3>
-                  <div className='flex gap-2'><FaEdit className=' cursor-pointer' /><FaTrash className=' cursor-pointer' /></div>
+                  <div className='flex gap-2'>
+                    <FaEdit className='cursor-pointer' />
+                    <FaTrash className='cursor-pointer' />
+                  </div>
                 </div>
                 <div className='flex px-4 justify-between mt-2'>
                   <h4>customer: {data.noOfPeople}</h4>

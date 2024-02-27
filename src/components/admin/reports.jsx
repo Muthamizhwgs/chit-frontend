@@ -60,7 +60,7 @@ function Report() {
         <div className='grid gap-10 flex-col p-5 sm:grid-cols-2 md:grid-cols-3'>
           {report.map((data, ind) => (
             // eslint-disable-next-line react/jsx-key
-            <Link to={'/homepage/report/reportDetails?id=' + data._id}>
+            <Link to={'/homepage/reports/reportDetails?id=' + data._id}>
               <div className='p-4 bg-white border-s-2 border-b-2 border-gray-300 drop-shadow-lg flex flex-col justify-between w-[100%] rounded-lg py-4' >
                 <div className='flex justify-between w-full'>
                   <p className='bg-white border-2 p-2 rounded-md'>{data.icons}</p>
