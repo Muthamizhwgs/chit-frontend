@@ -126,7 +126,7 @@ const Company = () => {
                 </div>
             </div>
             <div>
-                <Modal title="Add Chits" height={'260px'} open={isModalOpen} onCancel={handleCancel} footer={null}   >
+                <Modal title="Add Company" height={'260px'} open={isModalOpen} onCancel={handleCancel} footer={null}   >
                     <div className='flex flex-col justify-center'>
                         <div className='flex flex-col mb-4'>
                             <label className='pl-4'> Company Name :</label>

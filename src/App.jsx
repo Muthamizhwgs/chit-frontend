@@ -31,7 +31,7 @@ function App() {
           {/* admin */}
           <Route path='/homepage/chitmaster' element={<Chitmaster />} />
           <Route path='/homepage/customer' element={<Customer />} />
-          <Route path='/homepage/companyCreation' element={<Company />} />
+          <Route path='/homepage/company' element={<Company />} />
           <Route path='/homepage/chitmapping' element={<ChitMapping />} />
           <Route path='/homepage/chitmapping/chitmapdetails' element={<ChitMapDetails />} />
           <Route path='/homepage/manageauction' element={<Auction />} />
