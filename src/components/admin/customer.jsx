@@ -26,6 +26,7 @@ function Customers() {
   const [referenceUser, setReferenceUser] = React.useState([])
   const [status, setStatus] = React.useState(false);
 
+
   const navigate = useNavigate()
 
 
@@ -111,6 +112,23 @@ const EditSubmit = async (values)=>{
   }
 }
 
+const Active_Inactive = async (Id,data)=>{
+  let active;
+  if(data.active == true){
+    active = false
+  }else{
+    active = true
+  }
+  try {
+    let val = await UpdateChituserById(Id,{active:active})
+    getChit()
+  } catch (error) {
+    if(error.response.status == 401){
+      navigate('/')
+    }
+  }
+}
+
 // const handleStatus = async (id, value) => {
 //   const newStatus = value ? 0 : 1;
 //   try {
@@ -179,14 +197,15 @@ const EditSubmit = async (values)=>{
               checkedChildren={``}
               unCheckedChildren={``}
               // checked={row.status === 1}
-              onChange={() => handleStatus(row.branchId, row.status === 1)}
+              onChange={() => Active_Inactive(row._id,row)}
               // className={
               //   row.status === 1
               //     ? "custom-switch-checked"
               //     : "custom-switch-unchecked"
-              // }
+              // }  
+              defaultChecked={row.active}
               className={
-                row.status === 1
+                row.active
                   ? "custom-switch-checked"
                   : "custom-switch-unchecked"
               }
