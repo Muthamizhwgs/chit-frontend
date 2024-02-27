@@ -8,6 +8,7 @@
     background-repeat: no-repeat;
     position: relative;
     animation: ballX 1s linear infinite;
+    margin-right: 16%;
   }
   .loader:before {
     content: "";
@@ -32,7 +33,7 @@
   .loader-box {
     position: fixed;
     width: 100%;
-    height: 100%;
+    height: 100vh;
     top: 0;
     display: flex;
     align-items: center;

@@ -1,8 +1,8 @@
 import axios from "axios";
 
 const apiInstance = axios.create({
-  // baseURL: "https://chitapi.whydev.co.in/v1/",
-  baseURL: "http://localhost:3000/v1/",
+  baseURL: "https://chitapi.whydev.co.in/v1/",
+  // baseURL: "http://localhost:3000/v1/",
 });
 
 // Request interceptor

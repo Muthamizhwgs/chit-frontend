@@ -68,3 +68,8 @@ export const getUsersByAdmin = async()=>{
     const ApiResponse = await useAxiosInterceptors.get("users/getUsersfor/reference");
     return ApiResponse
 }
+
+export const getMyChits = async ()=>{
+    let ApiResponse = await useAxiosInterceptors.get("chit/getchit/byUser")
+    return ApiResponse
+}
