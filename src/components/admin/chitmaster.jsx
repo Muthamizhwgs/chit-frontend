@@ -212,12 +212,20 @@ function ChitMaster() {
       <div>
         <Modal title="Add Chits" height={'260px'} open={isModalOpen} onCancel={handleCancel} footer={null}   >
           <div className='flex flex-col justify-center'>
-
+            
             <div className='flex flex-col mb-4'>
-              <label className='pl-4'> Company Name :</label>
-              <input type="text" placeholder='Enter Company Name' className='h-10 pl-3 border drop-shadow-lg w-[93%] hover:focus-within:outline-none rounded-md ml-3' name='companyName' id="companyName" onBlur={forms.handleBlur} value={forms.values.companyName} onChange={forms.handleChange} />
+              <label className='pl-4'>Company Name :</label>
+              <Select name='companyName' id="companyName"  onBlur={forms.handleBlur} onChange={(e) => forms.setFieldValue('companyName', e)} value={forms.values.companyName}
+                className='h-10 border drop-shadow-lg w-[93%] hover:focus-within:outline-none rounded-md ml-3'
+                placeholder="Enter Company Name"
+                options={[
+                  { value: '5', label: 'Every month 5th ' },
+                  { value: 'second sunday', label: 'Second Sunday' },
+                ]}
+              />
             </div>
             {forms.errors.companyName && forms.touched.companyName ? <div style={{ width: "100%", color: "red", paddingLeft: "15px" }}>{forms.errors.companyName}</div> : null}
+            {err ? <div style={{ width: "100%", color: "red", paddingLeft: "15px" }}>{err}</div> : null}
 
 
             <div className='flex flex-col mb-4'>
