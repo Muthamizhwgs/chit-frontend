@@ -35,7 +35,7 @@ const Adminsidebar = React.memo(({ handleToggle, open }) => {
         },
         {
             title: "Auction",
-            path: "/homepage/auction"
+            path: "/homepage/chitauction"
         }
     ]
 
@@ -57,7 +57,7 @@ const Adminsidebar = React.memo(({ handleToggle, open }) => {
         },
         {
             title: "Auction",
-            path: "/homepage/admin/auction",
+            path: "/homepage/manageauction",
             icons: <RiAuctionFill />
         },
         {
@@ -80,7 +80,7 @@ const Adminsidebar = React.memo(({ handleToggle, open }) => {
         },
         {
             title: "auction",
-            path: "/homepage/user/auction",
+            path: "/homepage/auction",
             icons: <RiAuctionFill />
         }
     ]
