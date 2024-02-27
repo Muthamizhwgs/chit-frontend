@@ -1,99 +1,104 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import DataTable from 'react-data-table-component';
+import { Link } from 'react-router-dom';
 
 const Actions = () => {
- const customStyles ={
-  headCells:{
-    style:{
-      backgroundColor:"#176b87",
-      color:"#D7E4C0",
-      fontWeight:"semibold",
-      fontSize:"15px",
-      //borderRadius:"3px"
-    },
-  },
-  rows:{
-    style:{
-      color:"#176b87",
-      fontWeight:"bold",
-      fontSize:"15px"
+  const [mychit, setMychit] = React.useState([]);
+  // let navigate = useNavigate()
+  const chits = [{
+    _id: 'id1',
+    active: true,
+    chitAmount: 1,
+    chitName: 'dippam',
+    createdAt: '12-12-12',
+    describeDate: "4",
+    group: 'A',
+    months: 12,
+    noOfPeople: 12,
+    updatedAt: '11-11-11',
+    status: 'Pending'
+  }, {
+    _id: 'id2',
+    active: false,
+    chitAmount: 100000,
+    chitName: 'dappam',
+    createdAt: '12-12-12',
+    describeDate: "4",
+    group: 'B',
+    months: 12,
+    noOfPeople: 12,
+    updatedAt: '11-11-11',
+    status: 'Completed'
+  }, {
+    _id: 'id2',
+    active: false,
+    chitAmount: 100000,
+    chitName: 'dappam',
+    createdAt: '12-12-12',
+    describeDate: "4",
+    group: 'C',
+    months: 12,
+    noOfPeople: 12,
+    updatedAt: '11-11-11',
+    status: 'Pending'
+  }];
 
+  const handleChange = () => {
+
+  }
+
+  const getMyChitss = async () => {
+    try {
+      let val = await getMyChits()
+      setMychit(val.data)
+    } catch (error) {
+      if (error.response.status == 401) {
+        navigate('/')
+      }
     }
   }
- }
-  const columns = [
-    {
-      name: "ChitName",
-      selector: (row) => row.ChitName,
-    },
-    {
-      name: "Customers",
-      selector: (row) => row.Customers,
-    },
-    {
-      name: "Months",
-      selector: (row) => row.Months,
-    },
-    {
-      name: "Amount",
-      selector: (row) => row.Amount,
-    },
-    {
-      name: "Auction",
-      selector: (row) => row.Auction,
-    }
-  ];
-  const data = [
-    {
-      ChitName: "dippam",
-      Customers: "12",
-      Months: "12",
-      Amount:"1",
-      Auction:"Active"
-    },
-    {
-      ChitName: "dippam",
-      Customers: "12",
-      Months: "12",
-      Amount:"1",
-      Auction:"Active"
-    },
-    {
-      ChitName: "dippam",
-      Customers: "12",
-      Months: "12",
-      Amount:"1",
-      Auction:"Active"
-    }
-  ];
+
+  useEffect(() => {
+    getMyChitss()
+  }, [])
 
 
   return (
     <>
       <div>
-        <h1 className='text-center text-xl pt-10 font-semibold'>Auction</h1>
-        <div className='p-10 flex gap-10'>
-          <div className='flex gap-5 justify-center items-center'>
-            <h1 className='text-lg'>Chit Name:</h1>
-            <input type='text' placeholder='Enter chit name' className='p-2 w-60' />
-          </div>
-          <div className='flex gap-5 justify-center items-center'>
-            <h1 >Auction Amount</h1>
-            {/* <Autocomplete>
-              <Option
-            </Autocomplete> */}
-            <input type='number' placeholder='Enter Action amount' className='p-2 w-60' />
-          </div>
-          <button className='bg-[#176B87] px-10 rounded-md text-white'>Submit</button>
-        </div>
+        <h1 className='text-center text-xl font-bold'>Auction</h1>
       </div>
-      {/* <div> 
-      <DataTable
-                  columns={columns}
-                  data={data}
-                  customStyles={customStyles}
-                />
-                </div> */}
+      <div className='w-[95%] m-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5'>
+        {
+          // eslint-disable-next-line no-unused-vars
+          chits.map((data, ind) => (
+            // eslint-disable-next-line react/jsx-no-comment-textnodes, react/jsx-key
+            <Link to={'/homepage/auction/UserauctionDetails?id=' + data._id}>
+              <div className='h-fit w-[90%] rounded-md bg-[#f1faf9] drop-shadow-md cursor-pointer'>
+                <div className='flex justify-between px-4 mt-2 flex-nowrap'>
+                  <h3>{data.chitName}</h3>
+                  <div className=''>{data.active ? <p className='text-green-600'>Active</p> : <p className='text-red-600'>InActive</p>}</div>
+                </div>
+                <div className='flex px-4 justify-between mt-2'>
+                  <h4>customer: {data.noOfPeople}</h4>
+                  <h4>months: {data.months}</h4>
+                </div>
+                <div className='flex px-4 justify-between mt-2'>
+                  <h4>Auctions: 0 / {data.months}</h4>
+                  <h4 className={data.status == 'Pending' ? 'text-red-600' : 'text-green-300'}>{data.status}</h4>
+                </div>
+                <div className='flex px-4 justify-between mt-2'>
+                  <h4>{data.group}</h4>
+                  <h4>₹ {data.chitAmount}</h4>
+                </div>
+
+              </div>
+            </Link>
+          ))
+        }
+
+
+      </div>
     </>
   )
 }

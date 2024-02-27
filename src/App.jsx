@@ -15,6 +15,7 @@ import ChitMapDetails from './components/admin/chitmappingdetail'
 import Auctiondetails from './components/admin/auctiondetails'
 import Company from './components/admin/company'
 import ReportTable from './components/admin/reportTable'
+import AuctionDetails from './components/user/AuctionDetails'
 
 function App() {
 
@@ -44,6 +45,7 @@ function App() {
           {/* user */}
           <Route path='/homepage/chits' element={<Chits />} />
           <Route path='/homepage/auction' element={<Actions />} />
+          <Route path='/homepage/auction/UserauctionDetails' element={<AuctionDetails/>}/>
         </Route>
       </Routes>
     </>
