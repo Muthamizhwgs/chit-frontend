@@ -82,6 +82,14 @@ function ChitMaster() {
     },
     {
       name: (
+        <h1 className="text-lg  text-gray-500">
+          Company
+        </h1>
+      ),
+      selector: (row) => row.companyName,
+    },
+    {
+      name: (
         <h1 className="text-lg text-gray-500">
           Chit Name
         </h1>
@@ -100,6 +108,14 @@ function ChitMaster() {
     {
       name: (
         <h1 className="text-lg text-gray-500">
+          Commission
+        </h1>
+      ),
+      selector: (row) => row.commission,
+    },
+    {
+      name: (
+        <h1 className="text-lg text-gray-500">
           Group
         </h1>
       ),
@@ -108,7 +124,7 @@ function ChitMaster() {
     {
       name: (
         <h1 className="text-lg text-gray-500">
-          Date
+          Auction Date
         </h1>
       ),
       cell: (row) => <DateFormat date={row.createdAt} />,
@@ -196,6 +212,14 @@ function ChitMaster() {
       <div>
         <Modal title="Add Chits" height={'260px'} open={isModalOpen} onCancel={handleCancel} footer={null}   >
           <div className='flex flex-col justify-center'>
+
+            <div className='flex flex-col mb-4'>
+              <label className='pl-4'> Company Name :</label>
+              <input type="text" placeholder='Enter Company Name' className='h-10 pl-3 border drop-shadow-lg w-[93%] hover:focus-within:outline-none rounded-md ml-3' name='companyName' id="companyName" onBlur={forms.handleBlur} value={forms.values.companyName} onChange={forms.handleChange} />
+            </div>
+            {forms.errors.companyName && forms.touched.companyName ? <div style={{ width: "100%", color: "red", paddingLeft: "15px" }}>{forms.errors.companyName}</div> : null}
+
+
             <div className='flex flex-col mb-4'>
               <label className='pl-4'> Chit Name :</label>
               <input type="text" placeholder='Enter Chit Name' className='h-10 pl-3 border drop-shadow-lg w-[93%] hover:focus-within:outline-none rounded-md ml-3' name='chitName' id="chitName" onBlur={forms.handleBlur} value={forms.values.chitName} onChange={forms.handleChange} />
@@ -208,6 +232,14 @@ function ChitMaster() {
               <input type="number" placeholder='Enter Chit Amount' className='h-10 pl-3 border drop-shadow-lg w-[93%] hover:focus-within:outline-none rounded-md ml-3' name='chitAmount' id="chitAmount" onBlur={forms.handleBlur} value={forms.values.chitAmount} onChange={forms.handleChange} />
             </div>
             {forms.errors.chitAmount && forms.touched.chitAmount ? <div style={{ width: "100%", color: "red", paddingLeft: "15px" }}>{forms.errors.chitAmount}</div> : null}
+
+
+            <div className='flex flex-col mb-4'>
+              <label className='pl-4'> Commission :</label>
+              <input type="number" placeholder='Enter Commission' className='h-10 pl-3 border drop-shadow-lg w-[93%] hover:focus-within:outline-none rounded-md ml-3' name='commission' id="commission" onBlur={forms.handleBlur} value={forms.values.commission} onChange={forms.handleChange} />
+            </div>
+            {forms.errors.commission && forms.touched.commission ? <div style={{ width: "100%", color: "red", paddingLeft: "15px" }}>{forms.errors.commission}</div> : null}
+
 
 
             <div className='flex flex-col mb-4'>
@@ -233,10 +265,10 @@ function ChitMaster() {
             {forms.errors.noOfPeople && forms.touched.noOfPeople ? <div style={{ width: "100%", color: "red", paddingLeft: "15px" }}>{forms.errors.noOfPeople}</div> : null}
 
             <div className='flex flex-col mb-4'>
-              <label className='pl-4'>Select Date :</label>
+              <label className='pl-4'>Auction Date :</label>
               <Select name='describeDate' id="describeDate" onBlur={forms.handleBlur} onChange={(e) => forms.setFieldValue('describeDate', e)} value={forms.values.describeDate}
                 className='h-10 border drop-shadow-lg w-[93%] hover:focus-within:outline-none rounded-md ml-3'
-                placeholder="Select Date"
+                placeholder="Auction Date"
                 options={[
                   { value: '5', label: 'Every month 5th ' },
                   { value: 'second sunday', label: 'Second Sunday' },
@@ -247,7 +279,7 @@ function ChitMaster() {
             {err ? <div style={{ width: "100%", color: "red", paddingLeft: "15px" }}>{err}</div> : null}
             <div className='flex justify-center'>
               <button className='bg-[#176B87] w-36 h-[35px] text-white font-bold rounded-md' onClick={forms.handleSubmit}>Submit</button>
-            </div>
+            </div>  
           </div>
         </Modal>
       </div>
