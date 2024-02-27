@@ -221,7 +221,7 @@ const Active_Inactive = async (Id,data)=>{
           
           <>
             <FaEdit className='size-5 cursor-pointer' onClick={()=>{chengeEdit(row),setId(row._id)}} color='#176b87'/><span className='ml-2'>{row.id}</span>
-            <MdDelete className='size-5 cursor-pointer' onClick={chengeDelete} color='red'/><span className='ml-2'>{row.id}</span>
+            {/* <MdDelete className='size-5 cursor-pointer' onClick={chengeDelete} color='red'/><span className='ml-2'>{row.id}</span> */}
           </>
         </>
       ),
