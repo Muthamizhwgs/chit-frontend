@@ -196,13 +196,7 @@ const Active_Inactive = async (Id,data)=>{
             <Switch
               checkedChildren={``}
               unCheckedChildren={``}
-              // checked={row.status === 1}
-              onChange={() => Active_Inactive(row._id,row)}
-              // className={
-              //   row.status === 1
-              //     ? "custom-switch-checked"
-              //     : "custom-switch-unchecked"
-              // }  
+              onChange={() => Active_Inactive(row._id,row)}  
               defaultChecked={row.active}
               className={
                 row.active
