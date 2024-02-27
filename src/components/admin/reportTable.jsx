@@ -1,5 +1,7 @@
 import React from 'react';
 import DataTable from 'react-data-table-component';
+import CurrencyComponent from '../utils/currency';
+import DateFormat from '../date';
 
 const ReportTable = () => {
     const columns = [
@@ -13,11 +15,20 @@ const ReportTable = () => {
         },
         {
             name: (
-                <h1 className="text-lg text-gray-500">
-                    Customer Name
+                <h1 className="text-lg  text-gray-500">
+                    Company
                 </h1>
             ),
-            selector: (row) => row.customerName,
+            selector: (row) => row.companyName,
+        },
+        {
+            name: (
+                <h1 className="text-lg text-gray-500">
+                    Chit Name
+                </h1>
+            ),
+            selector: (row) => row.chitName,
+            sortable: true,
         },
         {
             name: (
@@ -30,18 +41,26 @@ const ReportTable = () => {
         {
             name: (
                 <h1 className="text-lg text-gray-500">
-                    Monthly Installment
+                    Commission
                 </h1>
             ),
-            selector: (row) => <CurrencyComponent amount={row.monthlyInstallment} />,
+            selector: (row) => row.commission,
         },
         {
             name: (
                 <h1 className="text-lg text-gray-500">
-                    Status
+                    Group
                 </h1>
             ),
-            selector: (row) => "working...",
+            selector: (row) => row.group,
+        },
+        {
+            name: (
+                <h1 className="text-lg text-gray-500">
+                    Auction Date
+                </h1>
+            ),
+            cell: (row) => <DateFormat date={row.createdAt} />,
         },
 
     ]
