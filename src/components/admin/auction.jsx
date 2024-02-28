@@ -144,8 +144,6 @@ const Actions = () => {
                       View Details
                     </button>
                     </Link>
-                    
-
                   </div>
                 </div>
               </div>
