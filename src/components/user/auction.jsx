@@ -7,6 +7,8 @@ import { Modal } from "antd";
 import { useFormik } from "formik";
 import { AuctionInitValues, AuctionSchema } from "../../validations/auction";
 import Loader from "../utils/loader";
+import { RiAuctionLine } from "react-icons/ri";
+import { MdCancel } from "react-icons/md";
 
 const Actions = () => {
   const [mychit, setMychit] = React.useState([]);
@@ -76,11 +78,17 @@ const Actions = () => {
   return (
     <>
     {loader?<Loader/>:null}
-      <div className="w-[95%] m-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 pt-10">
-        <div>
-          <h1>Bid Closed</h1>
-          <h1>Bid Opened</h1>
+      <div className="flex gap-5 pl-7">
+        <div className="flex items-center text-lg text-red-600 gap-1">
+        <MdCancel />
+        <h1>Bid Closed </h1>
         </div>
+        <div className="flex items-center text-lg text-green-600 gap-1">
+        <RiAuctionLine />
+        <h1>Bid Opened</h1>
+        </div>
+      </div>
+      <div className="w-[95%] m-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 pt-10">
         {
           // eslint-disable-next-line no-unused-vars
           mychit &&

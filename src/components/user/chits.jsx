@@ -83,7 +83,7 @@ const Chits = () => {
       </div>
 
       {/* cards design */}
-      <section className='py-5 flex xs:flex-row flex-col w-[95%] m-auto gap-4 mt-4 items-center mb-4'>
+      {/* <section className='py-5 flex xs:flex-row flex-col w-[95%] m-auto gap-4 mt-4 items-center mb-4'>
         Chit Name:<Select
           defaultValue="select chit"
           style={{
@@ -99,7 +99,7 @@ const Chits = () => {
             ))
           }
         </Select>
-      </section>
+      </section> */}
 
       <div className='w-[95%] m-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5'>
         {
