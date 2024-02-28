@@ -105,3 +105,8 @@ export const getChitCompany = async () => {
     let ApiResponse = await useAxiosInterceptors.get('chit/creatCompany')
     return ApiResponse
 }
+
+export const getAuctionDetails = async ()=>{   
+     let ApiResponse = await useAxiosInterceptors.get('chit/getAuction/details/admin')
+    return ApiResponse
+}

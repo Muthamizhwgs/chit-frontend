@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import DataTable from "react-data-table-component";
 import { Link } from "react-router-dom";
 import { getChitReports, MonthlyAuction } from "../../services/customer.service";
+import {getAuctionDetails} from "../../services/service"
 import CurrencyComponent from "../utils/currency";
 import { Modal } from "antd";
 import { useFormik } from "formik";
@@ -14,7 +15,8 @@ const Actions = () => {
   const [mychit, setMychit] = React.useState([]);
   const [loader, setLoader] = React.useState(false);
   const [isModalOpen, setIsModalOpen] = React.useState(false);
-  const [chitId, setChitId] = React.useState('')
+  const [chitId, setChitId] = React.useState('');
+  const [auctionChit, setAuctionChit] = React.useState([])
 
   // const showModal = () => {
   //   setIsModalOpen(true);
@@ -69,31 +71,37 @@ const Actions = () => {
     }
   }
 
+  const getAuctions = async ()=>{
+    setLoader(true)
+    try {
+      let values = await getAuctionDetails()
+      setAuctionChit(values.data)
+    } catch (error) {
+      if (error.response.status == 401) {
+        navigate("/");
+      }
+    }finally{
+      setLoader(false)
+    }
+  }
 
 
   useEffect(() => {
     getMyChitss();
+    getAuctions()
   }, []);
+
+
 
   return (
     <>
     {loader?<Loader/>:null}
-      <div className="flex flex-row gap-5 xs:pl-7 xs:justify-normal justify-center">
-        <div className="flex items-center text-lg text-red-600 gap-1">
-        <MdCancel />
-        <h1>Bid Closed </h1>
-        </div>
-        <div className="flex items-center text-lg text-green-600 gap-1">
-        <RiAuctionLine />
-        <h1>Bid Opened</h1>
-        </div>
-      </div>
     
       <div className="w-[95%] m-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 pt-10">
         {
           // eslint-disable-next-line no-unused-vars
-          mychit &&
-            mychit.map((data, ind) => (
+          auctionChit &&
+          auctionChit.map((data, ind) => (
               // eslint-disable-next-line react/jsx-no-comment-textnodes, react/jsx-key
 
               <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow bg:[#EEF5FF]">
@@ -117,10 +125,11 @@ const Actions = () => {
                   </button>
                 </div>
                 <div className="flex flex-col items-center pb-10">
-                  <h5 className="mb-1  font-medium text-black">Received bids for this month</h5>
                   <h5 className="mb-1 text-xl font-medium text-gray-900 ">
                     {data.chitName}
                   </h5>
+                  <h5 className="mb-1  font-medium text-black"> {data.auctions?data.auctions:0} - Bids received this {data.currentMonth}  </h5>
+
                   <span className="text-sm text-gray-500 dark:text-gray-400">
                     <CurrencyComponent amount={data.chitAmount} />
                   </span>
