@@ -1,114 +1,187 @@
-import { Select } from 'antd';
-const { Option } = Select;
-import { Link } from 'react-router-dom';
-import { FaEdit, FaTrash } from 'react-icons/fa'
+import React, { useEffect } from "react";
+import DataTable from "react-data-table-component";
+import { Link } from "react-router-dom";
+import { getChitReports, MonthlyAuction } from "../../services/customer.service";
+import CurrencyComponent from "../utils/currency";
+import { Modal } from "antd";
+import { useFormik } from "formik";
+import { AuctionInitValues, AuctionSchema } from "../../validations/auction";
+import Loader from "../utils/loader";
+import { RiAuctionLine } from "react-icons/ri";
+import { MdCancel } from "react-icons/md";
 
 const Actions = () => {
+  const [mychit, setMychit] = React.useState([]);
+  const [loader, setLoader] = React.useState(false);
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const [chitId, setChitId] = React.useState('')
 
-  const chits = [{
-    _id: 'id1',
-    active: true,
-    chitAmount: 100000,
-    chitName: '1 Lacs',
-    createdAt: '12-12-12',
-    describeDate: "4",
-    group: 'A',
-    months: 19,
-    noOfPeople: 12,
-    updatedAt: '11-11-11',
-    status: 'Pending'
-  }, {
-    _id: 'id2',
-    active: false,
-    chitAmount: 200000,
-    chitName: '2 Lacs',
-    createdAt: '12-12-12',
-    describeDate: "4",
-    group: 'B',
-    months: 20,
-    noOfPeople: 12,
-    updatedAt: '11-11-11',
-    status: 'Completed'
-  }, {
-    _id: 'id3',
-    active: false,
-    chitAmount: 300000,
-    chitName: '3 Lacs',
-    createdAt: '12-12-12',
-    describeDate: "4",
-    group: 'C',
-    months: 19,
-    noOfPeople: 12,
-    updatedAt: '11-11-11',
-    status: 'Pending'
-  }];
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const forms = useFormik({
+    initialValues: AuctionInitValues,
+    validationSchema: AuctionSchema,
+    onSubmit: (values) => {
+        submitForms(values)
+    },
+  });
+  const handleCancel = () => {
+    setIsModalOpen(false);
+    forms.resetForm();
+  };
 
-  const handleChange = () => {
+  const getMyChitss = async () => {
+    setLoader(true);
+    try {
+      let val = await getChitReports();
+      setMychit(val.data);
+    } catch (error) {
+      if (error.response.status == 401) {
+        navigate("/");
+      }
+    } finally {
+      setLoader(false);
+    }
+  };
+
+  const submitForms = async (data)=>{
+    const currentDate = new Date();
+    const currentMonthIndex = currentDate.getMonth();
+    const monthNames = [
+      "January", "February", "March", "April",
+      "May", "June", "July", "August",
+      "September", "October", "November", "December"
+    ];
+    const currentMonth = monthNames[currentMonthIndex];
+    let SendToAPi = { month: currentMonth, chitId:chitId,Amount:data.chitAmount}
+    setLoader(true)
+    try {
+      let res = await MonthlyAuction(SendToAPi)
+      console.log(res.data);
+      handleCancel()
+    } catch (error) {
+      if (error.response.status == 401) {
+        navigate("/");
+      }
+    }finally{
+      setLoader(false)
+    }
   }
-  return (
-    <div>
-      <div className='flex justify-center max-w-[95%] pt-5'>
-        <div></div>
-        <div className='text-xl py-5 font-bold'>
-          <h1>Manage Auction</h1>
 
+
+
+  useEffect(() => {
+    getMyChitss();
+  }, []);
+
+  return (
+    <>
+    {loader?<Loader/>:null}
+      <div className="flex flex-row gap-5 xs:pl-7 xs:justify-normal justify-center">
+        <div className="flex items-center text-lg text-red-600 gap-1">
+        <MdCancel />
+        <h1>Bid Closed </h1>
+        </div>
+        <div className="flex items-center text-lg text-green-600 gap-1">
+        <RiAuctionLine />
+        <h1>Bid Opened</h1>
         </div>
       </div>
-
-      {/* cards design */}
-      <section className='flex w-[95%] m-auto gap-4 mt-4 xs:flex-row flex-col  items-center mb-4'>
-        Chit Name:<Select
-          defaultValue="select chit"
-          style={{
-            width: 120,
-          }}
-          onChange={handleChange}
-        >
-          {
-            // eslint-disable-next-line no-unused-vars
-            chits.map((item, ind) => (
-              // eslint-disable-next-line react/jsx-key
-              <Option value={item._id}>{item.chitName}</Option>
-            ))
-          }
-        </Select>
-      </section>
-
-      <div className='w-[95%] m-auto grid grid-cols-1 md:grid-cols-2 place-items-center lg:grid-cols-3 gap-5'>
+      <div className="w-[95%] m-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 pt-10">
         {
           // eslint-disable-next-line no-unused-vars
-          chits.map((data, ind) => (
-            // eslint-disable-next-line react/jsx-key
-            <div className='h-fit w-[90%] rounded-md bg-[#f1faf9] border-s-2 border-b-2 border-gray-200 drop-shadow-md '>
-              <Link to={'/homepage/manageauction/auctiondetails/?id=' + data._id}>
-                <div className='flex justify-between px-4 mt-2 flex-nowrap'>
-                  <h3>{data.chitName}</h3>
-                  <div className='flex gap-2'>
-                    <FaEdit className='cursor-pointer' />
-                    <FaTrash className='cursor-pointer' />
+          mychit &&
+            mychit.map((data, ind) => (
+              // eslint-disable-next-line react/jsx-no-comment-textnodes, react/jsx-key
+
+              <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow bg:[#EEF5FF]">
+                <div className="flex justify-end px-4 pt-4">
+                  <button
+                    id="dropdownButton"
+                    data-dropdown-toggle="dropdown"
+                    className="inline-block text-gray-500 dark:text-gray-400 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:focus:ring-gray-300 rounded-lg text-sm p-1.5"
+                    type="button"
+                  >
+                    <span className="sr-only">Open dropdown</span>
+                    <svg
+                      className="w-5 h-5"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="currentColor"
+                      viewBox="0 0 16 3"
+                    >
+                      <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
+                    </svg>
+                  </button>
+                </div>
+                <div className="flex flex-col items-center pb-10">
+                  <h5 className="mb-1 text-xl font-medium text-gray-900 ">
+                    {data.chitName}
+                  </h5>
+                  <span className="text-sm text-gray-500 dark:text-gray-400">
+                    <CurrencyComponent amount={data.chitAmount} />
+                  </span>
+                  <span className="text-sm text-gray-500 dark:text-gray-400">
+                    Monthly Bid {"Closed"}
+                  </span>
+                  <div className="flex mt-4 md:mt-6 w-[90%]">
+                    <button
+                      onClick={()=>{showModal(), setChitId(data._id)}}
+                      className="items-center px-4 py-2 text-sm font-medium  text-white rounded-lg focus:ring-4 focus:outline-none focus:ring-blue-300 bg-[#176B87]  text-center w-full flex justify-center"
+                    >
+                      Bid
+                    </button>
                   </div>
                 </div>
-                <div className='flex px-4 justify-between mt-2'>
-                  <h4>customer: {data.noOfPeople}</h4>
-                  <h4>months: {data.months}</h4>
-                </div>
-                <div className='flex px-4 justify-between mt-2'>
-                  <h4>Auctions: 0 / {data.months}</h4>
-                  <h4 className={data.status == 'Pending' ? 'text-red-600' : 'text-green-300'}>{data.status}</h4>
-                </div>
-                <div className='flex px-4 justify-between mt-2'>
-                  <h4>{data.group}</h4>
-                  <h4>₹ {data.chitAmount}</h4>
-                </div>
-              </Link>
-            </div>
-          ))
+              </div>
+            ))
         }
-
-
       </div>
-    </div>
-  )
-}
+      <div>
+        <Modal
+          title="Place bid for this month"
+          height={"360px"}
+          open={isModalOpen}
+          onCancel={handleCancel}
+          footer={null}
+        >
+          <div className="flex flex-col justify-center">
+            <div className="flex flex-col mb-4">
+              <label className="pl-4 text"> Bidding Amount :</label>
+              <input
+                type="text"
+                placeholder="Enter Bid Amount"
+                className="h-10 pl-3 border drop-shadow-lg w-[93%] hover:focus-within:outline-none rounded-md ml-3"
+                name="chitAmount"
+                id="chitAmount"
+                onBlur={forms.handleBlur}
+                value={forms.values.chitAmount}
+                onChange={forms.handleChange}
+              />
+              {forms.errors.chitAmount && forms.touched.chitAmount ? (
+                <div
+                  style={{ width: "100%", color: "red", paddingLeft: "15px" }}
+                >
+                  {forms.errors.chitAmount}
+                </div>
+              ) : null}
+            </div>
 
-export default Actions
+            <div className="flex justify-center">
+              <button
+              type="button"
+                className="bg-[#176B87] w-36 h-[35px] text-white font-bold rounded-md"
+                onClick={forms.handleSubmit}
+              >
+                Submit
+              </button>
+            </div>
+          </div>
+        </Modal>
+      </div>
+    </>
+  );
+};
+
+export default Actions;
