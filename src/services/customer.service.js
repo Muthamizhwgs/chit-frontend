@@ -6,4 +6,10 @@ export const getChitReports = async ()=>{
     return ApiResponse
 }
 
+export const MonthlyAuction = async (data)=>{
+    let ApiResponse = await useAxiosInterceptors.post("chit/auction/details", data)
+    return ApiResponse
+}
+
+
 
