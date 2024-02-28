@@ -16,9 +16,9 @@ const Actions = () => {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [chitId, setChitId] = React.useState('')
 
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
+  // const showModal = () => {
+  //   setIsModalOpen(true);
+  // };
   const forms = useFormik({
     initialValues: AuctionInitValues,
     validationSchema: AuctionSchema,
@@ -88,6 +88,7 @@ const Actions = () => {
         <h1>Bid Opened</h1>
         </div>
       </div>
+    
       <div className="w-[95%] m-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 pt-10">
         {
           // eslint-disable-next-line no-unused-vars
@@ -116,6 +117,7 @@ const Actions = () => {
                   </button>
                 </div>
                 <div className="flex flex-col items-center pb-10">
+                  <h5 className="mb-1  font-medium text-black">Received bids for this month</h5>
                   <h5 className="mb-1 text-xl font-medium text-gray-900 ">
                     {data.chitName}
                   </h5>
@@ -127,11 +129,11 @@ const Actions = () => {
                   </span>
                   <div className="flex mt-4 md:mt-6 w-[90%]">
                     <button
-                      onClick={()=>{showModal(), setChitId(data._id)}}
                       className="items-center px-4 py-2 text-sm font-medium  text-white rounded-lg focus:ring-4 focus:outline-none focus:ring-blue-300 bg-[#176B87]  text-center w-full flex justify-center"
                     >
-                      Bid
+                      View Details
                     </button>
+
                   </div>
                 </div>
               </div>
@@ -139,7 +141,7 @@ const Actions = () => {
         }
       </div>
       <div>
-        <Modal
+        {/* <Modal
           title="Place bid for this month"
           height={"360px"}
           open={isModalOpen}
@@ -178,7 +180,7 @@ const Actions = () => {
               </button>
             </div>
           </div>
-        </Modal>
+        </Modal> */}
       </div>
     </>
   );

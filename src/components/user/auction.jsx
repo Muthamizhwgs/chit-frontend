@@ -78,7 +78,7 @@ const Actions = () => {
   return (
     <>
     {loader?<Loader/>:null}
-      <div className="flex flex-row gap-5 xs:pl-7 xs:justify-normal justify-center">
+      <div className="flex xs:flex-row flex-col gap-5 xs:pl-7 xs:justify-normal justify-center items-center">
         <div className="flex items-center text-lg text-red-600 gap-1">
         <MdCancel />
         <h1>Bid Closed </h1>
@@ -128,13 +128,14 @@ const Actions = () => {
                   <div className="flex mt-4 md:mt-6 w-[90%]">
                     <button
                       onClick={()=>{showModal(), setChitId(data._id)}}
-                      className=" items-center px-4 py-2 text-sm font-medium text-white rounded-lg focus:ring-4 focus:outline-none focus:ring-blue-300 bg-[#176B87]  text-center w-full flex justify-center"
+                      className=" items-center px-4 py-2 text-sm font-medium  text-white rounded-lg focus:ring-4 focus:outline-none focus:ring-blue-300 bg-[#176B87]  text-center w-full flex justify-center"
                     >
                       Bid
                     </button>
                   </div>
                 </div>
               </div>
+              
             ))
         }
       </div>
