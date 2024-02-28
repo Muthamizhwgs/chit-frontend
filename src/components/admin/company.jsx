@@ -23,7 +23,7 @@ const Company = () => {
   const [chits, Setchits] = React.useState([]);
   const [id, setId] = React.useState("");
   const [edit, setEdit] = React.useState(false);
-  const [company, setCompany] = React.useState([]);
+  
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -131,7 +131,6 @@ const Company = () => {
     setLoader(true)
     try {
       let values = await getChitCompany();
-      setCompany(values.data)
       // eslint-disable-next-line no-empty
     } catch (error) {
       console.log(error.response.status)
@@ -152,7 +151,7 @@ const Company = () => {
       active = true
     }
     try {
-      let val = await UpdateChitcompanyById(Id,{active:active})
+      await UpdateChitcompanyById(Id,{active:active})
       getChit()
     } catch (error) {
       if(error.response.status == 401){
@@ -186,7 +185,7 @@ const Company = () => {
               onChange={() => Active_Inactive(row._id,row)}  
               defaultChecked={row.active}
               className={
-                row.active
+                row.active 
                   ? "custom-switch-checked"
                   : "custom-switch-unchecked"
               }         

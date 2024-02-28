@@ -78,7 +78,7 @@ const Actions = () => {
   return (
     <>
     {loader?<Loader/>:null}
-      <div className="flex gap-5 pl-7">
+      <div className="flex flex-row gap-5 xs:pl-7 xs:justify-normal justify-center">
         <div className="flex items-center text-lg text-red-600 gap-1">
         <MdCancel />
         <h1>Bid Closed </h1>

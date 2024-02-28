@@ -120,7 +120,7 @@ const Active_Inactive = async (Id,data)=>{
     active = true
   }
   try {
-    await UpdateChituserById(Id,{active:active})
+    let val = await UpdateChituserById(Id,{active:active})
     getChit()
   } catch (error) {
     if(error.response.status == 401){
