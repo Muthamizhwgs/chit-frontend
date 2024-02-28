@@ -3,6 +3,7 @@ import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Modal } from "antd";
 import { CompanySchema, CompanyinitValue } from "../../validations/company";
+import { getChitUsers, UpdateChituserById,UpdateChitcompanyById, getChitCompany} from "../../services/service"
 import { useFormik } from "formik";
 import DataTable from "react-data-table-component";
 import CurrencyComponent from "../utils/currency";
@@ -13,6 +14,7 @@ import {
   editCompany,
 } from "../../services/service";
 import Loader from "../utils/loader";
+import { Switch } from "antd";
 
 const Company = () => {
   const navigate = useNavigate();
@@ -21,6 +23,7 @@ const Company = () => {
   const [chits, Setchits] = React.useState([]);
   const [id, setId] = React.useState("");
   const [edit, setEdit] = React.useState(false);
+  const [company, setCompany] = React.useState([]);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -94,35 +97,69 @@ const Company = () => {
     }
   };
 
-  const Disable = async (values) => {
-    setId(values._id)
-    console.log(values,"values")
-    setLoader(true);
-    try {
-      let serverData;
-      if (values.active == true) {
-        serverData = false;
-      } else {
-        serverData = true;
-      }
-      let data = { active: serverData };
-      let editResponse = await editCompany(id, data);
-      console.log(editResponse, "edted response");
-      setEdit(false);
-      fetchChits();
-      handleCancel();
-    } catch (error) {
-      if (error.response.status == 401) {
-        navigate("/");
-      }
-    } finally {
-      setLoader(false);
-    }
-  };
+  // const Disable = async (values) => {
+  //   setId(values._id)
+  //   console.log(values,"values")
+  //   setLoader(true);
+  //   try {
+  //     let serverData;
+  //     if (values.active == true) {
+  //       serverData = false;
+  //     } else {
+  //       serverData = true;
+  //     }
+  //     let data = { active: serverData };
+  //     let editResponse = await editCompany(id, data);
+  //     console.log(editResponse, "edted response");
+  //     setEdit(false);
+  //     fetchChits();
+  //     handleCancel();
+  //   } catch (error) {
+  //     if (error.response.status == 401) {
+  //       navigate("/");
+  //     }
+  //   } finally {
+  //     setLoader(false);
+  //   }
+  // };
 
   React.useEffect(() => {
     fetchChits();
   }, []);
+
+  const getChit = async () => {
+    setLoader(true)
+    try {
+      let values = await getChitCompany();
+      setCompany(values.data)
+      // eslint-disable-next-line no-empty
+    } catch (error) {
+      console.log(error.response.status)
+      if(error.response.status == 401){
+        navigate('/')
+      }
+    } finally {
+      setLoader(false)
+    }
+  }
+
+
+  const Active_Inactive = async (Id,data)=>{
+    let active;
+    if(data.active == true){
+      active = false
+    }else{
+      active = true
+    }
+    try {
+      let val = await UpdateChitcompanyById(Id,{active:active})
+      getChit()
+    } catch (error) {
+      if(error.response.status == 401){
+        navigate('/')
+      }
+    }
+  }
 
   const columns = [
     {
@@ -140,7 +177,23 @@ const Company = () => {
     },
     {
       name: <h1 className="text-lg text-gray-500">Status</h1>,
-      selector: (row) => (row.active ? "Active" : "Inactive"),
+      selector: (row) => (
+        <>
+          <div className="flex flex-row items-center ">
+            <Switch
+              checkedChildren={``}
+              unCheckedChildren={``}
+              onChange={() => Active_Inactive(row._id,row)}  
+              defaultChecked={row.active}
+              className={
+                row.active
+                  ? "custom-switch-checked"
+                  : "custom-switch-unchecked"
+              }         
+            />
+          </div>
+        </>
+      ),
     },
     {
       name: <h1 className="text-lg text-gray-500">Action</h1>,
@@ -156,11 +209,6 @@ const Company = () => {
               color="#176b87"
             />
             <span className="ml-2">{row.id}</span>
-            <FaTrash
-              className="size-5 cursor-pointer"
-                onClick={()=>{Disable(row)}}
-              color="red"
-            />
             <span className="ml-2">{row.id}</span>
           </>
         </>
@@ -199,7 +247,7 @@ const Company = () => {
       <div>
         <div className="flex xs:flex-row flex-col xs:justify-between items-center gap-3 xs:gap-0 max-w-[95%] pt-10 font-bold">
           <div></div>
-          <div className="text-xl">Company Creation</div>
+          <div className="text-xl py-5">Company Creation</div>
           <div className="">
             <button
               onClick={showModal}
@@ -210,7 +258,7 @@ const Company = () => {
             </button>
           </div>
         </div>
-        <div>
+        <div className="px-5">
           <DataTable
             columns={columns}
             customStyles={customStyles}

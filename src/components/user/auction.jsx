@@ -1,17 +1,20 @@
 import React, { useEffect } from "react";
 import DataTable from "react-data-table-component";
 import { Link } from "react-router-dom";
-import { getChitReports } from "../../services/customer.service";
+import { getChitReports, MonthlyAuction } from "../../services/customer.service";
 import CurrencyComponent from "../utils/currency";
 import { Modal } from "antd";
 import { useFormik } from "formik";
 import { AuctionInitValues, AuctionSchema } from "../../validations/auction";
 import Loader from "../utils/loader";
+import { RiAuctionLine } from "react-icons/ri";
+import { MdCancel } from "react-icons/md";
 
 const Actions = () => {
   const [mychit, setMychit] = React.useState([]);
   const [loader, setLoader] = React.useState(false);
   const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const [chitId, setChitId] = React.useState('')
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -19,9 +22,9 @@ const Actions = () => {
   const forms = useFormik({
     initialValues: AuctionInitValues,
     validationSchema: AuctionSchema,
-    // onSubmit: (values) => {
-    //     submitForms(values)
-    // },
+    onSubmit: (values) => {
+        submitForms(values)
+    },
   });
   const handleCancel = () => {
     setIsModalOpen(false);
@@ -42,6 +45,32 @@ const Actions = () => {
     }
   };
 
+  const submitForms = async (data)=>{
+    const currentDate = new Date();
+    const currentMonthIndex = currentDate.getMonth();
+    const monthNames = [
+      "January", "February", "March", "April",
+      "May", "June", "July", "August",
+      "September", "October", "November", "December"
+    ];
+    const currentMonth = monthNames[currentMonthIndex];
+    let SendToAPi = { month: currentMonth, chitId:chitId,Amount:data.chitAmount}
+    setLoader(true)
+    try {
+      let res = await MonthlyAuction(SendToAPi)
+      console.log(res.data);
+      handleCancel()
+    } catch (error) {
+      if (error.response.status == 401) {
+        navigate("/");
+      }
+    }finally{
+      setLoader(false)
+    }
+  }
+
+
+
   useEffect(() => {
     getMyChitss();
   }, []);
@@ -49,6 +78,16 @@ const Actions = () => {
   return (
     <>
     {loader?<Loader/>:null}
+      <div className="flex gap-5 pl-7">
+        <div className="flex items-center text-lg text-red-600 gap-1">
+        <MdCancel />
+        <h1>Bid Closed </h1>
+        </div>
+        <div className="flex items-center text-lg text-green-600 gap-1">
+        <RiAuctionLine />
+        <h1>Bid Opened</h1>
+        </div>
+      </div>
       <div className="w-[95%] m-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 pt-10">
         {
           // eslint-disable-next-line no-unused-vars
@@ -88,7 +127,7 @@ const Actions = () => {
                   </span>
                   <div className="flex mt-4 md:mt-6 w-[90%]">
                     <button
-                      onClick={showModal}
+                      onClick={()=>{showModal(), setChitId(data._id)}}
                       className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-[#176B87] rounded-lg focus:ring-4 focus:outline-none focus:ring-blue-300 bg-[#176B87]  text-center w-full flex justify-center"
                     >
                       Bid
@@ -111,7 +150,7 @@ const Actions = () => {
             <div className="flex flex-col mb-4">
               <label className="pl-4 text"> Bidding Amount :</label>
               <input
-                type="number"
+                type="text"
                 placeholder="Enter Bid Amount"
                 className="h-10 pl-3 border drop-shadow-lg w-[93%] hover:focus-within:outline-none rounded-md ml-3"
                 name="chitAmount"
