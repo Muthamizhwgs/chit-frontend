@@ -136,14 +136,17 @@ const Actions = () => {
                   <span className="text-sm text-gray-500 dark:text-gray-400">
                     Monthly Bid {"Closed"}
                   </span>
-                  <div className="flex mt-4 md:mt-6 w-[90%]">
+                  <div className="flex mt-4 md:mt-6 w-[90%] justify-center gap-5">
                     <Link to={'/homepage/manageauction/auctiondetails'}>
                     <button
-                      className="items-center px-4 py-2 text-sm font-medium  text-white rounded-lg focus:ring-4 focus:outline-none focus:ring-blue-300 bg-[#176B87]  text-center w-full flex justify-center"
+                      className="text-white bg-[#176B87] px-5 py-2 rounded-md text-xs sm:text-base"
                     >
                       View Details
                     </button>
                     </Link>
+                    <button className="text-white bg-red-600  px-5 py-2 rounded-md text-xs sm:text-base">Close Bid</button>
+                    
+
                   </div>
                 </div>
               </div>
