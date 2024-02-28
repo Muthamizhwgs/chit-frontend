@@ -144,9 +144,12 @@ const Actions = () => {
                       View Details
                     </button>
                     </Link>
+<<<<<<< HEAD
                     <button className="text-white bg-red-600  px-5 py-2 rounded-md text-xs sm:text-base">Close Bid</button>
                     
 
+=======
+>>>>>>> 3c05a80027b2d9a08cd72de07d3743ecc529891b
                   </div>
                 </div>
               </div>
