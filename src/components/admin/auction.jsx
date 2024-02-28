@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import DataTable from "react-data-table-component";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getChitReports, MonthlyAuction } from "../../services/customer.service";
 import {getAuctionDetails} from "../../services/service"
 import CurrencyComponent from "../utils/currency";
@@ -17,7 +17,7 @@ const Actions = () => {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [chitId, setChitId] = React.useState('');
   const [auctionChit, setAuctionChit] = React.useState([])
-
+  const navigate = useNavigate()
   // const showModal = () => {
   //   setIsModalOpen(true);
   // };
