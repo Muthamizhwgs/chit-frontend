@@ -64,6 +64,7 @@ export const UpdateChituserById = async (id,data)=>{
     return ApiResponse
 }
 
+
 export const getUsersByAdmin = async()=>{
     const ApiResponse = await useAxiosInterceptors.get("users/getUsersfor/reference");
     return ApiResponse
@@ -92,5 +93,15 @@ export const  editCompany = async (id, data)=>{
 
 export const getChitReports = async ()=>{
     let ApiResponse = await useAxiosInterceptors.get("chit/getChitReports")
+    return ApiResponse
+}
+
+export const UpdateChitcompanyById = async (id,data)=>{
+    const ApiResponse = await useAxiosInterceptors.put("chit/company/"+id, data)
+    return ApiResponse
+}
+
+export const getChitCompany = async () => {
+    let ApiResponse = await useAxiosInterceptors.get('chit/creatCompany')
     return ApiResponse
 }

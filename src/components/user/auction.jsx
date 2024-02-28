@@ -50,6 +50,10 @@ const Actions = () => {
     <>
     {loader?<Loader/>:null}
       <div className="w-[95%] m-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 pt-10">
+        <div>
+          <h1>Bid Closed</h1>
+          <h1>Bid Opened</h1>
+        </div>
         {
           // eslint-disable-next-line no-unused-vars
           mychit &&
