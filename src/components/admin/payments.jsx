@@ -14,14 +14,11 @@ function Payments() {
 
   const chits = [
     {
-      chitName: "1 Lacs", chitAmount: "100000", group: "A", date: "16--02-2024"
+      chitName: "Taj", chitAmount: "5000", phoneNumber: "9868676578"
     },
     {
-      chitName: "2 Lacs", chitAmount: "100000", group: "A", date: "16--02-2024"
+      chitName: "asd", chitAmount: "5000", phoneNumber: "7857899064"
     },
-    {
-      chitName: "3 Lacs", chitAmount: "100000", group: "A", date: "16--02-2024"
-    }
   ]
 
   const columns = [
@@ -36,7 +33,7 @@ function Payments() {
     {
       name: (
         <h1 className="text-lg text-gray-500">
-          Chit Name
+          Customer Name
         </h1>
       ),
       selector: (row) => row.chitName,
@@ -44,27 +41,20 @@ function Payments() {
     {
       name: (
         <h1 className="text-lg text-gray-500">
-          Chit Amount
+          Phone Number
         </h1>
       ),
-      selector: (row) => `₹${row.chitAmount}`,
+      selector: (row) => row.phoneNumber,
     },
     {
       name: (
         <h1 className="text-lg text-gray-500">
-          Group
+          Outstanding Amount
         </h1>
       ),
-      selector: (row) => row.group,
+      selector: (row) => row.chitAmount,
     },
-    {
-      name: (
-        <h1 className="text-lg text-gray-500">
-          Date
-        </h1>
-      ),
-      cell: (row) => <DateFormat date={row.createdAt} />,
-    },
+
   ]
   const customStyles = {
     rows: {
