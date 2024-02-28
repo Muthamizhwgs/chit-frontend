@@ -4,38 +4,8 @@ import Loader from '../utils/loader';
 import DataTable from 'react-data-table-component';
 
 const Auctiondetails = () => {
-    const A = [
-        { Name: 'A' },
-        { Name: 'B' },
-        { Name: 'C' },
-        { Name: 'D' },
-        { Name: 'E' },
-        { Name: 'F' },
-        { Name: 'G' },
-        { Name: 'H' },
-        { Name: 'I' },
-        { Name: 'J' },
-        { Name: 'K' },
-        { Name: 'L' },
-    ]
-    const B = [
-        { Name: 'a' },
-        { Name: 'b' },
-        { Name: 'c' },
-        { Name: 'd' },
-        { Name: 'e' },
-        { Name: 'f' },
-        { Name: 'g' },
-        { Name: 'h' },
-    ]
-    const C = [
-        { Name: 'a' },
-        { Name: 'b' },
-        { Name: 'c' },
-        { Name: 'd' },
-        { Name: 'e' },
-        { Name: 'f' },
-    ]
+    const [users,setUsers] = React.useState([])
+    
     const columns = [
         {
             name: (
@@ -48,7 +18,7 @@ const Auctiondetails = () => {
         {
             name: (
                 <h1 className="text-lg text-black">
-                    Name
+                    Customer Name
                 </h1>
             ),
             selector: (row) => row.Name,
@@ -56,22 +26,23 @@ const Auctiondetails = () => {
         {
             name: (
                 <h1 className="text-lg text-black">
-                    Phone No
+                    Month
                 </h1>
             ),
-            selector: (row) => row.phoneNumber,
+            selector: (row) => row.month,
         },
         {
             name: (
                 <h1 className="text-lg text-black">
-                    Address
+                   Dividend Amount
                 </h1>
             ),
-            selector: (row) => row.adress,
+            selector: (row) => row.dividendAmount,
         },
         {
             name: (
                 <h1 className="text-lg text-black">
+                    Action
                 </h1>
             ),
             selector: (row) => row.reference,
@@ -107,8 +78,8 @@ const Auctiondetails = () => {
 
     return (
         <div className='px-10'>
-            <h1 className='text-xl text-center font-bold py-5'>Actions Details</h1>
-            <DataTable columns={columns} data={A} customStyles={customStyles} pagination fixedHeader className='' />
+            <h1 className='text-xl text-center font-bold py-5'>Auctions Details</h1>
+            <DataTable columns={columns} data={users} customStyles={customStyles} pagination fixedHeader className='' />
         </div>
     )
 }

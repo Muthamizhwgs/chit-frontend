@@ -80,7 +80,8 @@ function Customers() {
       // eslint-disable-next-line no-empty
     } catch (error) {
       console.log(error.response.status)
-      if(error.response.status == 401){
+      if(error.response.status == 401)
+      {
         navigate('/')
       }
     } finally {
