@@ -110,3 +110,13 @@ export const getAuctionDetails = async ()=>{
      let ApiResponse = await useAxiosInterceptors.get('chit/getAuction/details/admin')
     return ApiResponse
 }
+
+export const getAuctionDetailsByChit = async (id)=>{   
+    let ApiResponse = await useAxiosInterceptors.get('chit/getauctions/Detail/byChit/'+id)
+   return ApiResponse
+}
+
+export const Monthly_Auction = async (data)=>{   
+    let ApiResponse = await useAxiosInterceptors.post('chit/auction/month', data)
+   return ApiResponse
+}

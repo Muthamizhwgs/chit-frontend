@@ -133,18 +133,18 @@ const Actions = () => {
                   <span className="text-sm text-gray-500 dark:text-gray-400">
                     <CurrencyComponent amount={data.chitAmount} />
                   </span>
-                  <span className="text-sm text-gray-500 dark:text-gray-400">
-                    Monthly Bid {"Closed"}
+                  <span className={`${data.currentMonthAuction?'text-sm  text-red-500':'text-sm  text-[#176B87]'}`}>
+                    Monthly Bid {data.currentMonthAuction?"Closed":"Opened"}
                   </span>
                   <div className="flex mt-4 md:mt-6 w-[90%] justify-center gap-5">
                     <Link to={'/homepage/manageauction/auctiondetails?id='+data._id}>
                     <button
-                      className="text-white bg-[#176B87] px-5 py-2 rounded-md text-xs sm:text-base"
+                      className="text-white bg-[#176B87] px-9 py-1 rounded-md text-xs sm:text-base"
                     >
                       View Details
                     </button>
                     </Link>
-                    <button className="text-white bg-red-600  px-5 py-2 rounded-md text-xs sm:text-base">Close Bid</button>
+                    {/* <button className="text-white bg-red-600  px-5 py-2 rounded-md text-xs sm:text-base">Close Bid</button> */}
                     
 
                   </div>
@@ -154,46 +154,6 @@ const Actions = () => {
         }
       </div>
       <div>
-        {/* <Modal
-          title="Place bid for this month"
-          height={"360px"}
-          open={isModalOpen}
-          onCancel={handleCancel}
-          footer={null}
-        >
-          <div className="flex flex-col justify-center">
-            <div className="flex flex-col mb-4">
-              <label className="pl-4 text"> Bidding Amount :</label>
-              <input
-                type="text"
-                placeholder="Enter Bid Amount"
-                className="h-10 pl-3 border drop-shadow-lg w-[93%] hover:focus-within:outline-none rounded-md ml-3"
-                name="chitAmount"
-                id="chitAmount"
-                onBlur={forms.handleBlur}
-                value={forms.values.chitAmount}
-                onChange={forms.handleChange}
-              />
-              {forms.errors.chitAmount && forms.touched.chitAmount ? (
-                <div
-                  style={{ width: "100%", color: "red", paddingLeft: "15px" }}
-                >
-                  {forms.errors.chitAmount}
-                </div>
-              ) : null}
-            </div>
-
-            <div className="flex justify-center">
-              <button
-              type="button"
-                className="bg-[#176B87] w-36 h-[35px] text-white font-bold rounded-md"
-                onClick={forms.handleSubmit}
-              >
-                Submit
-              </button>
-            </div>
-          </div>
-        </Modal> */}
       </div>
     </>
   );
