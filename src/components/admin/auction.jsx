@@ -137,7 +137,7 @@ const Actions = () => {
                     Monthly Bid {"Closed"}
                   </span>
                   <div className="flex mt-4 md:mt-6 w-[90%] justify-center gap-5">
-                    <Link to={'/homepage/manageauction/auctiondetails'}>
+                    <Link to={'/homepage/manageauction/auctiondetails?id='+data._id}>
                     <button
                       className="text-white bg-[#176B87] px-5 py-2 rounded-md text-xs sm:text-base"
                     >
