@@ -121,13 +121,13 @@ const Actions = () => {
     <>
       {loader ? <Loader /> : null}
       <div>
-        <h1 className="text-xl font-bold text-center">Auction</h1>
+        <h1 className="text-xl font-bold text-center py-5">Auction</h1>
       </div>
-      <div className="flex xl:flex-row flex-col w-[95%] m-auto gap-10 mt-4 items-center mb-4">
-        <div className={`flex xs:flex-row flex-col justify-center items-center gap-2 `}>
+      <div className="flex xl:flex-row flex-col w-[95%] m-auto gap-10 mt-4 justify-center items-center mb-4">
+        <div className={`flex sm:flex-row flex-col justify-center items-center gap-2 `}>
           <p>Select Company</p>
           <Select
-            className='ml-2 sm:w-80 w-full'
+            className='ml-2 sm:w-80 xl:w-60 w-full'
             defaultValue='Select Company'
             onChange={handleChange}
           >
@@ -136,10 +136,10 @@ const Actions = () => {
             }
           </Select>
         </div>
-        <div className={`flex xs:flex-row flex-col justify-center items-center gap-2 `}>
+        <div className={`flex sm:flex-row  flex-col justify-center items-center gap-2 sm:gap-8 xl:gap-2 `}>
           <p>Select Group</p>
           <Select
-            className='ml-2 sm:w-80 w-full'
+            className='ml-2 sm:w-80 xl:w-60 w-full'
             defaultValue='Select Group'
             onChange={handleChange}
           >
