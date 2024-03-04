@@ -166,6 +166,16 @@ const Actions = () => {
       customerName: 'wasim',
       auctionAmount: "10000",
       status: 'Completed'
+    },
+    {
+      customerName:'Ms',
+      auctionAmount:'30000',
+      status:'Hold'
+    },
+    {
+      customerName:'suhail',
+      auctionAmount:'30000',
+      status:'Completed'
     }
   ]
 
