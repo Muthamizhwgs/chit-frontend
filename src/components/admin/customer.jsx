@@ -4,7 +4,7 @@ import { CustomerSchema, CustomerInitValue } from '../../validations/customers';
 import { useFormik } from 'formik';
 import { createUsers, getChitUsers, UpdateChituserById, getUsersByAdmin } from "../../services/service"
 import DataTable from "react-data-table-component";
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaSearch } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 // eslint-disable-next-line no-unused-vars
 import DateFormat from '../../components/date';
@@ -319,8 +319,11 @@ const getReferenceUSers = async ()=>{
         </div>
 
         <div className='w-[95%] m-auto xs:block flex items-center justify-center'>
-          <input type="text" placeholder='Enter Customer Name or Phone Number' className='sm:w-72 xs:w-60 w-52 h-10 pl-2  border-2 border-black-100 rounded-md placeholder:text-[10.5px] xs:placeholder:text-xs  sm:placeholder:text-sm' value={searchTerm}
-          onChange={(e) => handleSearch(e.target.value)}/>
+         <div className='relative w-fit'>
+          <input type="text" placeholder='Enter Customer Name or Phone Number' className='sm:w-80 xs:w-72 w-60 h-10 pl-3  border-2 border-black-100 rounded-full pb-1  placeholder:text-[10.5px] xs:placeholder:text-xs  sm:placeholder:text-sm' value={searchTerm}
+            onChange={(e) => handleSearch(e.target.value)}/>
+            <FaSearch  className='text-gray-300 absolute -translate-x-1/2 -translate-y-1/2 top-[50%] right-[2%]'/>
+         </div>
         </div>
 
         <div className='w-[95%] m-auto mt-5 overflow-auto'>
