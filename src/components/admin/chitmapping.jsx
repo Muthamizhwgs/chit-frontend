@@ -10,7 +10,7 @@ import CurrencyComponent from '../utils/currency';
 
 
 function ChitMapping() {
-let navigate = useNavigate()
+  let navigate = useNavigate()
   const [userSelect, setuserSelect] = React.useState([]);
   const [chit, setChit] = React.useState([]);
   const [chitUsers, setchitUsers] = React.useState([]);
@@ -96,7 +96,7 @@ let navigate = useNavigate()
       setChit(serverdata.data);
     } catch (error) {
       console.error("Error fetching chits:", error);
-      if(error.response.status == 401){
+      if (error.response.status == 401) {
         navigate('/')
       }
     } finally {
@@ -110,7 +110,7 @@ let navigate = useNavigate()
       setchitUsers(users.data)
       // eslint-disable-next-line no-empty
     } catch (error) {
-      if(error.response.status == 401){
+      if (error.response.status == 401) {
         navigate('/')
       }
     } finally {
@@ -173,7 +173,7 @@ let navigate = useNavigate()
       getChitMaps()
       onClose()
     } catch (error) {
-      if(error.response.status == 401){
+      if (error.response.status == 401) {
         navigate('/')
       }
     } finally {
@@ -193,41 +193,71 @@ let navigate = useNavigate()
         </div>
       </div>
 
+
       <div className=' flex xl:flex-row flex-col w-[95%] m-auto gap-4 mt-4 items-center mb-4'>
         <div className='flex xs:flex-row flex-col justify-center items-center gap-2'>
-        <p className=''>Chit Name :</p><Select
-          defaultValue="select chit"
-          className='ml-2'
-          style={{
-            width: 160,
-          }}
-          onChange={handleChange}
-        >
-          {
-            // eslint-disable-next-line no-unused-vars
-            chit.map((item, ind) => (
-              // eslint-disable-next-line react/jsx-key
-              <Option value={item._id}>{item.chitName}</Option>
-            ))
-          }
-        </Select>
+          <p>Company Name</p><Select
+            defaultValue="Select company"
+            className='ml-2'
+            style={{
+              width: 300,
+            }}
+            onChange={handleChange}
+          >
+            {
+            }
+          </Select>
+        </div>
+
+        <div className='flex xs:flex-row flex-col justify-center items-center gap-2'>
+          <p className=''>Chit Name </p><Select
+            defaultValue="select chit"
+            className='ml-2'
+            style={{
+              width: 300,
+            }}
+            onChange={handleChange}
+          >
+            {
+              // eslint-disable-next-line no-unused-vars
+              chit.map((item, ind) => (
+                // eslint-disable-next-line react/jsx-key
+                <Option value={item._id}>{item.chitName}</Option>
+              ))
+            }
+          </Select>
+        </div>
+      </div>
+      <div className='flex xl:flex-row flex-col w-[95%] m-auto gap-4 mt-4 items-center mb-4'>
+        <div className={`flex xs:flex-row flex-col justify-center items-center gap-2 `}>
+          <p>Select Group</p><Select
+            className='ml-8'
+            onChange={handleChange}
+            style={{
+              width: 300,
+            }}
+          >
+            {
+            }</Select>
         </div>
 
         <div className={`flex xs:flex-row flex-col justify-center items-center gap-2 `}>
-        <p>Select Users :</p>  <Select
-          className='lg:w-96 w-40'
-          mode="multiple"
-          onChange={handleSelectChange}
-        >
-          {
-            chitUsers.map((item, ind) => (
-              // eslint-disable-next-line react/jsx-key
-              <Option value={ind}>{item.name} - {item.phoneNumber} </Option>
-            ))
-          }
-        </Select>
+          <p>Select Users </p>  <Select
+            className=''
+            mode="multiple"
+            style={{
+              width: 300,
+            }}
+            onChange={handleSelectChange}
+          >
+            {
+              chitUsers.map((item, ind) => (
+                // eslint-disable-next-line react/jsx-key
+                <Option value={ind}>{item.name} - {item.phoneNumber} </Option>
+              ))
+            }
+          </Select>
         </div>
-
         <div className='py-5'>
           <button onClick={getusers} className='bg-[#176B87] flex justify-center items-center text-white w-32 gap-1 rounded-md h-8'> Map Chit </button>
         </div>
@@ -251,7 +281,7 @@ let navigate = useNavigate()
                   </section>
                   <section className=''>
                     <p className='font-bold'>Amount</p>
-                    <p><CurrencyComponent amount={data.chitAmount}/></p>
+                    <p><CurrencyComponent amount={data.chitAmount} /></p>
                   </section>
                   <section className=''>
                     <p className='font-bold'>Group</p>

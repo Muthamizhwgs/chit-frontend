@@ -92,10 +92,10 @@ function ChitMaster() {
       name: <h1 className="text-lg text-gray-500">S.No</h1>,
       selector: (row, ind) => ind + 1,
     },
-    {
-      name: <h1 className="text-lg  text-gray-500">Company</h1>,
-      selector: (row) => row.companyName,
-    },
+    // {
+    //   name: <h1 className="text-lg  text-gray-500">Company</h1>,
+    //   selector: (row) => row.companyName,
+    // },
     {
       name: <h1 className="text-lg text-gray-500">Chit Name</h1>,
       selector: (row) => row.chitName,
@@ -204,8 +204,8 @@ function ChitMaster() {
         >
           <div className="flex flex-col justify-center">
             <div className="flex flex-col mb-4">
-              <label className="pl-4">Company :</label>
-              <Select
+              {/* <label className="pl-4">Company :</label> */}
+              {/* <Select
                 name="companyName"
                 id="companyId"
                 onBlur={forms.handleBlur}
@@ -221,7 +221,7 @@ function ChitMaster() {
                       {company.companyName}
                     </Select.Option>
                   ))}
-              </Select>
+              </Select> */}
 
               {forms.errors.companyId && forms.touched.companyId ? (
                 <div

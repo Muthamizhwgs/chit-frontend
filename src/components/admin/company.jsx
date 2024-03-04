@@ -1,9 +1,9 @@
 // eslint-disable-next-line no-unused-vars
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Modal } from "antd";
+import { Modal, Select } from "antd";
 import { CompanySchema, CompanyinitValue } from "../../validations/company";
-import { getChitUsers, UpdateChituserById,UpdateChitcompanyById, getChitCompany} from "../../services/service"
+import { getChitUsers, UpdateChituserById, UpdateChitcompanyById, getChitCompany } from "../../services/service"
 import { useFormik } from "formik";
 import DataTable from "react-data-table-component";
 import CurrencyComponent from "../utils/currency";
@@ -23,7 +23,7 @@ const Company = () => {
   const [chits, Setchits] = React.useState([]);
   const [id, setId] = React.useState("");
   const [edit, setEdit] = React.useState(false);
-  
+
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -40,7 +40,9 @@ const Company = () => {
     setIsModalOpen(false);
     forms.values.commission = "";
     forms.values.companyName = "";
+    forms.values.auctionDate = ""
     setEdit(true);
+    forms.resetForm();
   };
 
   const submitCompanyCreation = async (val) => {
@@ -134,7 +136,7 @@ const Company = () => {
       // eslint-disable-next-line no-empty
     } catch (error) {
       console.log(error.response.status)
-      if(error.response.status == 401){
+      if (error.response.status == 401) {
         navigate('/')
       }
     } finally {
@@ -143,18 +145,18 @@ const Company = () => {
   }
 
 
-  const Active_Inactive = async (Id,data)=>{
+  const Active_Inactive = async (Id, data) => {
     let active;
-    if(data.active == true){
+    if (data.active == true) {
       active = false
-    }else{
+    } else {
       active = true
     }
     try {
-      await UpdateChitcompanyById(Id,{active:active})
+      await UpdateChitcompanyById(Id, { active: active })
       getChit()
     } catch (error) {
-      if(error.response.status == 401){
+      if (error.response.status == 401) {
         navigate('/')
       }
     }
@@ -174,26 +176,26 @@ const Company = () => {
       name: <h1 className="text-lg text-gray-500">Commission</h1>,
       selector: (row) => row.commission + "%",
     },
-    {
-      name: <h1 className="text-lg text-gray-500">Status</h1>,
-      selector: (row) => (
-        <>
-          <div className="flex flex-row items-center ">
-            <Switch
-              checkedChildren={``}
-              unCheckedChildren={``}
-              onChange={() => Active_Inactive(row._id,row)}  
-              defaultChecked={row.active}
-              className={
-                row.active 
-                  ? "custom-switch-checked"
-                  : "custom-switch-unchecked"
-              }         
-            />
-          </div>
-        </>
-      ),
-    },
+    // {
+    //   name: <h1 className="text-lg text-gray-500">Status</h1>,
+    //   selector: (row) => (
+    //     <>
+    //       <div className="flex flex-row items-center ">
+    //         <Switch
+    //           checkedChildren={``}
+    //           unCheckedChildren={``}
+    //           onChange={() => Active_Inactive(row._id,row)}  
+    //           defaultChecked={row.active}
+    //           className={
+    //             row.active 
+    //               ? "custom-switch-checked"
+    //               : "custom-switch-unchecked"
+    //           }         
+    //         />
+    //       </div>
+    //     </>
+    //   ),
+    // },
     {
       name: <h1 className="text-lg text-gray-500">Action</h1>,
       selector: (row) => row.reference,
@@ -239,6 +241,10 @@ const Company = () => {
       },
     },
   };
+
+  const handleChange = () => {
+
+  }
 
   return (
     <>
@@ -317,7 +323,30 @@ const Company = () => {
                 </div>
               ) : null}
             </div>
+            <div className={`flex flex-col mb-4`}>
+              <p className="pl-4">Select Auction Date</p>
+              <Select
+                className="h-10  border drop-shadow-lg w-[93%] hover:focus-within:outline-none rounded-md ml-3"
+                defaultValue='Select Auction Date'
+                name="auctionDate"
+                id="auctionDate"
+                onBlur={forms.handleBlur}
+                value={forms.values.auctionDate}
+                onChange={forms.handleChange}
+              >
+                {
 
+                }
+              </Select>
+
+              {forms.errors.commission && forms.touched.commission ? (
+                <div
+                  style={{ width: "100%", color: "red", paddingLeft: "15px" }}
+                >
+                  {forms.errors.auctionDate}
+                </div>
+              ) : null}
+            </div>
             <div className="flex justify-center">
               <button
                 className="bg-[#176B87] w-36 h-[35px] text-white font-bold rounded-md"
@@ -327,8 +356,8 @@ const Company = () => {
               </button>
             </div>
           </div>
-        </Modal>
-      </div>
+        </Modal >
+      </div >
     </>
   );
 };

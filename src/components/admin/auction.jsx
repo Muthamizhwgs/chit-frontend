@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
 import DataTable from "react-data-table-component";
 import { Link, useNavigate } from "react-router-dom";
+import { Select } from 'antd';
 import { getChitReports, MonthlyAuction } from "../../services/customer.service";
-import {getAuctionDetails} from "../../services/service"
+import { getAuctionDetails } from "../../services/service"
 import CurrencyComponent from "../utils/currency";
 import { Modal } from "antd";
 import { useFormik } from "formik";
@@ -25,7 +26,7 @@ const Actions = () => {
     initialValues: AuctionInitValues,
     validationSchema: AuctionSchema,
     onSubmit: (values) => {
-        submitForms(values)
+      submitForms(values)
     },
   });
   const handleCancel = () => {
@@ -47,7 +48,7 @@ const Actions = () => {
     }
   };
 
-  const submitForms = async (data)=>{
+  const submitForms = async (data) => {
     const currentDate = new Date();
     const currentMonthIndex = currentDate.getMonth();
     const monthNames = [
@@ -56,7 +57,7 @@ const Actions = () => {
       "September", "October", "November", "December"
     ];
     const currentMonth = monthNames[currentMonthIndex];
-    let SendToAPi = { month: currentMonth, chitId:chitId,Amount:data.chitAmount}
+    let SendToAPi = { month: currentMonth, chitId: chitId, Amount: data.chitAmount }
     setLoader(true)
     try {
       let res = await MonthlyAuction(SendToAPi)
@@ -66,12 +67,12 @@ const Actions = () => {
       if (error.response.status == 401) {
         navigate("/");
       }
-    }finally{
+    } finally {
       setLoader(false)
     }
   }
 
-  const getAuctions = async ()=>{
+  const getAuctions = async () => {
     setLoader(true)
     try {
       let values = await getAuctionDetails()
@@ -80,7 +81,7 @@ const Actions = () => {
       if (error.response.status == 401) {
         navigate("/");
       }
-    }finally{
+    } finally {
       setLoader(false)
     }
   }
@@ -91,69 +92,67 @@ const Actions = () => {
     getAuctions()
   }, []);
 
+  const columns = [
+    {
+      name: <h1 className="text-lg text-gray-500">S.No</h1>,
+      selector: (row, ind) => ind + 1,
+    },
+    {
+      name: <h1 className="text-lg text-gray-500">Customer Name</h1>,
+      selector: (row) => row.customerName,
+
+    },
+    {
+      name: <h1 className="text-lg text-gray-500">Auction Amount</h1>,
+      selector: (row) => <CurrencyComponent amount={row.auctionAmount} />,
+    },
+    {
+      name: <h1 className="text-lg text-gray-500">Status</h1>,
+      selector: (row) => row.status,
+    }
+  ];
+
+  const handleChange = () => {
+
+  }
 
 
   return (
     <>
-    {loader?<Loader/>:null}
-    
-      <div className="w-[95%] m-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 pt-10">
-        {
-          // eslint-disable-next-line no-unused-vars
-          auctionChit &&
-          auctionChit.map((data, ind) => (
-              // eslint-disable-next-line react/jsx-no-comment-textnodes, react/jsx-key
-
-              <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow bg:[#EEF5FF]">
-                <div className="flex justify-end px-4 pt-4">
-                  <button
-                    id="dropdownButton"
-                    data-dropdown-toggle="dropdown"
-                    className="inline-block text-gray-500 dark:text-gray-400 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:focus:ring-gray-300 rounded-lg text-sm p-1.5"
-                    type="button"
-                  >
-                    <span className="sr-only">Open dropdown</span>
-                    <svg
-                      className="w-5 h-5"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="currentColor"
-                      viewBox="0 0 16 3"
-                    >
-                      <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
-                    </svg>
-                  </button>
-                </div>
-                <div className="flex flex-col items-center pb-10">
-                  <h5 className="mb-1 text-xl font-medium text-gray-900 ">
-                    {data.chitName}
-                  </h5>
-                  <h5 className="mb-1  font-medium text-black"> {data.auctions?data.auctions:0} - Bids received this {data.currentMonth}  </h5>
-
-                  <span className="text-sm text-gray-500 dark:text-gray-400">
-                    <CurrencyComponent amount={data.chitAmount} />
-                  </span>
-                  <span className={`${data.currentMonthAuction?'text-sm  text-red-500':'text-sm  text-[#176B87]'}`}>
-                    Monthly Bid {data.currentMonthAuction?"Closed":"Opened"}
-                  </span>
-                  <div className="flex mt-4 md:mt-6 w-[90%] justify-center gap-5">
-                    <Link to={'/homepage/manageauction/auctiondetails?id='+data._id}>
-                    <button
-                      className="text-white bg-[#176B87] px-9 py-1 rounded-md text-xs sm:text-base"
-                    >
-                      View Details
-                    </button>
-                    </Link>
-                    {/* <button className="text-white bg-red-600  px-5 py-2 rounded-md text-xs sm:text-base">Close Bid</button> */}
-                    
-
-                  </div>
-                </div>
-              </div>
-            ))
-        }
+      {loader ? <Loader /> : null}
+      <div>
+        <h1 className="text-xl font-bold text-center">Auction</h1>
+      </div>
+      <div className="flex xl:flex-row flex-col w-[95%] m-auto gap-10 mt-4 items-center mb-4">
+        <div className={`flex xs:flex-row flex-col justify-center items-center gap-2 `}>
+          <p>Select Company</p>
+          <Select
+            className='ml-2 sm:w-80 w-full'
+            defaultValue='Select Company'
+            onChange={handleChange}
+          >
+            {
+            }
+          </Select>
+        </div>
+        <div className={`flex xs:flex-row flex-col justify-center items-center gap-2 `}>
+          <p>Select Group</p>
+          <Select
+            className='ml-2 sm:w-80 w-full'
+            defaultValue='Select Group'
+            onChange={handleChange}
+          >
+            {
+              
+            }
+          </Select>
+        </div>
+        <div className='py-5'>
+          <button className='bg-[#176B87] flex justify-center items-center text-white w-32 gap-1 rounded-md h-8' > Get </button>
+        </div>
       </div>
       <div>
+        <DataTable columns={columns} />
       </div>
     </>
   );

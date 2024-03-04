@@ -98,7 +98,7 @@ const Adminsidebar = React.memo(({ handleToggle, open }) => {
     return (
         <div
             className={` ${open ? "w-40 sm:w-[260px]" : "lg:w-[6%] w-[15%]"
-                } bg-primary duration-500 h-screen   overflow-x-hidden bg-[#176b87] flex flex-col justify-between py-5 relative capitalize`}
+                } bg-primary duration-500 h-screen overflow-x-hidden bg-[#176b87] flex flex-col justify-between py-5 relative capitalize`}
         >
             <div>
                 <div className='py-5'>
