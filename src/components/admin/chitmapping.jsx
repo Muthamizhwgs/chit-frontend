@@ -197,7 +197,7 @@ function ChitMapping() {
       <div className=' flex xl:flex-row flex-col w-[95%] m-auto gap-4 mt-4 items-center mb-4'>
         <div className='flex xs:flex-row flex-col justify-center items-center gap-2'>
           <p>Company Name</p><Select
-            defaultValue="Select company"
+            placeholder="Select company"
             className='ml-2'
             style={{
               width: 300,
@@ -211,7 +211,7 @@ function ChitMapping() {
 
         <div className='flex xs:flex-row flex-col justify-center items-center gap-2'>
           <p className=''>Chit Name </p><Select
-            defaultValue="select chit"
+            placeholder="select chit"
             className='ml-2'
             style={{
               width: 300,
@@ -232,6 +232,7 @@ function ChitMapping() {
         <div className={`flex xs:flex-row flex-col justify-center items-center gap-2 `}>
           <p>Select Group</p><Select
             className='ml-8'
+            placeholder='Select Group'
             onChange={handleChange}
             style={{
               width: 300,
@@ -243,11 +244,12 @@ function ChitMapping() {
 
         <div className={`flex xs:flex-row flex-col justify-center items-center gap-2 `}>
           <p>Select Users </p>  <Select
-            className=''
+            className='placeholder:text-black'
             mode="multiple"
             style={{
               width: 300,
             }}
+            placeholder='Select users'
             onChange={handleSelectChange}
           >
             {
