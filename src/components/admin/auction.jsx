@@ -1,16 +1,14 @@
 import React, { useEffect } from "react";
 import DataTable from "react-data-table-component";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Select } from 'antd';
 import { getChitReports, MonthlyAuction } from "../../services/customer.service";
 import { getAuctionDetails } from "../../services/service"
 import CurrencyComponent from "../utils/currency";
-import { Modal } from "antd";
 import { useFormik } from "formik";
 import { AuctionInitValues, AuctionSchema } from "../../validations/auction";
 import Loader from "../utils/loader";
-import { RiAuctionLine } from "react-icons/ri";
-import { MdCancel } from "react-icons/md";
+import { PiFlagPennantFill } from "react-icons/pi"
 
 const Actions = () => {
   const [mychit, setMychit] = React.useState([]);
@@ -114,7 +112,7 @@ const Actions = () => {
       selector: (row) => {
         return (
           <div>
-            {row.status == "Hold" ? <div>{row.status}</div> : null}
+            {row.status == "Hold" ? <div className="flex justify-center items-center">{row.status}<PiFlagPennantFill className="text-red-500 size-5" /></div> : null}
             {row.status == "Completed" ? <div>{row.status}</div> : null}
           </div>
         )
@@ -146,15 +144,17 @@ const Actions = () => {
       },
     },
 
-    conditionalRowStyles: [
-      {
-        when: row => row.status === 'Completed',
-        style: {
-          backgroundColor: '#7BCA71',
-        }
-      }
-    ]
   };
+
+  const conditionalRowStyles = [
+    {
+      when: row => row.status === 'Completed',
+      style: {
+        backgroundColor: '#C9FFC2',
+      },
+    },
+  ]
+
   const auctionData = [
     {
       customerName: 'taj',
@@ -214,7 +214,7 @@ const Actions = () => {
         </div>
       </div>
       <div className="px-5">
-        <DataTable columns={columns} data={auctionData} customStyles={customStyles} />
+        <DataTable columns={columns} data={auctionData} customStyles={customStyles} conditionalRowStyles={conditionalRowStyles} />
       </div>
     </>
   );
