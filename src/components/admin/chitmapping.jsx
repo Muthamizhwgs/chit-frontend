@@ -182,6 +182,8 @@ function ChitMapping() {
     console.log(serSendData)
   }
 
+  const companyName = ["Royalchit&co","TNchit&co","Goldchit&co"]
+
   return (
     <>
       {loader ? <Loader data={loader} /> : null}
@@ -194,7 +196,7 @@ function ChitMapping() {
       </div>
 
 
-      <div className=' flex xl:flex-row flex-col w-[95%] m-auto gap-4 mt-4 items-center mb-4'>
+      <div className='grid lg:grid-cols-2 grid-cols-1 gap-5 py-5'>
         <div className='flex xs:flex-row flex-col justify-center items-center gap-2'>
           <p>Company Name</p><Select
             defaultValue="Select company"
@@ -205,6 +207,11 @@ function ChitMapping() {
             onChange={handleChange}
           >
             {
+              
+               companyName.map((item, ind) => (
+               
+                <Option value = {ind} >{item}</Option>
+              ))
             }
           </Select>
         </div>
@@ -227,8 +234,7 @@ function ChitMapping() {
             }
           </Select>
         </div>
-      </div>
-      <div className='flex xl:flex-row flex-col w-[95%] m-auto gap-4 mt-4 items-center mb-4'>
+
         <div className={`flex xs:flex-row flex-col justify-center items-center gap-2 `}>
           <p>Select Group</p><Select
             className='ml-8'
@@ -238,7 +244,13 @@ function ChitMapping() {
             }}
           >
             {
-            }</Select>
+              // eslint-disable-next-line no-unused-vars
+              chit.map((item, ind) => (
+                // eslint-disable-next-line react/jsx-key
+                <Option value={item._id}>{item.group}</Option>
+              ))
+            }
+            </Select>
         </div>
 
         <div className={`flex xs:flex-row flex-col justify-center items-center gap-2 `}>
@@ -258,10 +270,12 @@ function ChitMapping() {
             }
           </Select>
         </div>
-        <div className='py-5'>
+
+      </div>
+     
+      <div className='py-5 flex justify-end w-[95%]'>
           <button onClick={getusers} className='bg-[#176B87] flex justify-center items-center text-white w-32 gap-1 rounded-md h-8'> Map Chit </button>
         </div>
-      </div>
       {/* cards design */}
 
       <div className='w-[95%] m-auto flex flex-col gap-3'>
