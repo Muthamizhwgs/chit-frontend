@@ -92,6 +92,9 @@ const Actions = () => {
     getAuctions()
   }, []);
 
+  const companyName = ["Royalchit&co", "TNchit&co", "Goldchit&co"]
+  const Group = ["A", "B", "C"]
+
   const columns = [
     {
       name: <h1 className="text-lg text-gray-500">S.No</h1>,
@@ -108,9 +111,63 @@ const Actions = () => {
     },
     {
       name: <h1 className="text-lg text-gray-500">Status</h1>,
-      selector: (row) => row.status,
+      selector: (row) => {
+        return (
+          <div>
+            {row.status == "Hold" ? <div>{row.status}</div> : null}
+            {row.status == "Completed" ? <div>{row.status}</div> : null}
+          </div>
+        )
+      }
     }
   ];
+  const customStyles = {
+    rows: {
+      style: {
+        minHeight: "48px", // override the row height
+        minWidth: "800px",
+      },
+    },
+    headCells: {
+      style: {
+        paddingLeft: "8px", // override the cell padding for head cells
+        paddingRight: "8px",
+        backgroundColor: "#F3F4F6",
+        color: "#6c737f",
+        fontWeight: "bold",
+      },
+    },
+    cells: {
+      style: {
+        paddingLeft: "8px",
+        paddingRight: "8px",
+        fontSize: "16px",
+        color: "#364353",
+      },
+    },
+
+    conditionalRowStyles: [
+      {
+        when: row => row.status === 'Completed',
+        style: {
+          backgroundColor: '#7BCA71',
+        }
+      }
+    ]
+  };
+  const auctionData = [
+    {
+      customerName: 'taj',
+      auctionAmount: "20000",
+      status: 'Hold'
+    }
+    ,
+    {
+      customerName: 'wasim',
+      auctionAmount: "10000",
+      status: 'Completed'
+    }
+  ]
 
   const handleChange = () => {
 
@@ -132,7 +189,9 @@ const Actions = () => {
             onChange={handleChange}
           >
             {
-              
+              companyName.map((item, ind) => (
+                <Option value={ind} >{item}</Option>
+              ))
             }
           </Select>
         </div>
@@ -144,7 +203,9 @@ const Actions = () => {
             onChange={handleChange}
           >
             {
-
+              Group.map((item, ind) => (
+                <Option value={ind}>{item}</Option>
+              ))
             }
           </Select>
         </div>
@@ -152,8 +213,8 @@ const Actions = () => {
           <button className='bg-[#176B87] flex justify-center items-center text-white w-32 gap-1 rounded-md h-8' > Get </button>
         </div>
       </div>
-      <div>
-        <DataTable columns={columns} />
+      <div className="px-5">
+        <DataTable columns={columns} data={auctionData} customStyles={customStyles} />
       </div>
     </>
   );

@@ -207,7 +207,6 @@ function ChitMapping() {
             {
 
               companyName.map((item, ind) => (
-
                 <Option value={ind} >{item}</Option>
               ))
             }
