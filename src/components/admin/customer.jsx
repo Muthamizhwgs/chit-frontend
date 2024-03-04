@@ -274,7 +274,33 @@ const getReferenceUSers = async ()=>{
     getReferenceUSers();
   }, [])
 
+
   console.log(forms.values);
+
+  //for searchbar
+  const handleSearch = (searchValue) => {
+    setSearchTerm(searchValue);
+    if (!searchValue) {
+      setFilteredData([]);
+      return;
+    }
+    const filteredResults = users.filter(user =>
+      user.name.toLowerCase().includes(searchValue.toLowerCase()) ||
+      user.phoneNumber.toString().includes(searchValue)
+    );
+    setFilteredData(filteredResults);
+  };
+
+  useEffect(() => {
+    if (searchTerm === "") {
+      setFilteredData(users);
+    }
+  }, [searchTerm, users]);
+
+  // Update DataTable component to use filteredData if searchTerm is not empty
+  const dataTableData = searchTerm ? filteredData : users;
+
+  
   return (
     <>
       {loader ? <Loader data={loader} /> : null}
@@ -293,13 +319,14 @@ const getReferenceUSers = async ()=>{
         </div>
 
         <div className='w-[95%] m-auto xs:block flex items-center justify-center'>
-          <input type="text" placeholder='Enter Customer Name or Phone Number' className='sm:w-72 xs:w-60 w-52 h-10 pl-2  border-2 border-black-100 rounded-md placeholder:text-[10.5px] xs:placeholder:text-xs  sm:placeholder:text-sm' />
+          <input type="text" placeholder='Enter Customer Name or Phone Number' className='sm:w-72 xs:w-60 w-52 h-10 pl-2  border-2 border-black-100 rounded-md placeholder:text-[10.5px] xs:placeholder:text-xs  sm:placeholder:text-sm' value={searchTerm}
+          onChange={(e) => handleSearch(e.target.value)}/>
         </div>
 
         <div className='w-[95%] m-auto mt-5 overflow-auto'>
           <DataTable
             columns={columns}
-            data={users}
+            data={dataTableData}
             fixedHeader
             pagination
             bordered
