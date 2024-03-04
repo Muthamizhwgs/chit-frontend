@@ -182,7 +182,7 @@ function ChitMapping() {
     console.log(serSendData)
   }
 
-  const companyName = ["Royalchit&co","TNchit&co","Goldchit&co"]
+  const companyName = ["Royalchit&co", "TNchit&co", "Goldchit&co"]
 
   return (
     <>
@@ -200,17 +200,15 @@ function ChitMapping() {
         <div className='flex xs:flex-row flex-col justify-center items-center gap-2'>
           <p>Company Name</p><Select
             placeholder="Select company"
-            className='ml-2'
-            style={{
-              width: 300,
-            }}
+            className='lg:ml-2 md:w-80 w-full '
+
             onChange={handleChange}
           >
             {
-              
-               companyName.map((item, ind) => (
-               
-                <Option value = {ind} >{item}</Option>
+
+              companyName.map((item, ind) => (
+
+                <Option value={ind} >{item}</Option>
               ))
             }
           </Select>
@@ -219,10 +217,8 @@ function ChitMapping() {
         <div className='flex xs:flex-row flex-col justify-center items-center gap-2'>
           <p className=''>Chit Name </p><Select
             placeholder="select chit"
-            className='ml-2'
-            style={{
-              width: 300,
-            }}
+            className='lg:ml-2 xs:ml-10 md:w-80 w-full'
+
             onChange={handleChange}
           >
             {
@@ -237,12 +233,10 @@ function ChitMapping() {
 
         <div className={`flex xs:flex-row flex-col justify-center items-center gap-2 `}>
           <p>Select Group</p><Select
-            className='ml-8'
+            className='lg:ml-8 xs:ml-6 md:w-80 w-full'
             placeholder='Select Group'
             onChange={handleChange}
-            style={{
-              width: 300,
-            }}
+
           >
             {
               // eslint-disable-next-line no-unused-vars
@@ -251,16 +245,14 @@ function ChitMapping() {
                 <Option value={item._id}>{item.group}</Option>
               ))
             }
-            </Select>
+          </Select>
         </div>
 
         <div className={`flex xs:flex-row flex-col justify-center items-center gap-2 `}>
           <p>Select Users </p>  <Select
-            className='placeholder:text-black'
+            className='placeholder:text-black xs:ml-8 lg:ml-0 md:w-80 w-full'
             mode="multiple"
-            style={{
-              width: 300,
-            }}
+
             placeholder='Select users'
             onChange={handleSelectChange}
           >
@@ -274,10 +266,10 @@ function ChitMapping() {
         </div>
 
       </div>
-     
-      <div className='py-5 flex justify-end w-[95%]'>
-          <button onClick={getusers} className='bg-[#176B87] flex justify-center items-center text-white w-32 gap-1 rounded-md h-8'> Map Chit </button>
-        </div>
+
+      <div className='py-5 flex justify-center '>
+        <button onClick={getusers} className='bg-[#176B87] flex justify-center items-center text-white w-32 gap-1 rounded-md h-8'> Map Chit </button>
+      </div>
       {/* cards design */}
 
       <div className='w-[95%] m-auto flex flex-col gap-3'>
