@@ -23,6 +23,7 @@ const Company = () => {
   const [chits, Setchits] = React.useState([]);
   const [id, setId] = React.useState("");
   const [edit, setEdit] = React.useState(false);
+  const [err, setErr] = React.useState("");
 
 
   const showModal = () => {
@@ -323,23 +324,22 @@ const Company = () => {
                 </div>
               ) : null}
             </div>
-            <div className={`flex flex-col mb-4`}>
-              <p className="pl-4">Select Auction Date</p>
+            <div className="flex flex-col mb-4">
+              <label className="pl-4">Auction Date :</label>
               <Select
-                className="h-10  border drop-shadow-lg w-[93%] hover:focus-within:outline-none rounded-md ml-3"
-                defaultValue='Select Auction Date'
-                name="auctionDate"
-                id="auctionDate"
+                name="describeDate"
+                id="describeDate"
                 onBlur={forms.handleBlur}
-                value={forms.values.auctionDate}
-                onChange={forms.handleChange}
-              >
-                {
-
-                }
-              </Select>
-
-              {forms.errors.commission && forms.touched.commission ? (
+                onChange={(e) => forms.setFieldValue("describeDate", e)}
+                value={forms.values.describeDate}
+                className="h-10 border drop-shadow-lg w-[93%] hover:focus-within:outline-none rounded-md ml-3"
+                placeholder="Select Auction Date"
+                options={[
+                  { value: "5", label: "Every month 5th " },
+                  { value: "second sunday", label: "Second Sunday" },
+                ]}
+              />
+              {forms.errors.auctionDate && forms.touched.auctionDate ? (
                 <div
                   style={{ width: "100%", color: "red", paddingLeft: "15px" }}
                 >

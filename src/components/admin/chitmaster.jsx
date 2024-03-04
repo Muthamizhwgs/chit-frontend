@@ -351,9 +351,8 @@ function ChitMaster() {
                 onChange={(e) => forms.setFieldValue("describeDate", e)}
                 value={forms.values.describeDate}
                 className="h-10 border drop-shadow-lg w-[93%] hover:focus-within:outline-none rounded-md ml-3"
-                placeholder="Auction Date"
+                placeholder="Select Auction Date"
                 options={[
-                  { value: "", label: "Select Auction Date" },
                   { value: "5", label: "Every month 5th " },
                   { value: "second sunday", label: "Second Sunday" },
                 ]}
