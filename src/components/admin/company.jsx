@@ -258,13 +258,20 @@ const Company = () => {
           <div></div>
           <div className="text-xl py-5">Company Creation</div>
           <div className="">
-            <button
+            {/* <button
               onClick={showModal}
               className=" bg-[#176B87] hover:scale-105 transition-all duration-300  flex justify-center items-center text-white w-36 gap-1 rounded-md h-9 xs:text-base text-sm"
             >
-              <FaPlus className="text-white size-2.5" />
+              
               Add Company
-            </button>
+            </button> */}
+            <button class="cursor-pointer transition-all w-36 h-9 bg-[#176B87] text-white rounded-lg border-[#15414e] border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px]
+               active:border-b-[2px] active:brightness-90 active:translate-y-[2px] flex justify-center items-center gap-2"
+               onClick={showModal}
+               >
+                <FaPlus className="text-white size-2.5" />
+                Add Company
+              </button>
           </div>
         </div>
         <div className="px-5">
@@ -353,10 +360,15 @@ const Company = () => {
               ) : null}
             </div>
             <div className="flex justify-center">
-              <button
+              {/* <button
                 className="bg-[#176B87] w-36 h-[35px] text-white font-bold rounded-md hover:scale-105 transition-all duration-300"
-                onClick={forms.handleSubmit}
               >
+                Submit
+              </button> */}
+              <button class="cursor-pointer transition-all w-36 h-[35px] bg-[#176B87] text-white rounded-lg border-[#15414e] border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px]
+               active:border-b-[2px] active:brightness-90 active:translate-y-[2px]"
+               onClick={forms.handleSubmit}
+               >
                 Submit
               </button>
             </div>
