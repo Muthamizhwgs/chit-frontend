@@ -188,7 +188,7 @@ function ChitMapping() {
     <>
       {loader ? <Loader data={loader} /> : null}
       {contextHolder}
-      <div className='flex justify-center max-w-[95%] pt-5'>
+      <div className='flex justify-center max-w-[95%] py-5'>
         <div></div>
         <div className='text-xl'>
           <h1 className='font-semibold py-2'>Chit Mapping</h1>
@@ -196,10 +196,10 @@ function ChitMapping() {
       </div>
 
 
-      <div className=' w-[95%] m-auto flex gap-3 overflow-auto'>
+      <div className='grid grid-cols-1 xs:grid-cols-2 justify-items-center  lg:flex justify-center gap-4  p-5'>
          <Select
             placeholder="Select company"
-            className='lg:ml-2 md:w-80 w-full '
+            className='lg:w-48 w-full'
 
             onChange={handleChange}
           >
@@ -213,7 +213,7 @@ function ChitMapping() {
 
           <Select
             placeholder="select chit"
-            className='lg:ml-2 xs:ml-10 md:w-80 w-full'
+            className='lg:w-48 w-full'
 
             onChange={handleChange}
           >
@@ -226,9 +226,8 @@ function ChitMapping() {
             }
           </Select>
 
-        <div className={`flex xs:flex-row flex-col justify-center items-center gap-2 `}>
-         <Select
-            className='lg:ml-8 xs:ml-6 md:w-80 w-full'
+          <Select
+            className=' lg:w-48 w-full'
             placeholder='Select Group'
             onChange={handleChange}
 
@@ -241,11 +240,9 @@ function ChitMapping() {
               ))
             }
           </Select>
-        </div>
 
-        <div className={`flex xs:flex-row flex-col justify-center items-center gap-2 `}>
           <Select
-            className='placeholder:text-black xs:ml-8 lg:ml-0 md:w-80 w-full'
+            className='placeholder:text-black lg:w-48 w-full'
             mode="multiple"
 
             placeholder='Select users'
@@ -258,13 +255,12 @@ function ChitMapping() {
               ))
             }
           </Select>
-        </div>
+
+          <button onClick={getusers} className='bg-[#176B87] text-white w-32 gap-1 rounded-md h-8'> Map Chit </button>
 
       </div>
 
-      <div className='py-5 flex justify-center '>
-        <button onClick={getusers} className='bg-[#176B87] flex justify-center items-center text-white w-32 gap-1 rounded-md h-8'> Map Chit </button>
-      </div>
+    
       {/* cards design */}
 
       <div className='w-[95%] m-auto flex flex-col gap-3'>
@@ -272,7 +268,7 @@ function ChitMapping() {
           // eslint-disable-next-line no-unused-vars
           getchitmaps.map((data, ind) => (
             // eslint-disable-next-line react/jsx-key
-            <div className='w-full rounded-md bg-[#f1faf9] p-2 drop-shadow-md cursor-pointer'>
+            <div className='w-full rounded-md bg-[#f7ffff] p-2 drop-shadow-md cursor-pointer'>
               <Link to={'/homepage/chitmapping/chitmapdetails?id=' + data._id}>
                 <div className='grid md:grid-cols-3 sm:grid-cols-2 grid-cols-2 lg:grid-cols-6  xl:grid-cols-6 bg-white p-2 rounded cursor-pointer'>
                   <section className='flex flex-col'>
