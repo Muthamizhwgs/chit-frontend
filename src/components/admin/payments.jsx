@@ -1,61 +1,48 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useState } from 'react';
-import { Select } from 'antd';
-import DateFormat from '../../components/date';
+import React, { useState } from "react";
+import { Select } from "antd";
+import DateFormat from "../../components/date";
 import DataTable from "react-data-table-component";
-import Loader from '../utils/loader';
+import Loader from "../utils/loader";
 
 function Payments() {
-  const [loader, setLoader] = useState(false)
+  const [loader, setLoader] = useState(false);
   const handleChange = (value) => {
     setLoader(true);
     console.log(`selected ${value}`);
-  }
+  };
 
   const chits = [
     {
-      chitName: "Taj", chitAmount: "5000", phoneNumber: "9868676578"
+      chitName: "Taj",
+      chitAmount: "5000",
+      phoneNumber: "9868676578",
     },
     {
-      chitName: "asd", chitAmount: "5000", phoneNumber: "7857899064"
+      chitName: "asd",
+      chitAmount: "5000",
+      phoneNumber: "7857899064",
     },
-  ]
+  ];
 
   const columns = [
     {
-      name: (
-        <h1 className="text-lg text-gray-500">
-          S.No
-        </h1>
-      ),
+      name: <h1 className="text-lg text-gray-500">S.No</h1>,
       selector: (row, ind) => ind + 1,
     },
     {
-      name: (
-        <h1 className="text-lg text-gray-500">
-          Customer Name
-        </h1>
-      ),
+      name: <h1 className="text-lg text-gray-500">Customer Name</h1>,
       selector: (row) => row.chitName,
     },
     {
-      name: (
-        <h1 className="text-lg text-gray-500">
-          Phone Number
-        </h1>
-      ),
+      name: <h1 className="text-lg text-gray-500">Phone Number</h1>,
       selector: (row) => row.phoneNumber,
     },
     {
-      name: (
-        <h1 className="text-lg text-gray-500">
-          Outstanding Amount
-        </h1>
-      ),
+      name: <h1 className="text-lg text-gray-500">Outstanding Amount</h1>,
       selector: (row) => row.chitAmount,
     },
-
-  ]
+  ];
   const customStyles = {
     rows: {
       style: {
@@ -81,56 +68,61 @@ function Payments() {
       },
     },
   };
+  const Category = ["Second Sunday","Every Month 5th"];
+  const Group = ["A","B","C"];
+  const Amount = ["100000","200000"]
 
   return (
     <div>
-      {loader ? <Loader data={loader} /> : null}
-      <div className='text-center pt-10 text-xl font-bold pb-5'>
-        Payments
-      </div>
-      <div className=' grid xl:grid-cols-4 gap-5 xl:gap-10 grid-cols-1 place-items-center py-5 px-10'>
-        <div>
+      {loader ? <Loader /> : null}
+      <div className="text-center pt-10 text-xl font-bold pb-5">Payments</div>
+      <div className=" grid xl:grid-cols-4 gap-5 md:grid-cols-2 xl:gap-10 grid-cols-1 place-items-center py-5 px-10">
+        <div
+          className={`flex sm:flex-row  flex-col justify-around items-center gap-2 sm:gap-8 xl:gap-2 `}>
           <Select
+            className=""
+            style={{ width: 200 }}
             placeholder="Select Category"
-            style={{ width: 300 }}
             onChange={handleChange}
-            options={[
-              { value: 'second sunday', label: 'Second sunday' },
-              { value: 'Every month 5th', label: 'Every Month 5th' },
-            ]}
-          />
+            >
+            {Category.map((item, ind) => (
+              <Option value={ind}>{item}</Option>
+            ))}
+          </Select>
         </div>
-        <div>
+        <div
+          className={`flex sm:flex-row  flex-col justify-around items-center gap-2 sm:gap-8 xl:gap-2 `}>
           <Select
+            className=""
+            style={{ width: 200 }}
             placeholder="Select Group"
-            style={{ width: 300 }}
             onChange={handleChange}
-            options={[
-              { value: 'A', label: 'A' },
-              { value: 'B', label: 'B' },
-              { value: 'C', label: 'C' },
-            ]}
-          />
+            >
+            {Group.map((item, ind) => (
+              <Option value={ind}>{item}</Option>
+            ))}
+          </Select>
         </div>
-        <div>
+        
+        <div
+          className={`flex sm:flex-row  flex-col justify-around items-center gap-2 sm:gap-8 xl:gap-2 `}>
           <Select
+            className=""
+            style={{ width: 200 }}
             placeholder="Select Amount"
-            style={{ width: 300 }}
             onChange={handleChange}
-            options={[
-              { value: '100000', label: '100000' },
-              { value: '200000', label: '200000' },
-            ]}
-          />
+            >
+            {Amount.map((item, ind) => (
+              <Option value={ind}>{item}</Option>
+            ))}
+          </Select>
         </div>
         {/* <button className='bg-[#176B87] flex justify-center items-center text-white w-32 gap-1 rounded-md h-8'>Get Payments</button> */}
-        <button
-          className="cursor-pointer transition-all bg-[#176B87] text-white w-32 h-[35px] rounded-lg border-[#15414e] border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px] active:border-b-[2px] active:brightness-90 active:translate-y-[2px]"
-        >
+        <button className="cursor-pointer transition-all bg-[#176B87] text-white w-32 h-[35px] rounded-lg border-[#15414e] border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px] active:border-b-[2px] active:brightness-90 active:translate-y-[2px]">
           Payments
         </button>
       </div>
-      <div className='w-[95%] m-auto mt-5 overflow-auto'>
+      <div className="w-[95%] m-auto mt-5 overflow-auto">
         <DataTable
           columns={columns}
           data={chits}
@@ -140,9 +132,8 @@ function Payments() {
           customStyles={customStyles}
         />
       </div>
-
     </div>
-  )
+  );
 }
 
-export default Payments
+export default Payments;
