@@ -5,6 +5,7 @@ import DataTable from "react-data-table-component";
 import {
   getAuctionDetailsByChit,
   Monthly_Auction,
+  
 } from "../../services/service";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { IoMdDoneAll } from "react-icons/io";
@@ -78,8 +79,11 @@ const Auctiondetails = () => {
     }
   };
 
+
+
   React.useEffect(() => {
     fetchAuctionCustomers();
+    getCompanies()
   }, []);
 
   const columns = [
@@ -158,7 +162,7 @@ const Auctiondetails = () => {
         </div>
         <DataTable
           columns={columns}
-          data={users}
+          data={getCompanies}
           customStyles={customStyles}
           pagination
           fixedHeader

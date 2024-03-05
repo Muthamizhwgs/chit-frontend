@@ -1,44 +1,54 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import { useNavigate } from "react-router-dom";
-import { Select } from 'antd';
-import { getChitReports, MonthlyAuction } from "../../services/customer.service";
-import { getAuctionDetails } from "../../services/service"
+import { Select } from "antd";
+import {
+  getChitReports,
+  MonthlyAuction,
+} from "../../services/customer.service";
+import {
+  getAuctionDetails,
+  getAllCompany,
+  getGroupByCompany,
+} from "../../services/service";
 import CurrencyComponent from "../utils/currency";
 import { useFormik } from "formik";
 import { AuctionInitValues, AuctionSchema } from "../../validations/auction";
 import Loader from "../utils/loader";
-import { PiFlagPennantFill } from "react-icons/pi"
+import { PiFlagPennantFill } from "react-icons/pi";
+import searchImg from "../../assets/search.png";
 
 const Actions = () => {
-  const [mychit, setMychit] = React.useState([]);
-  const [loader, setLoader] = React.useState(false);
-  const [isModalOpen, setIsModalOpen] = React.useState(false);
-  const [chitId, setChitId] = React.useState('');
-  const [auctionChit, setAuctionChit] = React.useState([])
-  const navigate = useNavigate()
-  // const showModal = () => {
-  //   setIsModalOpen(true);
-  // };
+  const [mychit, setMychit] = useState([]);
+  const [loader, setLoader] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [chitId, setChitId] = useState("");
+  const [auctionChit, setAuctionChit] = useState([]);
+  const [company, setCompany] = useState([]);
+  const [groups, setGroups] = useState([]);
+  const [companyId, setCompanyId] = useState();
+  const [group, setGroup] = useState();
+  const navigate = useNavigate();
   const forms = useFormik({
     initialValues: AuctionInitValues,
     validationSchema: AuctionSchema,
     onSubmit: (values) => {
-      submitForms(values)
+      submitForms(values);
     },
   });
+
   const handleCancel = () => {
     setIsModalOpen(false);
     forms.resetForm();
   };
 
-  const getMyChitss = async () => {
+  const getMyChits = async () => {
     setLoader(true);
     try {
-      let val = await getChitReports();
+      const val = await getChitReports();
       setMychit(val.data);
     } catch (error) {
-      if (error.response.status == 401) {
+      if (error.response.status === 401) {
         navigate("/");
       }
     } finally {
@@ -50,48 +60,114 @@ const Actions = () => {
     const currentDate = new Date();
     const currentMonthIndex = currentDate.getMonth();
     const monthNames = [
-      "January", "February", "March", "April",
-      "May", "June", "July", "August",
-      "September", "October", "November", "December"
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
     ];
     const currentMonth = monthNames[currentMonthIndex];
-    let SendToAPi = { month: currentMonth, chitId: chitId, Amount: data.chitAmount }
-    setLoader(true)
+    const SendToAPi = {
+      month: currentMonth,
+      chitId: chitId,
+      Amount: data.chitAmount,
+    };
+    setLoader(true);
     try {
-      let res = await MonthlyAuction(SendToAPi)
+      const res = await MonthlyAuction(SendToAPi);
       console.log(res.data);
-      handleCancel()
+      handleCancel();
     } catch (error) {
-      if (error.response.status == 401) {
+      if (error.response.status === 401) {
         navigate("/");
       }
     } finally {
-      setLoader(false)
+      setLoader(false);
     }
-  }
+  };
 
   const getAuctions = async () => {
-    setLoader(true)
+    setLoader(true);
     try {
-      let values = await getAuctionDetails()
-      setAuctionChit(values.data)
+      const values = await getAuctionDetails();
+      setAuctionChit(values.data);
     } catch (error) {
-      if (error.response.status == 401) {
+      if (error.response.status === 401) {
         navigate("/");
       }
     } finally {
-      setLoader(false)
+      setLoader(false);
     }
-  }
+  };
 
+  const getCompanies = async () => {
+    setLoader(true);
+    try {
+      const companyData = await getAllCompany();
+      setCompany(companyData.data);
+    } catch (error) {
+      if (error.response.status === 401) {
+        navigate("/");
+      }
+    } finally {
+      setLoader(false);
+    }
+  };
 
   useEffect(() => {
-    getMyChitss();
-    getAuctions()
+    getMyChits();
+    getAuctions();
+    getCompanies();
   }, []);
 
-  const companyName = ["Royalchit&co", "TNchit&co", "Goldchit&co"]
-  const Group = ["A", "B", "C"]
+  const handleChange = async (e) => {
+    console.log(e, "values");
+    const companyIndex = e;
+    const selectedCompany = company[companyIndex];
+    setGroups(selectedCompany.groups);
+    setCompanyId(selectedCompany._id);
+    setGroup(""); // Reset the group value
+    setLoader(true);
+    try {
+      const val = await getGroupByCompany(selectedCompany._id);
+      setGroup(val.data);
+      console.log(val.data, "response");
+    } catch (error) {
+      if (error.response.status === 401) {
+        navigate("/");
+      }
+    } finally {
+      setLoader(false);
+    }
+  };
+
+  const handleChangegroups = (e) => {
+    const groupIndex = e
+    setGroup(groups[groupIndex].group);
+  };
+
+  const filterClick = async () => {
+    console.log(companyId, group);
+    setLoader(true);
+    try {
+      const values = await getAuctionDetails(companyId, group);
+      setAuctionChit(values.data);
+    } catch (error) {
+      if (error.response.status === 401) {
+        navigate("/");
+      }
+    } finally {
+      setLoader(false);
+    }
+    
+  };
 
   const columns = [
     {
@@ -99,12 +175,23 @@ const Actions = () => {
       selector: (row, ind) => ind + 1,
     },
     {
-      name: <h1 className="text-lg text-gray-500">Customer Name</h1>,
-      selector: (row) => row.customerName,
-
+      name: <h1 className="text-lg text-gray-500">Groups</h1>,
+      selector: (row) => "A",
+    },
+    {
+      name: <h1 className="text-lg text-gray-500">month</h1>,
+      selector: (row) => "1",
     },
     {
       name: <h1 className="text-lg text-gray-500">Auction Amount</h1>,
+      selector: (row) => <CurrencyComponent amount={row.auctionAmount} />,
+    },
+    {
+      name: <h1 className="text-lg text-gray-500">Dividend Amount</h1>,
+      selector: (row) => <CurrencyComponent amount={row.auctionAmount} />,
+    },
+    {
+      name: <h1 className="text-lg text-gray-500">Payable Amount</h1>,
       selector: (row) => <CurrencyComponent amount={row.auctionAmount} />,
     },
     {
@@ -117,8 +204,13 @@ const Actions = () => {
           </div>
         )
       }
-    }
+    },
+    {
+      name: <h1 className="text-lg text-gray-500">Customer Name</h1>,
+      selector: (row) => row.customerName,
+    },
   ];
+
   const customStyles = {
     rows: {
       style: {
@@ -131,7 +223,7 @@ const Actions = () => {
         paddingLeft: "8px", // override the cell padding for head cells
         paddingRight: "8px",
         backgroundColor: "#F3F4F6",
-        color: "#6c737f",
+        color: "#6C737F",
         fontWeight: "bold",
       },
     },
@@ -143,9 +235,7 @@ const Actions = () => {
         color: "#364353",
       },
     },
-
   };
-
   const conditionalRowStyles = [
     {
       when: row => row.status === 'Completed',
@@ -155,81 +245,68 @@ const Actions = () => {
     },
   ]
 
-  const auctionData = [
-    {
-      customerName: 'taj',
-      auctionAmount: "20000",
-      status: 'Hold'
-    }
-    ,
-    {
-      customerName: 'wasim',
-      auctionAmount: "10000",
-      status: 'Completed'
-    },
-    {
-      customerName: 'Ms',
-      auctionAmount: '30000',
-      status: 'Hold'
-    },
-    {
-      customerName: 'suhail',
-      auctionAmount: '30000',
-      status: 'Completed'
-    }
-  ]
-
-  const handleChange = () => {
-
-  }
-
-
   return (
     <>
-      {loader ? <Loader /> : null}
+      {loader && <Loader />}
       <div>
         <h1 className="text-xl font-bold text-center py-5">Auction</h1>
       </div>
       <div className="flex xl:flex-row flex-col w-[95%] gap-10 py-4 px-4 items-center">
-        <div className={`flex sm:flex-row flex-col justify-center items-center gap-2 `}>
-
+        <div
+          className={`flex sm:flex-row flex-col justify-center items-center gap-2`}
+        >
           <Select
-            className='ml-2 sm:w-80 xl:w-80 w-full'
-            placeholder='Select Company'
+            className="ml-2 sm:w-80 xl:w-80 w-full"
+            placeholder="Select Company"
             onChange={handleChange}
           >
-            {
-              companyName.map((item, ind) => (
-                <Option value={ind} >{item}</Option>
-              ))
-            }
+            {company.length > 0 &&
+              company.map((item, ind) => (
+                <Option key={ind} value={ind}>
+                  {item.companyName}
+                </Option>
+              ))}
           </Select>
         </div>
-        <div className={`flex sm:flex-row  flex-col justify-around items-center gap-2 sm:gap-8 xl:gap-2 `}>
-
+        <div
+          className={`flex sm:flex-row flex-col justify-around items-center gap-2 sm:gap-8 xl:gap-2`}
+        >
           <Select
-            className='ml-2 sm:w-80 xl:w-80 w-full'
-            placeholder='Select Group'
-            onChange={handleChange}
+            className="ml-2 sm:w-80 xl:w-80 w-full"
+            placeholder="Select Group"
+            onChange={handleChangegroups}
+            value={group}
           >
-            {
-              Group.map((item, ind) => (
-                <Option value={ind}>{item}</Option>
-              ))
-            }
+            {groups.length > 0 &&
+              groups.map((item, ind) => (
+                <Option key={ind} value={ind}>
+                  {item.group}
+                </Option>
+              ))}
           </Select>
         </div>
-        <div className='py-5'>
-          {/* <button className='bg-[#176B87] flex justify-center items-center text-white w-32 gap-1 rounded-md h-8' > Get </button> */}
+        <div className="py-5">
           <button
-            className="cursor-pointer transition-all bg-[#176B87] text-white w-28 h-[35px] rounded-lg border-[#15414e] border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px] active:border-b-[2px] active:brightness-90 active:translate-y-[2px]" onClick={forms.handleSubmit}
+            className="cursor-pointer transition-all bg-[#176B87] text-white w-28 h-[35px] rounded-lg border-[#15414e] border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px] active:border-b-[2px] active:brightness-90 active:translate-y-[2px]"
+            onClick={filterClick}
           >
             Get
           </button>
         </div>
       </div>
       <div className="px-5">
-        <DataTable columns={columns} data={auctionData} customStyles={customStyles} conditionalRowStyles={conditionalRowStyles} />
+        {auctionChit && auctionChit.length === 0 ? (
+          <div className="flex justify-center">
+            <img src={searchImg} alt="Search" />
+          </div>
+        ) : (
+          <DataTable
+            columns={columns}
+            data={auctionChit}
+            customStyles={customStyles}
+            conditionalRowStyles={conditionalRowStyles}
+          />
+        )}
       </div>
     </>
   );

@@ -106,8 +106,8 @@ export const getChitCompany = async () => {
     return ApiResponse
 }
 
-export const getAuctionDetails = async ()=>{   
-     let ApiResponse = await useAxiosInterceptors.get('chit/getAuction/details/admin')
+export const getAuctionDetails = async (company, group)=>{   
+     let ApiResponse = await useAxiosInterceptors.get(`chit/getAuction/details/admin?company=${company}&group=${group}`)
     return ApiResponse
 }
 
@@ -120,3 +120,10 @@ export const Monthly_Auction = async (data)=>{
     let ApiResponse = await useAxiosInterceptors.post('chit/auction/month', data)
    return ApiResponse
 }
+
+export const getGroupByCompany = async (id)=>{   
+    let ApiResponse = await useAxiosInterceptors.get('chit/getgroups/bycompany/'+id)
+   return ApiResponse
+}
+
+// getgroups/bycompany/:id
