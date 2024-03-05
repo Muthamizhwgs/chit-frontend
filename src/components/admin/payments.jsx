@@ -88,11 +88,11 @@ function Payments() {
       <div className='text-center pt-10 text-xl font-bold pb-5'>
         Payments
       </div>
-      <div className='w-[95%] grid xl:grid-cols-4 gap-5 xl:gap-0  grid-cols-1 place-items-center py-5'>
+      <div className=' grid xl:grid-cols-4 gap-5 xl:gap-10 grid-cols-1 place-items-center py-5 px-10'>
         <div>
           <Select
-            defaultValue="Select Category"
-            style={{ width: 200 }}
+            placeholder="Select Category"
+            style={{ width: 300 }}
             onChange={handleChange}
             options={[
               { value: 'second sunday', label: 'Second sunday' },
@@ -102,8 +102,8 @@ function Payments() {
         </div>
         <div>
           <Select
-            defaultValue="Select Group"
-            style={{ width: 200 }}
+            placeholder="Select Group"
+            style={{ width: 300 }}
             onChange={handleChange}
             options={[
               { value: 'A', label: 'A' },
@@ -114,8 +114,8 @@ function Payments() {
         </div>
         <div>
           <Select
-            defaultValue="Select Amount"
-            style={{ width: 200 }}
+            placeholder="Select Amount"
+            style={{ width: 300 }}
             onChange={handleChange}
             options={[
               { value: '100000', label: '100000' },
