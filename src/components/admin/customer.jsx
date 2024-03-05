@@ -330,7 +330,7 @@ function Customers() {
           </div> */}
           <form className="form sm:w-80 xs:w-72 w-64">
             <label for="search">
-                <input className="input sm:w-80 xs:w-72 w-64 placeholder:text-[10.5px] xs:placeholder:text-xs  sm:placeholder:text-sm pb-1" type="text" required="" placeholder='Enter Customer Name or Phone Number' id="search" value={searchTerm}
+                <input className="input w-48 xs:w-56 sm:w-64 placeholder:text-[10.5px] xs:placeholder:text-xs  sm:placeholder:text-sm pb-1 xs:pb-0" type="text" required="" placeholder='Enter Customer Name or Phone Number' id="search" value={searchTerm}
               onChange={(e) => handleSearch(e.target.value)}/>
                 <div class="fancy-bg"></div>
                 <div class="search">
