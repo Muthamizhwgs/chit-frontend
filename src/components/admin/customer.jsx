@@ -352,7 +352,7 @@ const getReferenceUSers = async ()=>{
 
             <div className='flex flex-col mb-4'>
               <label className='pl-4'> Phone number :</label>
-              <input type="number" disabled={edit}  placeholder='Enter Phone Number' className='h-10 pl-3 border drop-shadow-lg w-[93%] hover:focus-within:outline-none rounded-md ml-3' name='phoneNumber' id="phoneNumber" onBlur={forms.handleBlur} value={forms.values.phoneNumber} onChange={forms.handleChange} />
+              <input type="number" placeholder='Enter Phone Number' className='h-10 pl-3 border drop-shadow-lg w-[93%] hover:focus-within:outline-none rounded-md ml-3' name='phoneNumber' id="phoneNumber" onBlur={forms.handleBlur} value={forms.values.phoneNumber} onChange={forms.handleChange} />
             </div>
             {forms.errors.phoneNumber && forms.touched.phoneNumber ? <div style={{ width: "100%", color: "red", paddingLeft: "15px" }}>{forms.errors.phoneNumber}</div> : null}
 

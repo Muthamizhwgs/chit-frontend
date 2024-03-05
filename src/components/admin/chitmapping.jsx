@@ -196,9 +196,8 @@ function ChitMapping() {
       </div>
 
 
-      <div className='grid lg:grid-cols-2 grid-cols-1 gap-5 py-5'>
-        <div className='flex xs:flex-row flex-col justify-center items-center gap-2'>
-          <p>Company Name</p><Select
+      <div className=' w-[95%] m-auto flex gap-3 overflow-auto'>
+         <Select
             placeholder="Select company"
             className='lg:ml-2 md:w-80 w-full '
 
@@ -211,10 +210,8 @@ function ChitMapping() {
               ))
             }
           </Select>
-        </div>
 
-        <div className='flex xs:flex-row flex-col justify-center items-center gap-2'>
-          <p className=''>Chit Name </p><Select
+          <Select
             placeholder="select chit"
             className='lg:ml-2 xs:ml-10 md:w-80 w-full'
 
@@ -228,10 +225,9 @@ function ChitMapping() {
               ))
             }
           </Select>
-        </div>
 
         <div className={`flex xs:flex-row flex-col justify-center items-center gap-2 `}>
-          <p>Select Group</p><Select
+         <Select
             className='lg:ml-8 xs:ml-6 md:w-80 w-full'
             placeholder='Select Group'
             onChange={handleChange}
@@ -248,7 +244,7 @@ function ChitMapping() {
         </div>
 
         <div className={`flex xs:flex-row flex-col justify-center items-center gap-2 `}>
-          <p>Select Users </p>  <Select
+          <Select
             className='placeholder:text-black xs:ml-8 lg:ml-0 md:w-80 w-full'
             mode="multiple"
 
@@ -284,7 +280,7 @@ function ChitMapping() {
                     <p>{data.createdAt}</p>
                   </section>
                   <section className='flex p-1 px-2 rounded-xl bg-slate-200 w-fit h-fit mt-2'>
-                    {data.chitActive ? <div className='text-green-600 flex justify-center items-center text-center'><GoDotFill /> <p className='text-sm'>Active</p></div> : <div className='text-red-600 flex justify-center items-center text-center'><GoDotFill /> <p className='text-sm'>Pending</p></div>}
+                    {data.active ? <div className='text-green-600 flex justify-center items-center text-center'><GoDotFill /> <p className='text-sm'>Active</p></div> : <div className='text-red-600 flex justify-center items-center text-center'><GoDotFill /> <p className='text-sm'>In active</p></div>}
                   </section>
                   <section className=''>
                     <p className='font-bold'>Amount</p>

@@ -22,6 +22,7 @@ function ChitMaster() {
   // const [searchTerm, setSearchTerm] = React.useState("");
   const [loader, setLoader] = React.useState(false);
   const [companyId, setCompanyId] = React.useState("");
+  const [ companyAuctionDate, setCompanyAuctionDate ] = React.useState('')
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -37,11 +38,25 @@ function ChitMaster() {
   });
   const handleCancel = () => {
     setIsModalOpen(false);
+    forms.values.chitAmount = ""
+    forms.values.chitName = ""
+    forms.values.companyId = ""
+    forms.values.companyName = ""
+    forms.values.describeDate = ""
+    forms.values.group = ""
+    forms.values.months = ""
+    forms.values.noOfPeople = ""
+    setCompanyAuctionDate('')
     forms.resetForm();
   };
 
   const submitForms = async (value) => {
     setLoader(true);
+    if(companyAuctionDate =='Every Month 5'){
+      forms.values.describeDate = 5
+    }else{
+      forms.values.describeDate = companyAuctionDate
+    }
     try {
       await AddChit(value);
       getChit();
@@ -204,13 +219,26 @@ function ChitMaster() {
         >
           <div className="flex flex-col justify-center">
             <div className="flex flex-col mb-4">
-              {/* <label className="pl-4">Company :</label> */}
-              {/* <Select
+              <label className="pl-4">Company :</label>
+              <Select
                 name="companyName"
                 id="companyId"
                 onBlur={forms.handleBlur}
-                onChange={(value) => forms.setFieldValue("companyId", value)}
-                // value={forms.values.companyName}
+                onChange={(value) => {
+                  forms.setFieldValue("companyId", value);
+                  const selectedCompany = companies.find(
+                    (company) => company._id === value
+                  );
+                  if (selectedCompany) {
+                    if(selectedCompany.auctionDates == 5){
+                      setCompanyAuctionDate(`Every Month ${selectedCompany.auctionDates}`);
+                    }else{
+                      setCompanyAuctionDate(`Every Month ${selectedCompany.auctionDates}`);
+                    }
+                    forms.values.describeDate = selectedCompany.auctionDates
+
+                  }
+                }}
                 className="h-10 border drop-shadow-lg w-[93%] hover:focus-within:outline-none rounded-md ml-3"
                 placeholder="Select Company"
               >
@@ -221,7 +249,7 @@ function ChitMaster() {
                       {company.companyName}
                     </Select.Option>
                   ))}
-              </Select> */}
+              </Select>
 
               {forms.errors.companyId && forms.touched.companyId ? (
                 <div
@@ -341,36 +369,17 @@ function ChitMaster() {
                 </div>
               ) : null}
             </div>
-
+            
             <div className="flex flex-col mb-4">
               <label className="pl-4">Auction Date :</label>
-              <Select
-                name="describeDate"
-                id="describeDate"
-                onBlur={forms.handleBlur}
-                onChange={(e) => forms.setFieldValue("describeDate", e)}
-                value={forms.values.describeDate}
-                className="h-10 border drop-shadow-lg w-[93%] hover:focus-within:outline-none rounded-md ml-3"
-                placeholder="Select Auction Date"
-                options={[
-                  { value: "5", label: "Every month 5th " },
-                  { value: "second sunday", label: "Second Sunday" },
-                ]}
+              <input
+                type="text"
+                placeholder="Enter No Of Peoples"
+                className="h-10 pl-3 border drop-shadow-lg w-[93%] hover:focus-within:outline-none rounded-md ml-3"
+                readOnly
+                value={companyAuctionDate}
               />
-              {forms.errors.describeDate && forms.touched.describeDate ? (
-                <div
-                  style={{ width: "100%", color: "red", paddingLeft: "15px" }}
-                >
-                  {forms.errors.describeDate}
-                </div>
-              ) : null}
-              {err ? (
-                <div
-                  style={{ width: "100%", color: "red", paddingLeft: "15px" }}
-                >
-                  {err}
-                </div>
-              ) : null}
+              
             </div>
 
             <div className="flex justify-center">

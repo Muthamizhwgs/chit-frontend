@@ -71,14 +71,6 @@ function ChitMapDetails() {
       ),
       selector: (row) => <CurrencyComponent amount={row.monthlyInstallment} />,
     },
-    {
-      name: (
-        <h1 className="text-lg text-gray-500">
-          Status
-        </h1>
-      ),
-      selector: (row) => "working...",
-    },
 
   ]
   const customStyles = {
