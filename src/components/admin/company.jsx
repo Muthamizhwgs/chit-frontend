@@ -3,7 +3,12 @@ import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Modal, Select } from "antd";
 import { CompanySchema, CompanyinitValue } from "../../validations/company";
-import { getChitUsers, UpdateChituserById, UpdateChitcompanyById, getChitCompany } from "../../services/service"
+import {
+  getChitUsers,
+  UpdateChituserById,
+  UpdateChitcompanyById,
+  getChitCompany,
+} from "../../services/service";
 import { useFormik } from "formik";
 import DataTable from "react-data-table-component";
 import CurrencyComponent from "../utils/currency";
@@ -25,7 +30,6 @@ const Company = () => {
   const [edit, setEdit] = React.useState(false);
   const [err, setErr] = React.useState("");
 
-
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -41,8 +45,8 @@ const Company = () => {
     setIsModalOpen(false);
     forms.values.commission = "";
     forms.values.companyName = "";
-    forms.values.auctionDate = ""
-    setEdit(true);
+    forms.values.auctionDates = "";
+    setEdit(false);
     forms.resetForm();
   };
 
@@ -51,6 +55,7 @@ const Company = () => {
     try {
       let creation = await companyCreation(val);
       console.log(creation.data);
+      fetchChits()
       handleCancel();
     } catch (error) {
       if (error.response.status == 401) {
@@ -131,37 +136,37 @@ const Company = () => {
   }, []);
 
   const getChit = async () => {
-    setLoader(true)
+    setLoader(true);
     try {
       let values = await getChitCompany();
+      
       // eslint-disable-next-line no-empty
     } catch (error) {
-      console.log(error.response.status)
+      console.log(error.response.status);
       if (error.response.status == 401) {
-        navigate('/')
+        navigate("/");
       }
     } finally {
-      setLoader(false)
+      setLoader(false);
     }
-  }
-
+  };
 
   const Active_Inactive = async (Id, data) => {
     let active;
     if (data.active == true) {
-      active = false
+      active = false;
     } else {
-      active = true
+      active = true;
     }
     try {
-      await UpdateChitcompanyById(Id, { active: active })
-      getChit()
+      await UpdateChitcompanyById(Id, { active: active });
+      getChit();
     } catch (error) {
       if (error.response.status == 401) {
-        navigate('/')
+        navigate("/");
       }
     }
-  }
+  };
 
   const columns = [
     {
@@ -185,13 +190,13 @@ const Company = () => {
     //         <Switch
     //           checkedChildren={``}
     //           unCheckedChildren={``}
-    //           onChange={() => Active_Inactive(row._id,row)}  
+    //           onChange={() => Active_Inactive(row._id,row)}
     //           defaultChecked={row.active}
     //           className={
-    //             row.active 
+    //             row.active
     //               ? "custom-switch-checked"
     //               : "custom-switch-unchecked"
-    //           }         
+    //           }
     //         />
     //       </div>
     //     </>
@@ -243,9 +248,7 @@ const Company = () => {
     },
   };
 
-  const handleChange = () => {
-
-  }
+  const handleChange = () => {};
 
   return (
     <>
@@ -257,9 +260,9 @@ const Company = () => {
           <div className="">
             <button
               onClick={showModal}
-              className=" bg-[#176B87] flex justify-center items-center text-white w-32 gap-1 rounded-md h-8 xs:text-base text-sm"
+              className=" bg-[#176B87] hover:scale-105 transition-all duration-300  flex justify-center items-center text-white w-36 gap-1 rounded-md h-9 xs:text-base text-sm"
             >
-              <FaPlus className="text-white size-2" />
+              <FaPlus className="text-white size-2.5" />
               Add Company
             </button>
           </div>
@@ -327,37 +330,39 @@ const Company = () => {
             <div className="flex flex-col mb-4">
               <label className="pl-4">Auction Date :</label>
               <Select
-                name="describeDate"
-                id="describeDate"
+                name="auctionDates"
+                id="auctionDates"
                 onBlur={forms.handleBlur}
-                onChange={(e) => forms.setFieldValue("describeDate", e)}
-                value={forms.values.describeDate}
+                onChange={(e) => forms.setFieldValue("auctionDates", e)}
+                value={forms.values.auctionDates}
                 className="h-10 border drop-shadow-lg w-[93%] hover:focus-within:outline-none rounded-md ml-3"
                 placeholder="Select Auction Date"
                 options={[
+                  {value:'', label:"Select Auction Date"},
                   { value: "5", label: "Every month 5th " },
                   { value: "second sunday", label: "Second Sunday" },
                 ]}
               />
-              {forms.errors.auctionDate && forms.touched.auctionDate ? (
+
+              {forms.errors.auctionDates && forms.touched.auctionDates ? (
                 <div
                   style={{ width: "100%", color: "red", paddingLeft: "15px" }}
                 >
-                  {forms.errors.auctionDate}
+                  {forms.errors.auctionDates}
                 </div>
               ) : null}
             </div>
             <div className="flex justify-center">
               <button
-                className="bg-[#176B87] w-36 h-[35px] text-white font-bold rounded-md"
+                className="bg-[#176B87] w-36 h-[35px] text-white font-bold rounded-md hover:scale-105 transition-all duration-300"
                 onClick={forms.handleSubmit}
               >
                 Submit
               </button>
             </div>
           </div>
-        </Modal >
-      </div >
+        </Modal>
+      </div>
     </>
   );
 };

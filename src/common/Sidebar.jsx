@@ -185,7 +185,12 @@ const Adminsidebar = React.memo(({ handleToggle, open }) => {
                                     <NavLink
                                         to={menu.path}
                                     >
+<<<<<<< HEAD
                                         <div className={` flex  items-center    ${location.pathname.includes(menu.path) ? 'bg-slate-200 rounded-full text-[#176b87]' : 'text-white'} ${open ? "py-2 mx-4" : "py-1 px-4 mx-2 justify-center"}`}>
+=======
+                                        <div className={` flex  items-center ${location.pathname.includes(menu.path) ? 'bg-slate-200 rounded-full text-[#176b87]' : 'text-white'} ${open ? "py-2 mx-4" : "py-1 px-4 mx-2 justify-center"}`}
+                                        >
+>>>>>>> 718e5a8dc5ae2ba787207a84bbe592ccfedb6c58
                                             <div className={`${open ? 'ml-4' : ''}`}>
                                                 {
                                                     open ?
