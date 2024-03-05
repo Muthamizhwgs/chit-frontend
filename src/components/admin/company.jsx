@@ -257,9 +257,9 @@ const Company = () => {
           <div className="">
             <button
               onClick={showModal}
-              className=" bg-[#176B87] flex justify-center items-center text-white w-32 gap-1 rounded-md h-8 xs:text-base text-sm"
+              className=" bg-[#176B87] hover:scale-105 transition-all duration-300  flex justify-center items-center text-white w-36 gap-1 rounded-md h-9 xs:text-base text-sm"
             >
-              <FaPlus className="text-white size-2" />
+              <FaPlus className="text-white size-2.5" />
               Add Company
             </button>
           </div>
@@ -349,7 +349,7 @@ const Company = () => {
             </div>
             <div className="flex justify-center">
               <button
-                className="bg-[#176B87] w-36 h-[35px] text-white font-bold rounded-md"
+                className="bg-[#176B87] w-36 h-[35px] text-white font-bold rounded-md hover:scale-105 transition-all duration-300"
                 onClick={forms.handleSubmit}
               >
                 Submit
