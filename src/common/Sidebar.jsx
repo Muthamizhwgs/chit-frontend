@@ -160,11 +160,11 @@ const Adminsidebar = React.memo(({ handleToggle, open }) => {
                                         <NavLink
                                             to={menu.path}
                                         >
-                                            <div className={` flex  items-center    ${location.pathname.includes(menu.path) ? 'bg-slate-200 rounded-full text-[#176b87]' : 'text-white hover:text-[#176b87] hover:bg-white rounded-full'} ${open ? "py-2 mx-4" : "py-1 px-4 mx-2 justify-center"}`}
+                                            <div className={` relative  hover:rounded-full hover:text-[#176b87] flex   items-center ${location.pathname.includes(menu.path) ? 'bg-slate-200 rounded-full text-[#176b87]' : 'text-white sidebar rounded-full  '} ${open ? "py-2 mx-4" : "py-1 px-4 mx-2 justify-center"}`}
                                             >
                                                 <div className={`${open ? 'ml-4' : ''}`}>
                                                     {
-                                                        open ? <h1 className='flex gap-2  items-center sm:text-lg text-sm'>{menu.icons}{menu.title}</h1>
+                                                        open ? <h1 className='flex gap-2    items-center sm:text-lg text-sm'>{menu.icons}{menu.title}</h1>
                                                             :
                                                             <h1 className='flex gap-2  items-center sm:text-lg text-sm w-10 h-10 justify-center'>{menu.icons}</h1>
                                                     }
@@ -185,7 +185,7 @@ const Adminsidebar = React.memo(({ handleToggle, open }) => {
                                     <NavLink
                                         to={menu.path}
                                     >
-                                        <div className={` flex  items-center ${location.pathname.includes(menu.path) ? 'bg-slate-200 rounded-full text-[#176b87]' : 'text-white'} ${open ? "py-2 mx-4" : "py-1 px-4 mx-2 justify-center"}`}
+                                        <div className={`relative hover:rounded-full hover:text-[#176b87]  flex  items-center ${location.pathname.includes(menu.path) ? 'bg-slate-200 rounded-full text-[#176b87]' : 'text-white sidebar '} ${open ? "py-2 mx-4" : "py-1 px-4 mx-2 justify-center"}`}
                                         >
                                             <div className={`${open ? 'ml-4' : ''}`}>
                                                 {

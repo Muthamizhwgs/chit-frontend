@@ -191,7 +191,7 @@ function ChitMapping() {
       <div className='flex justify-center max-w-[95%] py-5'>
         <div></div>
         <div className='text-xl'>
-          <h1 className='font-semibold py-2'>Chit Mapping</h1>
+          <h1 className='font-bold py-2'>Chit Mapping</h1>
         </div>
       </div>
 
