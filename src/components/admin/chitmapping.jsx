@@ -197,70 +197,75 @@ function ChitMapping() {
 
 
       <div className='grid grid-cols-1 xs:grid-cols-2 justify-items-center  lg:flex justify-center gap-4  p-5'>
-         <Select
-            placeholder="Select company"
-            className='lg:w-48 w-full'
+        <Select
+          placeholder="Select company"
+          className='lg:w-48 w-full'
 
-            onChange={handleChange}
-          >
-            {
+          onChange={handleChange}
+        >
+          {
 
-              companyName.map((item, ind) => (
-                <Option value={ind} >{item}</Option>
-              ))
-            }
-          </Select>
+            companyName.map((item, ind) => (
+              <Option value={ind} >{item}</Option>
+            ))
+          }
+        </Select>
 
-          <Select
-            placeholder="select chit"
-            className='lg:w-48 w-full'
+        <Select
+          placeholder="select chit"
+          className='lg:w-48 w-full'
 
-            onChange={handleChange}
-          >
-            {
-              // eslint-disable-next-line no-unused-vars
-              chit.map((item, ind) => (
-                // eslint-disable-next-line react/jsx-key
-                <Option value={item._id}>{item.chitName}</Option>
-              ))
-            }
-          </Select>
+          onChange={handleChange}
+        >
+          {
+            // eslint-disable-next-line no-unused-vars
+            chit.map((item, ind) => (
+              // eslint-disable-next-line react/jsx-key
+              <Option value={item._id}>{item.chitName}</Option>
+            ))
+          }
+        </Select>
 
-          <Select
-            className=' lg:w-48 w-full'
-            placeholder='Select Group'
-            onChange={handleChange}
+        <Select
+          className=' lg:w-48 w-full'
+          placeholder='Select Group'
+          onChange={handleChange}
 
-          >
-            {
-              // eslint-disable-next-line no-unused-vars
-              chit.map((item, ind) => (
-                // eslint-disable-next-line react/jsx-key
-                <Option value={item._id}>{item.group}</Option>
-              ))
-            }
-          </Select>
+        >
+          {
+            // eslint-disable-next-line no-unused-vars
+            chit.map((item, ind) => (
+              // eslint-disable-next-line react/jsx-key
+              <Option value={item._id}>{item.group}</Option>
+            ))
+          }
+        </Select>
 
-          <Select
-            className='placeholder:text-black lg:w-48 w-full'
-            mode="multiple"
+        <Select
+          className='placeholder:text-black lg:w-48 w-full'
+          mode="multiple"
 
-            placeholder='Select users'
-            onChange={handleSelectChange}
-          >
-            {
-              chitUsers.map((item, ind) => (
-                // eslint-disable-next-line react/jsx-key
-                <Option value={ind}>{item.name} - {item.phoneNumber} </Option>
-              ))
-            }
-          </Select>
+          placeholder='Select users'
+          onChange={handleSelectChange}
+        >
+          {
+            chitUsers.map((item, ind) => (
+              // eslint-disable-next-line react/jsx-key
+              <Option value={ind}>{item.name} - {item.phoneNumber} </Option>
+            ))
+          }
+        </Select>
 
-          <button onClick={getusers} className='bg-[#176B87] text-white w-32 gap-1 rounded-md h-8'> Map Chit </button>
+        {/* <button onClick={getusers} className='bg-[#176B87] text-white w-32 gap-1 rounded-md h-8'> Map Chit </button> */}
+        <button
+          className="cursor-pointer transition-all bg-[#176B87] text-white w-28 h-[35px] rounded-lg border-[#15414e] border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px] active:border-b-[2px] active:brightness-90 active:translate-y-[2px]" onClick={getusers}
+        >
+          Map Chit
+        </button>
 
       </div>
 
-    
+
       {/* cards design */}
 
       <div className='w-[95%] m-auto flex flex-col gap-3'>
@@ -317,7 +322,12 @@ function ChitMapping() {
             ))
           }
           <div className='flex justify-center mt-8'>
-            <button className='bg-[#176B87] flex justify-center items-center text-white w-20 gap-1 rounded-md h-8' onClick={submitMapping}>Submit</button>
+            {/* <button className='bg-[#176B87] flex justify-center items-center text-white w-20 gap-1 rounded-md h-8' onClick={submitMapping}>Submit</button> */}
+            <button
+              className="cursor-pointer transition-all bg-[#176B87] text-white w-28 h-[35px] rounded-lg border-[#15414e] border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px] active:border-b-[2px] active:brightness-90 active:translate-y-[2px]" onClick={submitMapping}
+            >
+              Submit
+            </button>
           </div>
         </Drawer>
       </div>
