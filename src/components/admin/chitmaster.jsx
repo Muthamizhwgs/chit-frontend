@@ -22,7 +22,7 @@ function ChitMaster() {
   // const [searchTerm, setSearchTerm] = React.useState("");
   const [loader, setLoader] = React.useState(false);
   const [companyId, setCompanyId] = React.useState("");
-  const [ companyAuctionDate, setCompanyAuctionDate ] = React.useState('')
+  const [companyAuctionDate, setCompanyAuctionDate] = React.useState("");
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -38,24 +38,24 @@ function ChitMaster() {
   });
   const handleCancel = () => {
     setIsModalOpen(false);
-    forms.values.chitAmount = ""
-    forms.values.chitName = ""
-    forms.values.companyId = ""
-    forms.values.companyName = ""
-    forms.values.describeDate = ""
-    forms.values.group = ""
-    forms.values.months = ""
-    forms.values.noOfPeople = ""
-    setCompanyAuctionDate('')
+    forms.values.chitAmount = "";
+    forms.values.chitName = "";
+    forms.values.companyId = "";
+    forms.values.companyName = "";
+    forms.values.describeDate = "";
+    forms.values.group = "";
+    forms.values.months = "";
+    forms.values.noOfPeople = "";
+    setCompanyAuctionDate("");
     forms.resetForm();
   };
 
   const submitForms = async (value) => {
     setLoader(true);
-    if(companyAuctionDate =='Every Month 5'){
-      forms.values.describeDate = 5
-    }else{
-      forms.values.describeDate = companyAuctionDate
+    if (companyAuctionDate == "Every Month 5") {
+      forms.values.describeDate = 5;
+    } else {
+      forms.values.describeDate = companyAuctionDate;
     }
     try {
       await AddChit(value);
@@ -182,9 +182,14 @@ function ChitMaster() {
           <div></div>
           <div className="text-xl">Chit Master</div>
           <div className="">
-            <button
+            {/* <button
               onClick={showModal}
               className=" bg-[#176B87] flex justify-center items-center text-white w-28 gap-1 rounded-md h-8 xs:text-base text-sm"
+            >
+              New Chit
+            </button> */}
+            <button
+              className="cursor-pointer transition-all bg-[#176B87] text-white w-28 h-[35px] rounded-lg border-[#15414e] border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px] active:border-b-[2px] active:brightness-90 active:translate-y-[2px]" onClick={showModal}
             >
               New Chit
             </button>
@@ -230,13 +235,16 @@ function ChitMaster() {
                     (company) => company._id === value
                   );
                   if (selectedCompany) {
-                    if(selectedCompany.auctionDates == 5){
-                      setCompanyAuctionDate(`Every Month ${selectedCompany.auctionDates}`);
-                    }else{
-                      setCompanyAuctionDate(`Every Month ${selectedCompany.auctionDates}`);
+                    if (selectedCompany.auctionDates == 5) {
+                      setCompanyAuctionDate(
+                        `Every Month ${selectedCompany.auctionDates}`
+                      );
+                    } else {
+                      setCompanyAuctionDate(
+                        `Every Month ${selectedCompany.auctionDates}`
+                      );
                     }
-                    forms.values.describeDate = selectedCompany.auctionDates
-
+                    forms.values.describeDate = selectedCompany.auctionDates;
                   }
                 }}
                 className="h-10 border drop-shadow-lg w-[93%] hover:focus-within:outline-none rounded-md ml-3"
@@ -369,7 +377,7 @@ function ChitMaster() {
                 </div>
               ) : null}
             </div>
-            
+
             <div className="flex flex-col mb-4">
               <label className="pl-4">Auction Date :</label>
               <input
@@ -379,13 +387,17 @@ function ChitMaster() {
                 readOnly
                 value={companyAuctionDate}
               />
-              
             </div>
 
             <div className="flex justify-center">
-              <button
+              {/* <button
                 className="bg-[#176B87] w-36 h-[35px] text-white font-bold rounded-md"
                 onClick={forms.handleSubmit}
+              >
+                Submit
+              </button> */}
+              <button
+                className="cursor-pointer transition-all bg-[#176B87] text-white w-28 h-[35px] rounded-lg border-[#15414e] border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px] active:border-b-[2px] active:brightness-90 active:translate-y-[2px]" onClick={forms.handleSubmit}
               >
                 Submit
               </button>

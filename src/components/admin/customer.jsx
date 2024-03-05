@@ -310,9 +310,14 @@ function Customers() {
             Customers
           </div>
           <div className=''>
-            <button onClick={showModal} className=' bg-[#176B87] hover:scale-105 transition-all duration-300 flex justify-center items-center text-white w-32 gap-1 rounded-md h-10 xs:text-base text-sm'>
-              {/* <FaPlus className='text-white size-4' /> */}
+            {/* <button onClick={showModal} className=' bg-[#176B87] hover:scale-105 transition-all duration-300 flex justify-center items-center text-white w-32 gap-1 rounded-md h-10 xs:text-base text-sm'>
+              <FaPlus className='text-white size-4' />
               Add customers
+            </button> */}
+            <button
+              className="cursor-pointer transition-all bg-[#176B87] text-white w-32 h-10 rounded-lg border-[#15414e] border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px] active:border-b-[2px] active:brightness-90 active:translate-y-[2px]" onClick={showModal}
+            >
+              Add Customer
             </button>
           </div>
         </div>
@@ -352,7 +357,6 @@ function Customers() {
             <div className='flex flex-col mb-4'>
               <label className='pl-4'> Phone number :</label>
               <input type="number" disabled={edit} placeholder='Enter Phone Number' className='h-10 pl-3 border drop-shadow-lg w-[93%] hover:focus-within:outline-none rounded-md ml-3' name='phoneNumber' id="phoneNumber" onBlur={forms.handleBlur} value={forms.values.phoneNumber} onChange={forms.handleChange} />
-              <input type="number" placeholder='Enter Phone Number' className='h-10 pl-3 border drop-shadow-lg w-[93%] hover:focus-within:outline-none rounded-md ml-3' name='phoneNumber' id="phoneNumber" onBlur={forms.handleBlur} value={forms.values.phoneNumber} onChange={forms.handleChange} />
             </div>
             {forms.errors.phoneNumber && forms.touched.phoneNumber ? <div style={{ width: "100%", color: "red", paddingLeft: "15px" }}>{forms.errors.phoneNumber}</div> : null}
 
@@ -378,7 +382,12 @@ function Customers() {
             {forms.errors.reference && forms.touched.reference ? <div style={{ width: "100%", color: "red", paddingLeft: "15px" }}>{forms.errors.reference}</div> : null}
             {err ? <div style={{ width: "100%", color: "red", paddingLeft: "15px" }}>{err}</div> : null}
             <div className='flex justify-center'>
-              <button type='submit' className='bg-[#176B87] hover:scale-105 transition-all duration-300 w-36 h-[35px] text-white font-bold rounded-md' onClick={forms.handleSubmit}>Submit</button>
+              {/* <button type='submit' className='bg-[#176B87] hover:scale-105 transition-all duration-300 w-36 h-[35px] text-white font-bold rounded-md' onClick={forms.handleSubmit}>Submit</button> */}
+              <button
+                className="cursor-pointer transition-all bg-[#176B87] text-white w-28 h-[35px] rounded-lg border-[#15414e] border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px] active:border-b-[2px] active:brightness-90 active:translate-y-[2px]" onClick={forms.handleSubmit}
+              >
+                Submit
+              </button>
             </div>
           </div>
         </Modal>
