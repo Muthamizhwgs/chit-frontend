@@ -190,11 +190,11 @@ const Actions = () => {
       <div>
         <h1 className="text-xl font-bold text-center py-5">Auction</h1>
       </div>
-      <div className="flex xl:flex-row flex-col w-[95%] gap-10 py-4 px-4 items-center">
+      <div className="flex xl:flex-row flex-col w-[95%] xl:gap-10 gap-5 py-4 px-4 items-center">
         <div className={`flex sm:flex-row flex-col justify-center items-center gap-2 `}>
 
           <Select
-            className='ml-2 sm:w-80 xl:w-80 w-full'
+            className='ml-2 xs:w-64 xl:w-80 w-full'
             placeholder='Select Company'
             onChange={handleChange}
           >
@@ -208,7 +208,7 @@ const Actions = () => {
         <div className={`flex sm:flex-row  flex-col justify-around items-center gap-2 sm:gap-8 xl:gap-2 `}>
 
           <Select
-            className='ml-2 sm:w-80 xl:w-80 w-full'
+            className='ml-2 xs:w-64 xl:w-80 w-full'
             placeholder='Select Group'
             onChange={handleChange}
           >

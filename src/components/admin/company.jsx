@@ -254,10 +254,10 @@ const Company = () => {
     <>
       {loader ? <Loader /> : null}
       <div>
-        <div className="flex xs:flex-row flex-col xs:justify-between items-center gap-3 xs:gap-0 max-w-[95%] pt-10 font-bold">
+        <div className="flex xs:flex-row flex-col xs:justify-between items-center gap-3 xs:gap-0 max-w-[95%] py-5 font-bold">
           <div></div>
-          <div className="text-xl py-5">Company Creation</div>
-          <div className="">
+          <div className="text-xl xs:py-5">Company Creation</div>
+          <div className="xs:pb-0 pb-5">
             {/* <button
               onClick={showModal}
               className=" bg-[#176B87] hover:scale-105 transition-all duration-300  flex justify-center items-center text-white w-36 gap-1 rounded-md h-9 xs:text-base text-sm"

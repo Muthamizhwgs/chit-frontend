@@ -178,7 +178,7 @@ function ChitMaster() {
     <>
       {loader ? <Loader data={loader} /> : null}
       <div>
-        <div className="flex xs:flex-row flex-col xs:justify-between items-center gap-3 xs:gap-0 max-w-[95%] pt-10 font-bold">
+        <div className="flex xs:flex-row flex-col xs:justify-between items-center gap-3 xs:gap-0 max-w-[95%] py-5 font-bold">
           <div></div>
           <div className="text-xl">Chit Master</div>
           <div className="">

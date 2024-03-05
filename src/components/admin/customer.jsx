@@ -306,7 +306,7 @@ function Customers() {
       <div>
         <div className='flex xs:justify-between flex-col xs:flex-row items-center gap-2 xs:gap-0 max-w-[95%] py-5'>
           <div></div>
-          <div className='text-xl font-semibold'>
+          <div className='text-xl font-bold'>
             Customers
           </div>
           <div className=''>
