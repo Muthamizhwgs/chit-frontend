@@ -150,7 +150,7 @@ const Actions = () => {
     {
       when: row => row.status === 'Completed',
       style: {
-        backgroundColor: '#C9FFC2',
+        backgroundColor: '#DCF2F9',
       },
     },
   ]
@@ -168,14 +168,14 @@ const Actions = () => {
       status: 'Completed'
     },
     {
-      customerName:'Ms',
-      auctionAmount:'30000',
-      status:'Hold'
+      customerName: 'Ms',
+      auctionAmount: '30000',
+      status: 'Hold'
     },
     {
-      customerName:'suhail',
-      auctionAmount:'30000',
-      status:'Completed'
+      customerName: 'suhail',
+      auctionAmount: '30000',
+      status: 'Completed'
     }
   ]
 

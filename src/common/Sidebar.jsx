@@ -102,108 +102,108 @@ const Adminsidebar = React.memo(({ handleToggle, open }) => {
         >
             <div>
                 <div className='py-5'>
-                {open ? (
-                    <div className='flex justify-between items-center'>
-                        <div></div>
-                        <h1 className='text-white flex justify-center'><PiMoneyBold size={50} /></h1>
-                        <MdKeyboardArrowLeft
-                            className={`cursor-pointer w-7 h-7  mr-2 hover:bg-white bg-[#176b87] rounded-full transition duration-300 text-white hover:text-[#176b87]`}
-                            onClick={handleToggle}
-                        />
-
-                    </div>
-                ) : (
-                    <div>
-                        <div className="w-full flex justify-center items-center h-full ">
-                            <FaBars
-                                className={` cursor-pointer w-7 h-7  text-white
-                        `}
+                    {open ? (
+                        <div className='flex justify-between items-center'>
+                            <div></div>
+                            <h1 className='text-white flex justify-center'><PiMoneyBold size={50} /></h1>
+                            <MdKeyboardArrowLeft
+                                className={`cursor-pointer w-7 h-7  mr-2 hover:bg-white bg-[#176b87] rounded-full transition duration-300 text-white hover:text-[#176b87]`}
                                 onClick={handleToggle}
                             />
+
                         </div>
-                    </div>
-                )}
+                    ) : (
+                        <div>
+                            <div className="w-full flex justify-center items-center h-full ">
+                                <FaBars
+                                    className={` cursor-pointer w-7 h-7  text-white
+                        `}
+                                    onClick={handleToggle}
+                                />
+                            </div>
+                        </div>
+                    )}
                 </div>
                 <div className='py-5'>
-                {
-                    role === "superAdmin" &&
-                    <div className=''>
-                        <div className='flex flex-col gap-5'>
-                            <Fragment>
-                                <NavLink
-                                    to={'/homepage/admin'}
-                                >
-                                    <div className={`flex items-center  ${location.pathname === '/homepage/admin' ? 'bg-slate-200 rounded-full' : ''}  ${open ? "py-2 mx-4" : "py-1 px-4 mx-2 justify-center"} `}>
-                                        <div className={`${open ? 'ml-4' : ''}`}>
+                    {
+                        role === "superAdmin" &&
+                        <div className=''>
+                            <div className='flex flex-col gap-5'>
+                                <Fragment>
+                                    <NavLink
+                                        to={'/homepage/admin'}
+                                    >
+                                        <div className={`flex items-center  ${location.pathname === '/homepage/admin' ? 'bg-slate-200 rounded-full' : ''}  ${open ? "py-2 mx-4" : "py-1 px-4 mx-2 justify-center"} `}>
+                                            <div className={`${open ? 'ml-4' : ''}`}>
 
-                                            {
-                                                open ?
-                                                    <h1 className={`flex gap-2  items-center sm:text-lg text-sm text-[#176b87]`}><RiAdminFill />Admin</h1>
-                                                    :
-                                                    <h1 className={`flex gap-2  items-center sm:text-lg text-sm w-10 h-10 text-[#176b87] justify-center`}><RiAdminFill /></h1>
-                                            }
+                                                {
+                                                    open ?
+                                                        <h1 className={`flex gap-2  items-center sm:text-lg text-sm text-[#176b87]`}><RiAdminFill />Admin</h1>
+                                                        :
+                                                        <h1 className={`flex gap-2  items-center sm:text-lg text-sm w-10 h-10 text-[#176b87] justify-center`}><RiAdminFill /></h1>
+                                                }
+                                            </div>
                                         </div>
-                                    </div>
-                                </NavLink>
-                            </Fragment>
+                                    </NavLink>
+                                </Fragment>
+                            </div>
                         </div>
-                    </div>
 
 
-                }
-                {
-                    role === "admin" &&
-                    <div>
+                    }
+                    {
+                        role === "admin" &&
+                        <div>
+                            <div className='flex flex-col gap-5'>
+                                {Admin.map((menu, ind) => (
+                                    <Fragment key={ind}>
+                                        <NavLink
+                                            to={menu.path}
+                                        >
+                                            <div className={` flex  items-center    ${location.pathname.includes(menu.path) ? 'bg-slate-200 rounded-full text-[#176b87]' : 'text-white hover:text-[#176b87] hover:bg-white rounded-full'} ${open ? "py-2 mx-4" : "py-1 px-4 mx-2 justify-center"}`}
+                                            >
+                                                <div className={`${open ? 'ml-4' : ''}`}>
+                                                    {
+                                                        open ? <h1 className='flex gap-2  items-center sm:text-lg text-sm'>{menu.icons}{menu.title}</h1>
+                                                            :
+                                                            <h1 className='flex gap-2  items-center sm:text-lg text-sm w-10 h-10 justify-center'>{menu.icons}</h1>
+                                                    }
+
+                                                </div>
+                                            </div>
+                                        </NavLink>
+                                    </Fragment>
+                                ))}
+                            </div>
+                        </div>
+                    }
+                    {
+                        role === "customer" &&
                         <div className='flex flex-col gap-5'>
-                            {Admin.map((menu, ind) => (
+                            {user.map((menu, ind) => (
                                 <Fragment key={ind}>
                                     <NavLink
                                         to={menu.path}
                                     >
-                                        <div className={` flex  items-center    ${location.pathname.includes(menu.path) ? 'bg-slate-200 rounded-full text-[#176b87]' : 'text-white'} ${open ? "py-2 mx-4" : "py-1 px-4 mx-2 justify-center"}`}
-                                        >
+                                        <div className={` flex  items-center    ${location.pathname.includes(menu.path) ? 'bg-slate-200 rounded-full text-[#176b87]' : 'text-white'} ${open ? "py-2 mx-4" : "py-1 px-4 mx-2 justify-center"}`}>
                                             <div className={`${open ? 'ml-4' : ''}`}>
                                                 {
-                                                    open ? <h1 className='flex gap-2  items-center sm:text-lg text-sm'>{menu.icons}{menu.title}</h1>
+                                                    open ?
+                                                        <h1 className='flex gap-2  items-center sm:text-lg text-sm'>{menu.icons}{menu.title}</h1>
                                                         :
                                                         <h1 className='flex gap-2  items-center sm:text-lg text-sm w-10 h-10 justify-center'>{menu.icons}</h1>
-                                                }
 
+                                                }
                                             </div>
                                         </div>
                                     </NavLink>
                                 </Fragment>
                             ))}
                         </div>
-                    </div>
-                }
-                {
-                    role === "customer" &&
-                    <div className='flex flex-col gap-5'>
-                        {user.map((menu, ind) => (
-                            <Fragment key={ind}>
-                                <NavLink
-                                    to={menu.path}
-                                >
-                                    <div className={` flex  items-center    ${location.pathname.includes(menu.path) ? 'bg-slate-200 rounded-full text-[#176b87]' : 'text-white'} ${open ? "py-2 mx-4" : "py-1 px-4 mx-2 justify-center"}`}>
-                                        <div className={`${open ? 'ml-4' : ''}`}>
-                                            {
-                                                open ?
-                                                    <h1 className='flex gap-2  items-center sm:text-lg text-sm'>{menu.icons}{menu.title}</h1>
-                                                    :
-                                                    <h1 className='flex gap-2  items-center sm:text-lg text-sm w-10 h-10 justify-center'>{menu.icons}</h1>
-
-                                            }
-                                        </div>
-                                    </div>
-                                </NavLink>
-                            </Fragment>
-                        ))}
-                    </div>
-                }
+                    }
                 </div>
             </div>
-            
+
             <div>
                 {
                     open ?
