@@ -7,3 +7,38 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
+.sidebar {
+  /* animation: hoverEffect 1s linear; */
+  z-index: 10;
+}
+
+.sidebar::before {
+  content: ' ';
+  position: absolute;
+
+  background-color: white;
+  width: 0%;
+  height: 100%;
+  top: 0%;
+  z-index: -100;
+  left: 0%;
+  transition: linear 0.5s;
+  border-radius: 30px 30px 30px 30px;
+}
+
+.sidebar:hover::before {
+
+  width: 100%;
+  height: 100%;
+}
+
+@keyframes hoverEffect {
+  0% {
+    width: 0%
+  }
+
+  100% {
+    width: 100%
+  }
+}
