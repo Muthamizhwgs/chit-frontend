@@ -6,7 +6,7 @@ export const ChitMasterSchema =  Yup.object({
     chitAmount:Yup.string().required("Enter chit Amount"),
     group:Yup.string().required("Enter group"),
     noOfPeople:Yup.string().required("Enter no Of People"),
-    describeDate:Yup.string().required("Select Auction Date"),
+    describeDate:Yup.string(),
     months:Yup.string().required("Enter Months"),
     companyId:Yup.string().required("select Company")
 })
