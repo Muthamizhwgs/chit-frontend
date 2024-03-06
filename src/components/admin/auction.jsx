@@ -176,7 +176,7 @@ const Actions = () => {
     },
     {
       name: <h1 className="text-lg text-gray-500">Groups</h1>,
-      selector: (row) => "A",
+      selector: (row) => row.group,
     },
     {
       name: <h1 className="text-lg text-gray-500">month</h1>,
@@ -184,15 +184,15 @@ const Actions = () => {
     },
     {
       name: <h1 className="text-lg text-gray-500">Auction Amount</h1>,
-      selector: (row) => <CurrencyComponent amount={row.auctionAmount} />,
+      selector: (row) => <CurrencyComponent amount={row.Amount} />,
     },
     {
       name: <h1 className="text-lg text-gray-500">Dividend Amount</h1>,
-      selector: (row) => <CurrencyComponent amount={row.auctionAmount} />,
+      selector: (row) => <CurrencyComponent amount={row.dividendAmount} />,
     },
     {
       name: <h1 className="text-lg text-gray-500">Payable Amount</h1>,
-      selector: (row) => <CurrencyComponent amount={row.auctionAmount} />,
+      selector: (row) => <CurrencyComponent amount={row.payableAmount} />,
     },
     {
       name: <h1 className="text-lg text-gray-500">Status</h1>,
@@ -207,7 +207,7 @@ const Actions = () => {
     },
     {
       name: <h1 className="text-lg text-gray-500">Customer Name</h1>,
-      selector: (row) => row.customerName,
+      selector: (row) => row.customers,
     },
   ];
 
