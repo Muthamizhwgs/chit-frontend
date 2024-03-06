@@ -205,14 +205,14 @@ const Adminsidebar = React.memo(({ handleToggle, open }) => {
                 </div>
             </div>
 
-            <div>
+            <div className='mx-auto'>
                 {
                     open ?
-                        <h1 className=" text-slate-200 cursor-pointer hover:scale-105 transition-all duration-200 flex items-center justify-center " onClick={Logout}>
+                        <h1 className=" text-slate-200 w-fit cursor-pointer hover:scale-105 transition-all duration-200 flex items-center justify-center " onClick={Logout}>
                             <IoMdLogOut /> Logout
                         </h1>
                         :
-                        <h1 className=" text-slate-200 cursor-pointer hover:scale-110 transition-all duration-200 flex items-center justify-center " onClick={Logout}>
+                        <h1 className=" text-slate-200 w-fit cursor-pointer hover:scale-110 transition-all duration-200 flex items-center justify-center " onClick={Logout}>
                             <IoMdLogOut />
                         </h1>
                 }
