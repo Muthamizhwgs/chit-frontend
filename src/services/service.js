@@ -125,5 +125,12 @@ export const getGroupByCompany = async (id)=>{
     let ApiResponse = await useAxiosInterceptors.get('chit/getgroups/bycompany/'+id)
    return ApiResponse
 }
+export const getchitsByCompany = async (id)=>{   
+    let ApiResponse = await useAxiosInterceptors.get('chit/getchits/bycompany/'+id)
+   return ApiResponse
+}
 
-// getgroups/bycompany/:id
+export const getgroupsBychits = async (id)=>{   
+    let ApiResponse = await useAxiosInterceptors.get('chit/get/groups/bychits/'+id)
+   return ApiResponse
+}

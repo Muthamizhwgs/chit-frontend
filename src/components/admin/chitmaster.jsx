@@ -37,11 +37,6 @@ function ChitMaster() {
     setIsModalOpen(true);
   };
 
-  const showAddgroup = () => {
-    setIsModalOpen(false);
-    setIsGroupOpen(true);
-  };
-
   let navigate = useNavigate();
 
   const forms = useFormik({
@@ -51,6 +46,15 @@ function ChitMaster() {
       submitForms(values);
     },
   });
+  const showAddgroup = () => {
+    var size = Object.keys(forms.errors).length;
+    if (size > 0) {
+      console.log(size);
+    } else {
+      setIsModalOpen(false);
+      setIsGroupOpen(true);
+    }
+  };
   const handleCancel = () => {
     setIsModalOpen(false);
     setIsGroupOpen(false);
@@ -67,19 +71,19 @@ function ChitMaster() {
   };
 
   const submitForms = async (value) => {
+    let datas = { ...value, ...{ groups: tags } };
+    console.log(datas, "asdasd");
     setLoader(true);
-    if (companyAuctionDate == "Every Month 5") {
-      forms.values.describeDate = 5;
-    } else {
-      forms.values.describeDate = companyAuctionDate;
-    }
     try {
-      await AddChit(value);
+      await AddChit(datas);
       getChit();
       handleCancel();
       setErr(null);
     } catch (error) {
       setErr(error.response.data.message);
+      if (error.response.status == 401) {
+        navigate("/");
+      }
     } finally {
       setLoader(false);
     }
@@ -141,8 +145,8 @@ function ChitMaster() {
       selector: (row) => <CurrencyComponent amount={row.serviceCharges} />,
     },
     {
-      name: <h1 className="text-lg text-gray-500">Group</h1>,
-      selector: (row) => row.group,
+      name: <h1 className="text-lg text-gray-500"> No Of Groups</h1>,
+      selector: (row) => row.groups,
     },
     {
       name: <h1 className="text-lg text-gray-500">Auction Date</h1>,
@@ -175,6 +179,19 @@ function ChitMaster() {
     },
   };
 
+  const AuctionDateMapping = async (id) => {
+    let findIndex = companies.findIndex((e) => {
+      return (e._id = id);
+    });
+    if (companies[findIndex].auctionDates == 5) {
+      setCompanyAuctionDate(`Every Month ${companies[findIndex].auctionDates}`);
+    } else {
+      setCompanyAuctionDate(`Every Month Second Sunday`);
+    }
+    forms.setFieldValue("describeDate", companies[findIndex].auctionDates);
+    // forms.values.describeDate =
+  };
+
   useEffect(() => {
     getChit();
     getCompanies();
@@ -193,7 +210,7 @@ function ChitMaster() {
   // for add group
   const { token } = theme.useToken();
   const [tags, setTags] = useState([]);
-  console.log(tags)
+  console.log(tags);
   const [inputVisible, setInputVisible] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [editInputIndex, setEditInputIndex] = useState(-1);
@@ -302,39 +319,21 @@ function ChitMaster() {
             <div className="flex flex-col mb-4">
               <label className="pl-4">Company :</label>
               <Select
-                name="companyName"
+                name="companyId"
                 id="companyId"
                 onBlur={forms.handleBlur}
                 onChange={(value) => {
                   forms.setFieldValue("companyId", value);
-                  const selectedCompany = companies.find(
-                    (company) => company._id === value
-                  );
-                  if (selectedCompany) {
-                    if (selectedCompany.auctionDates == 5) {
-                      setCompanyAuctionDate(
-                        `Every Month ${selectedCompany.auctionDates}`
-                      );
-                    } else {
-                      setCompanyAuctionDate(
-                        `Every Month ${selectedCompany.auctionDates}`
-                      );
-                    }
-                    forms.values.describeDate = selectedCompany.auctionDates;
-                  }
+                  AuctionDateMapping(value);
                 }}
                 className="h-10 border drop-shadow-lg w-[93%] hover:focus-within:outline-none rounded-md ml-3"
                 placeholder="Select Company"
-              >
-                <Select.Option value="">Select Company</Select.Option>
-                {companies &&
-                  companies.map((company) => (
-                    <Select.Option value={company._id} key={company._id}>
-                      {company.companyName}
-                    </Select.Option>
-                  ))}
-              </Select>
-
+                value={forms.values.companyId}
+                options={
+                  companies &&
+                  companies.map((e) => ({ value: e._id, label: e.companyName }))
+                }
+              />
               {forms.errors.companyId && forms.touched.companyId ? (
                 <div
                   style={{ width: "100%", color: "red", paddingLeft: "15px" }}
@@ -441,7 +440,7 @@ function ChitMaster() {
               <label className="pl-4">Auction Date :</label>
               <input
                 type="text"
-                placeholder="Enter No Of Peoples"
+                placeholder="Enter Auction Date"
                 className="h-10 pl-3 border drop-shadow-lg w-[93%] hover:focus-within:outline-none rounded-md ml-3"
                 readOnly
                 value={companyAuctionDate}
@@ -493,7 +492,7 @@ function ChitMaster() {
             ) : null}
           </div> */}
 
-          <div >
+          <div>
             <Flex gap="small" wrap="wrap" className="justify-center">
               {tags.map((tag, index) => {
                 if (editInputIndex === index) {
@@ -513,7 +512,7 @@ function ChitMaster() {
                 const isLongTag = tag.length > 20;
                 const tagElem = (
                   <Tag
-                  className="flex justify-center items-center"
+                    className="flex justify-center items-center"
                     key={tag}
                     closable={true}
                     style={{
@@ -522,7 +521,7 @@ function ChitMaster() {
                     onClose={() => handleClose(tag)}
                   >
                     <span
-                    className=""
+                      className=""
                       onDoubleClick={(e) => {
                         if (index !== 0) {
                           setEditInputIndex(index);

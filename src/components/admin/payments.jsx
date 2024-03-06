@@ -91,7 +91,7 @@ function Payments() {
   return (
     <div>
       {loader ? <Loader /> : null}
-      <div className="text-center pt-10 text-xl font-bold pb-5">Payments</div>
+      <div className="text-center pt-10 text-xl font-bold pb-5">  Payments</div>
       <div className="py-5 px-10">
         <div
           className={`flex sm:flex-row w-[95%] px-5 flex-col justify-between items-center gap-2 sm:gap-8 xl:gap-2 `}>
@@ -110,7 +110,7 @@ function Payments() {
           </form>
           {/* <button className='bg-[#176B87] flex justify-center items-center text-white w-32 gap-1 rounded-md h-8'>Get Payments</button> */}
           <button className="cursor-pointer transition-all bg-[#176B87] text-white w-32 h-[35px] rounded-lg border-[#15414e] border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px] active:border-b-[2px] active:brightness-90 active:translate-y-[2px]">
-            Payments
+          ₹ Payments
           </button>
         </div>
         <div className="w-[95%] m-auto mt-5 overflow-auto">
