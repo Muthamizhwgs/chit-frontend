@@ -551,7 +551,7 @@ function ChitMaster() {
                   style={tagInputStyle}
                   value={inputValue}
                   onChange={handleInputChange}
-                  onBlur={handleInputConfirm1}
+                  onBlur={handleInputConfirm}
                   onPressEnter={handleInputConfirm}
                 />
               ) : (
