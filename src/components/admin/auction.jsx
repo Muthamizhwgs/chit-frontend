@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import { useNavigate } from "react-router-dom";
-import { Select } from "antd";
+import { Select, Radio, } from "antd";
+import { Option } from "antd/es/mentions";
+
 import {
   getChitReports,
   MonthlyAuction,
@@ -28,6 +30,7 @@ const Actions = () => {
   const [groups, setGroups] = useState([]);
   const [companyId, setCompanyId] = useState();
   const [group, setGroup] = useState();
+  const [value, setValue] = useState(1);
   const navigate = useNavigate();
   const forms = useFormik({
     initialValues: AuctionInitValues,
@@ -36,11 +39,20 @@ const Actions = () => {
       submitForms(values);
     },
   });
+  const onChange = (e) => {
+    console.log('radio checked', e.target.value);
+    setValue(e.target.value);
+  };
 
   const handleCancel = () => {
     setIsModalOpen(false);
     forms.resetForm();
   };
+
+  const date = [
+    "Every Month 5th",
+    "Second Sunday"
+  ]
 
   const getMyChits = async () => {
     setLoader(true);
@@ -166,7 +178,7 @@ const Actions = () => {
     } finally {
       setLoader(false);
     }
-    
+
   };
 
   const columns = [
@@ -199,8 +211,13 @@ const Actions = () => {
       selector: (row) => {
         return (
           <div>
-            {row.status == "Hold" ? <div className="flex justify-center items-center">{row.status}<PiFlagPennantFill className="text-red-500 size-5" /></div> : null}
-            {row.status == "Completed" ? <div>{row.status}</div> : null}
+            {/* {row.status == "Hold" ? <div className="flex justify-center items-center">{row.status}<PiFlagPennantFill className="text-red-500 size-5" /></div> : null}
+            {row.status == "Completed" ? <div>{row.status}</div> : null} */}
+
+            <Radio.Group onChange={onChange} value={value} className="flex flex-col">
+              <Radio value={1} className="flex flex-row justify-start items-center" style={{ buttonBg: "red" }}>Hold</Radio>
+              <Radio value={2} className="flex flex-row justify-start items-center" style={{ buttonBg: "green" }}>Completed</Radio>
+            </Radio.Group>
           </div>
         )
       }
@@ -257,15 +274,22 @@ const Actions = () => {
         >
           <Select
             className="ml-2 sm:w-80 xl:w-80 w-full"
-            placeholder="Select Company"
+            placeholder="Select date"
             onChange={handleChange}
           >
-            {company.length > 0 &&
-              company.map((item, ind) => (
+            {/* {company.length > 0 &&
+              date.map((item, ind) => (
                 <Option key={ind} value={ind}>
-                  {item.companyName}
+                  {item.date}
                 </Option>
-              ))}
+              ))} */}
+            {
+              date.map((item, ind) => (
+                <Option key={ind} >
+                  {item}
+                </Option>
+              )
+              )}
           </Select>
         </div>
         <div
