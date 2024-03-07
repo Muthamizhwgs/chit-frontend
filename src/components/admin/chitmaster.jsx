@@ -4,6 +4,7 @@ import Breadcrumbs from "../utils/Breadcrumbs";
 import { Modal, Select, Radio, Tag } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { Flex, Input, theme, Tooltip } from "antd";
+import { FaEdit } from "react-icons/fa";
 const tagInputStyle = {
   width: 64,
   height: 32,
@@ -32,6 +33,8 @@ function ChitMaster() {
   const [loader, setLoader] = React.useState(false);
   const [companyId, setCompanyId] = React.useState("");
   const [companyAuctionDate, setCompanyAuctionDate] = React.useState("");
+  const [edit, setEdit] = React.useState(false);
+  const [id, setId] = React.useState('');
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -43,7 +46,8 @@ function ChitMaster() {
     initialValues: ChitMasterinitValue,
     validationSchema: ChitMasterSchema,
     onSubmit: (values) => {
-      submitForms(values);
+      edit ? EditSubmit(values) : submitForms(values)
+
     },
   });
   const showAddgroup = () => {
@@ -122,6 +126,33 @@ function ChitMaster() {
     }
   }, []);
 
+  const chengeEdit = (val) => {
+    (forms.values.companyId = val.companyName);
+    (forms.values.chitName = val.chitName);
+    (forms.values.chitAmount = val.chitAmount);
+    (forms.values.months = val.months);
+    (forms.values.noOfPeople = val.noOfPeople);
+
+    setEdit(true);
+    setIsModalOpen(true);
+  }
+
+
+  const EditSubmit = async (values) => {
+    // console.log(values)
+    // try {
+    //   let val = await UpdateChituserById(id, values)
+    //   console.log(val, "response")
+    //   getChit()
+    //   handleCancel()
+
+    // } catch (error) {
+    //   if (error.response.status == 401) {
+    //     navigate('/')
+    //   }
+    // }
+  }
+
   const columns = [
     {
       name: <h1 className="text-lg text-gray-500">S.No</h1>,
@@ -151,6 +182,24 @@ function ChitMaster() {
     {
       name: <h1 className="text-lg text-gray-500">Auction Date</h1>,
       cell: (row) => <DateFormat date={row.createdAt} />,
+    },
+    {
+      name: <h1 className="text-lg text-gray-500">Action</h1>,
+      cell: (row) => (
+        <>
+          <>
+            <FaEdit
+              className="size-5 cursor-pointer"
+              onClick={() => {
+                chengeEdit(row);
+              }}
+              color="#176b87"
+            />
+            <span className="ml-2">{row.id}</span>
+            <span className="ml-2">{row.id}</span>
+          </>
+        </>
+      ),
     },
   ];
   const customStyles = {
@@ -328,7 +377,7 @@ function ChitMaster() {
                 }}
                 className="h-10 border drop-shadow-lg w-[93%] hover:focus-within:outline-none rounded-md ml-3"
                 placeholder="Select Company"
-                value={forms.values.companyId}
+                value={forms.values.companyId || undefined}
                 options={
                   companies &&
                   companies.map((e) => ({ value: e._id, label: e.companyName }))
@@ -398,6 +447,7 @@ function ChitMaster() {
                 onChange={(e) => forms.setFieldValue("months", e.target.value)}
                 value={forms.values.months}
                 className="pl-5 flex gap-2"
+                defaultValue={true}
               >
                 <Radio value={20} className="flex items-center">
                   Yes
@@ -416,10 +466,10 @@ function ChitMaster() {
             </div>
 
             <div className="flex flex-col mb-4">
-              <label className="pl-4">No Of Peoples :</label>
+              <label className="pl-4"> No of Peoples :</label>
               <input
                 type="number"
-                placeholder="Enter No Of Peoples"
+                placeholder="Enter no of Peoples"
                 className="h-10 pl-3 border drop-shadow-lg w-[93%] hover:focus-within:outline-none rounded-md ml-3"
                 name="noOfPeople"
                 id="noOfPeople"

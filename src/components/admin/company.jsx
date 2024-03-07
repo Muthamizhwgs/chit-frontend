@@ -84,6 +84,7 @@ const Company = () => {
     setId(data._id);
     (forms.values.commission = data.commission),
       (forms.values.companyName = data.companyName);
+    (forms.values.auctionDates = data.auctionDates);
     showModal();
     setEdit(true);
   };
@@ -139,7 +140,7 @@ const Company = () => {
     setLoader(true);
     try {
       let values = await getChitCompany();
-      
+
       // eslint-disable-next-line no-empty
     } catch (error) {
       console.log(error.response.status);
@@ -248,7 +249,7 @@ const Company = () => {
     },
   };
 
-  const handleChange = () => {};
+  const handleChange = () => { };
 
   return (
     <>
@@ -267,11 +268,11 @@ const Company = () => {
             </button> */}
             <button class="cursor-pointer transition-all w-36 h-9 bg-[#176B87] text-white rounded-lg border-[#15414e] border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px]
                active:border-b-[2px] active:brightness-90 active:translate-y-[2px] flex justify-center items-center gap-2"
-               onClick={showModal}
-               >
-                <FaPlus className="text-white size-2.5" />
-                Add Company
-              </button>
+              onClick={showModal}
+            >
+              <FaPlus className="text-white size-2.5" />
+              Add Company
+            </button>
           </div>
         </div>
         <div className="px-5">
@@ -341,11 +342,11 @@ const Company = () => {
                 id="auctionDates"
                 onBlur={forms.handleBlur}
                 onChange={(e) => forms.setFieldValue("auctionDates", e)}
-                value={forms.values.auctionDates}
+                value={forms.values.auctionDates || undefined}
                 className="h-10 border drop-shadow-lg w-[93%] hover:focus-within:outline-none rounded-md ml-3"
                 placeholder="Select Auction Date"
                 options={[
-                  {value:'', label:"Select Auction Date"},
+                  // { value: '', label: "Select Auction Date" },
                   { value: "5", label: "Every month 5th " },
                   { value: "second sunday", label: "Second Sunday" },
                 ]}
@@ -365,10 +366,10 @@ const Company = () => {
               >
                 Submit
               </button> */}
-              <button class="cursor-pointer transition-all w-36 h-[35px] bg-[#176B87] text-white rounded-lg border-[#15414e] border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px]
+              <button className="cursor-pointer transition-all w-36 h-[35px] bg-[#176B87] text-white rounded-lg border-[#15414e] border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px]
                active:border-b-[2px] active:brightness-90 active:translate-y-[2px]"
-               onClick={forms.handleSubmit}
-               >
+                onClick={forms.handleSubmit}
+              >
                 Submit
               </button>
             </div>
