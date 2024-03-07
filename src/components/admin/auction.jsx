@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import { useNavigate } from "react-router-dom";
-import { Select, Radio, Input } from "antd";
+import { Select, Radio, Input, Modal } from "antd";
 import { Option } from "antd/es/mentions";
 
 import {
@@ -40,6 +40,19 @@ const Actions = () => {
   const [chitInput, setChitInput] = useState(undefined);
   const [groupInput, setGroupInput] = useState(undefined);
   const [status, setStatus] = useState({});
+  const [isModalOpensubmit, setIsModalOpensubmit] = useState(false);
+  const [customerInput,setCustomerInput] = useState(null)
+
+  const showModal = () => {
+    setIsModalOpensubmit(true);
+  };
+
+  const handleCancelModal = () => {
+    setIsModalOpensubmit(false);
+    setCustomerInput(null)
+    // forms.resetForm();
+  };
+  
 
   const navigate = useNavigate();
   const forms = useFormik({
@@ -61,6 +74,8 @@ const Actions = () => {
     setIsModalOpen(false);
     forms.resetForm();
   };
+
+
 
   const date = ["Every Month 5th", "Second Sunday"];
 
@@ -255,6 +270,16 @@ const Actions = () => {
     setCustomers(updatedCustomers);
   };
 
+
+  const handleConfirmsubmit = (e, val) => {
+    console.log(e, val);
+    setIsModalOpensubmit(true)
+    setCustomerInput(val)
+
+  }
+
+  console.log(customerInput)
+
   const columns = [
     {
       name: <h1 className="text-lg text-gray-500">S.No</h1>,
@@ -320,7 +345,9 @@ const Actions = () => {
       name: <h1 className="text-lg text-gray-500">Customer Name</h1>,
       selector: (row) => (
         <Select
+          value={customerInput}
           className="w-40"
+          onChange={(e)=>{handleConfirmsubmit(row, e)}}
           placeholder="Select Customer"
           options={row.chitMap.map((item, index) => ({
             value: item._id,
@@ -443,6 +470,20 @@ const Actions = () => {
           />
         )}
       </div>
+
+      {/* Modal */}
+
+      <Modal
+          title="Confirm Submit"
+          height={"260px"}
+          open={isModalOpensubmit}
+          onCancel={handleCancelModal}
+          footer={null}
+        >
+          <div className="flex flex-col justify-center items-center">
+            <button className="bg-[#176B87] text-white px-4 py-2 rounded-md text-xl">Confirm</button>
+          </div>
+        </Modal>
     </>
   );
 };
