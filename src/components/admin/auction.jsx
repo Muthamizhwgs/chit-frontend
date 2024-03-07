@@ -163,7 +163,7 @@ const Actions = () => {
     } finally {
       setLoader(false);
     }
-    setCustomers([]);
+
     setDateInput(e);
     setGroupInput(undefined);
     setChitInput(undefined);
