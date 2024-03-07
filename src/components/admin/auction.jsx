@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import { useNavigate } from "react-router-dom";
-import { Select, Radio } from "antd";
+import { Select, Radio, Input } from "antd";
 import { Option } from "antd/es/mentions";
 
 import {
@@ -36,6 +36,10 @@ const Actions = () => {
   const [value, setValue] = useState(1);
   const [chits, setChits] = useState([]);
   const [customers, setCustomers] = useState([]);
+  const [dateInput, setDateInput] = useState(undefined);
+  const [chitInput, setChitInput] = useState(undefined);
+  const [groupInput, setGroupInput] = useState(undefined);
+  const [status, setStatus] = useState({});
 
   const navigate = useNavigate();
   const forms = useFormik({
@@ -45,9 +49,12 @@ const Actions = () => {
       submitForms(values);
     },
   });
-  const onChange = (e) => {
-    console.log("radio checked", e.target.value);
-    setValue(e.target.value);
+
+  const onChangeStatus = (e, ind) => {
+    const newStatus = { ...status };
+    newStatus[ind] = e.target.value;
+    setStatus(newStatus);
+    console.log(newStatus)
   };
 
   const handleCancel = () => {
@@ -156,6 +163,10 @@ const Actions = () => {
     } finally {
       setLoader(false);
     }
+
+    setDateInput(e);
+    setGroupInput(undefined);
+    setChitInput(undefined);
   };
 
   const handleChangeChit = async (e) => {
@@ -172,12 +183,15 @@ const Actions = () => {
     } finally {
       setLoader(false);
     }
+    setChitInput(e);
+    setGroupInput(undefined);
   };
 
   const handleChangegroups = async (e) => {
     let id = groups[e]._id;
     console.log(id);
     setLoader(true);
+
     try {
       let val = await getCustomersByGroups(id);
       setCustomers(val.data);
@@ -188,6 +202,7 @@ const Actions = () => {
     } finally {
       setLoader(false);
     }
+    setGroupInput(e);
   };
 
   const filterClick = async () => {
@@ -210,17 +225,19 @@ const Actions = () => {
       name: <h1 className="text-lg text-gray-500">S.No</h1>,
       selector: (row, ind) => ind + 1,
     },
-    {
-      name: <h1 className="text-lg text-gray-500">Groups</h1>,
-      selector: (row) => row.group,
-    },
+    // {
+    //   name: <h1 className="text-lg text-gray-500">Groups</h1>,
+    //   selector: (row) => row.group,
+    // },
     {
       name: <h1 className="text-lg text-gray-500">month</h1>,
       selector: (row) => "1",
     },
     {
-      name: <h1 className="text-lg text-gray-500">Auction Amount</h1>,
-      selector: (row) => <CurrencyComponent amount={row.Amount} />,
+      name: <h1 className="text-lg text-gray-500 flex">Auction Amount</h1>,
+      selector: (row) => (
+        <Input placeholder="Auction amount" variant="filled" />
+      ),
     },
     {
       name: <h1 className="text-lg text-gray-500">Dividend Amount</h1>,
@@ -232,15 +249,12 @@ const Actions = () => {
     },
     {
       name: <h1 className="text-lg text-gray-500">Status</h1>,
-      selector: (row) => {
+      selector: (row, index) => {
         return (
           <div>
-            {/* {row.status == "Hold" ? <div className="flex justify-center items-center">{row.status}<PiFlagPennantFill className="text-red-500 size-5" /></div> : null}
-            {row.status == "Completed" ? <div>{row.status}</div> : null} */}
-
             <Radio.Group
-              onChange={onChange}
-              value={value}
+              onChange={(e) => onChangeStatus(e, index)}
+              value={status[index] || 1} 
               className="flex flex-col"
             >
               <Radio
@@ -264,7 +278,16 @@ const Actions = () => {
     },
     {
       name: <h1 className="text-lg text-gray-500">Customer Name</h1>,
-      selector: (row) => row.customers,
+      selector: (row) => (
+        <Select className="w-40" placeholder="Select Customer">
+          {customers.length > 0 &&
+            customers.map((item, ind) => (
+              <Option key={ind} value={ind}>
+                {item.customerName}
+              </Option>
+            ))}
+        </Select>
+      ),
     },
   ];
 
@@ -316,6 +339,7 @@ const Actions = () => {
             className="ml-2 sm:w-80 xl:w-80 w-full"
             placeholder="Select date"
             onChange={handleChange}
+            value={dateInput}
           >
             {date.map((item, ind) => (
               <Option key={ind}>{item}</Option>
@@ -329,7 +353,7 @@ const Actions = () => {
             className="ml-2 sm:w-80 xl:w-80 w-full"
             placeholder="Select Chit Name"
             onChange={handleChangeChit}
-            // value={group}
+            value={chitInput}
           >
             {chits.length > 0 &&
               chits.map((item, ind) => (
@@ -346,7 +370,7 @@ const Actions = () => {
             className="ml-2 sm:w-80 xl:w-80 w-full"
             placeholder="Select Group"
             onChange={handleChangegroups}
-            value={group}
+            value={groupInput}
           >
             {groups.length > 0 &&
               groups.map((item, ind) => (
@@ -368,7 +392,7 @@ const Actions = () => {
       <div className="px-5">
         {customers && customers.length === 0 ? (
           <div className="flex justify-center">
-            <img src={searchImg} alt="Search" />
+            <img src={searchImg} alt="Search" className="w-[60%]" />
           </div>
         ) : (
           <DataTable
