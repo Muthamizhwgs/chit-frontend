@@ -54,7 +54,7 @@ const Actions = () => {
     const newStatus = { ...status };
     newStatus[ind] = e.target.value;
     setStatus(newStatus);
-    console.log(newStatus)
+    console.log(newStatus);
   };
 
   const handleCancel = () => {
@@ -228,6 +228,34 @@ const Actions = () => {
     setGroupInput(undefined);
   };
 
+  const handleAuctionChange = (id, e, row) => {
+    // Amounts
+    let chitAmount = row.Amount;
+    let commision = row.serviceCharges;
+    let month = row.monthlyInstallment;
+    let auctionAmount = parseInt(e);
+    let AuctionMonths = row.chitCategory;
+    // calculation of dividendAmount
+    console.log(e);
+    let AC = auctionAmount - commision;
+    let inddivAmt = AC / AuctionMonths;
+    let payableAmount = month - Math.round(inddivAmt);
+
+    console.log(row);
+    const updatedCustomers = customers.map((customer) => {
+      if (customer._id === id) {
+        return {
+          ...customer,
+          dividendAmount: inddivAmt,
+          payableAmount: payableAmount,
+        };
+      }
+      return customer;
+    });
+
+    setCustomers(updatedCustomers);
+  };
+
   const columns = [
     {
       name: <h1 className="text-lg text-gray-500">S.No</h1>,
@@ -244,7 +272,12 @@ const Actions = () => {
     {
       name: <h1 className="text-lg text-gray-500 flex">Auction Amount</h1>,
       selector: (row) => (
-        <Input placeholder="Auction amount" variant="filled" />
+        <Input
+          placeholder="Auction amount"
+          variant="filled"
+          type="number"
+          onChange={(e) => handleAuctionChange(row._id, e.target.value, row)}
+        />
       ),
     },
     {
@@ -262,7 +295,7 @@ const Actions = () => {
           <div>
             <Radio.Group
               onChange={(e) => onChangeStatus(e, index)}
-              value={status[index] || 1} 
+              value={status[index] || 1}
               className="flex flex-col"
             >
               <Radio
@@ -287,14 +320,14 @@ const Actions = () => {
     {
       name: <h1 className="text-lg text-gray-500">Customer Name</h1>,
       selector: (row) => (
-        <Select className="w-40" placeholder="Select Customer">
-          {customers.length > 0 &&
-            customers.map((item, ind) => (
-              <Option key={ind} value={ind}>
-                {item.customerName}
-              </Option>
-            ))}
-        </Select>
+        <Select
+          className="w-40"
+          placeholder="Select Customer"
+          options={row.chitMap.map((item, index) => ({
+            value: item._id,
+            label: item.customerName,
+          }))}
+        />
       ),
     },
   ];
