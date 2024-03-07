@@ -30,21 +30,35 @@ function ChitMapping() {
   const [loader, setLoader] = React.useState(false);
   const [company, Setcompany] = React.useState([]);
   const [groups, setgroups] = React.useState([]);
+  const [companyInput,setCompanyInput]= React.useState(undefined)
+  const [chitInput,setchitInput]= React.useState(undefined)
+  const [groupInput,setgroupInput]= React.useState(undefined)
+  const [userInput,setuserInput]= React.useState(undefined)
 
   const handleSelectChange = (selected) => {
+    setuserInput(selected)
     setuserSelect(selected);
   };
 
   const handleChange = (e) => {
+    setCompanyInput(e)
+    setchitInput(undefined)
+    setgroupInput(undefined)
+    setuserInput(undefined)
     getChits(company[e]._id);
   };
 
   const chithandleChange = async (e) => {
+    setchitInput(e)
+    setgroupInput(undefined)
+    setuserInput(undefined)
     getGroups(e);
     setChitId(e);
   };
 
   const grouphandleChange = async (e) => {
+    setgroupInput(e)
+    setuserInput(undefined)
     setgroupId(e);
   };
 
@@ -220,6 +234,10 @@ function ChitMapping() {
     } finally {
       setLoader(false);
     }
+    setCompanyInput(undefined)
+    setchitInput(undefined)
+    setgroupInput(undefined)
+    setuserInput(undefined)
   };
 
   return (
@@ -235,9 +253,10 @@ function ChitMapping() {
 
       <div className="grid grid-cols-1 xs:grid-cols-2 justify-items-center  lg:flex justify-center gap-4  p-5">
         <Select
-          placeholder="Select company"
+          placeholder="Select Company"
           className="lg:w-48 w-full"
           onChange={handleChange}
+          value={companyInput}
         >
           {company.length > 0
             ? company.map((item, ind) => (
@@ -247,9 +266,10 @@ function ChitMapping() {
         </Select>
 
         <Select
-          placeholder="select chit"
+          placeholder="Select Chit"
           className="lg:w-48 w-full"
           onChange={chithandleChange}
+          value={chitInput}
         >
           {
             // eslint-disable-next-line no-unused-vars
@@ -264,6 +284,7 @@ function ChitMapping() {
           className=" lg:w-48 w-full"
           placeholder="Select Group"
           onChange={grouphandleChange}
+          value={groupInput}
         >
           {
             // eslint-disable-next-line no-unused-vars
@@ -278,8 +299,9 @@ function ChitMapping() {
         <Select
           className="placeholder:text-black lg:w-48 w-full"
           mode="multiple"
-          placeholder="Select users"
+          placeholder="Select Users"
           onChange={handleSelectChange}
+          value={userInput}
         >
           {chitUsers.map((item, ind) => (
             // eslint-disable-next-line react/jsx-key
