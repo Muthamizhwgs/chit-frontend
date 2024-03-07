@@ -220,6 +220,13 @@ const Actions = () => {
     }
   };
 
+  const clearInputs = () => {
+    setCustomers([]);
+    setDateInput(undefined);
+    setChitInput(undefined);
+    setGroupInput(undefined);
+  };
+
   const columns = [
     {
       name: <h1 className="text-lg text-gray-500">S.No</h1>,
@@ -383,9 +390,9 @@ const Actions = () => {
         <div className="py-5">
           <button
             className="cursor-pointer transition-all bg-[#176B87] text-white w-28 h-[35px] rounded-lg border-[#15414e] border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px] active:border-b-[2px] active:brightness-90 active:translate-y-[2px]"
-            onClick={filterClick}
+            onClick={clearInputs}
           >
-            Get
+            Clear
           </button>
         </div>
       </div>
