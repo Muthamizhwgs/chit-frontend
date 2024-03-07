@@ -230,7 +230,6 @@ const Actions = () => {
 
   const handleAuctionChange = (id, e, row) => {
     // Amounts
-    let chitAmount = row.Amount;
     let commision = row.serviceCharges;
     let month = row.monthlyInstallment;
     let auctionAmount = parseInt(e);
