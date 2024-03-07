@@ -134,3 +134,16 @@ export const getgroupsBychits = async (id)=>{
     let ApiResponse = await useAxiosInterceptors.get('chit/get/groups/bychits/'+id)
    return ApiResponse
 }
+
+export const getcustomersbyDates = async (id)=>{   
+    let ApiResponse = await useAxiosInterceptors.get('chit/getchit/customers/bydates/'+id)
+   return ApiResponse
+}
+
+
+export const getCustomersByGroups = async (id)=>{   
+    let ApiResponse = await useAxiosInterceptors.get('chit/getcustomers/bygroups/'+id)
+   return ApiResponse
+}
+
+// 
