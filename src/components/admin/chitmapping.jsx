@@ -30,10 +30,10 @@ function ChitMapping() {
   const [loader, setLoader] = React.useState(false);
   const [company, Setcompany] = React.useState([]);
   const [groups, setgroups] = React.useState([]);
-  const [companyInput,setCompanyInput]= React.useState(undefined)
-  const [chitInput,setchitInput]= React.useState(undefined)
-  const [groupInput,setgroupInput]= React.useState(undefined)
-  const [userInput,setuserInput]= React.useState(undefined)
+  const [companyInput, setCompanyInput] = React.useState(undefined)
+  const [chitInput, setchitInput] = React.useState(undefined)
+  const [groupInput, setgroupInput] = React.useState(undefined)
+  const [userInput, setuserInput] = React.useState(undefined)
 
   const handleSelectChange = (selected) => {
     setuserInput(selected)
@@ -159,7 +159,7 @@ function ChitMapping() {
       let serData = await getChitsMaps();
       setgetchitmaps(serData.data);
       // eslint-disable-next-line no-empty
-    } catch (error) {}
+    } catch (error) { }
   };
 
   const getAllCompanies = async () => {
@@ -251,7 +251,7 @@ function ChitMapping() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 xs:grid-cols-2 justify-items-center  lg:flex justify-center gap-4  p-5">
+      <div className="grid grid-cols-1 xs:grid-cols-2 justify-items-center lg:flex justify-center gap-4  p-5">
         <Select
           placeholder="Select Company"
           className="lg:w-48 w-full"
@@ -260,8 +260,8 @@ function ChitMapping() {
         >
           {company.length > 0
             ? company.map((item, ind) => (
-                <Option value={ind}>{item.companyName}</Option>
-              ))
+              <Option value={ind}>{item.companyName}</Option>
+            ))
             : null}
         </Select>
 
@@ -289,10 +289,10 @@ function ChitMapping() {
           {
             // eslint-disable-next-line no-unused-vars
             groups &&
-              groups.map((item, ind) => (
-                // eslint-disable-next-line react/jsx-key
-                <Option value={item._id}>{item.group}</Option>
-              ))
+            groups.map((item, ind) => (
+              // eslint-disable-next-line react/jsx-key
+              <Option value={item._id}>{item.group}</Option>
+            ))
           }
         </Select>
 
@@ -329,7 +329,7 @@ function ChitMapping() {
             // eslint-disable-next-line react/jsx-key
             <div className="w-full rounded-md bg-[#f7ffff] p-2 drop-shadow-md cursor-pointer">
               <Link to={"/homepage/chitmapping/chitmapdetails?id=" + data._id}>
-                <div className="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-2 lg:grid-cols-6  xl:grid-cols-6 bg-white p-2 rounded cursor-pointer">
+                <div className="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-2 lg:grid-cols-5 xl:grid-cols-5 bg-white p-2 rounded cursor-pointer">
                   <section className="flex flex-col">
                     <p className="font-bold">{data.chitName}</p>
                     <p>{data.createdAt}</p>
