@@ -398,12 +398,12 @@ const Actions = () => {
       <div>
         <h1 className="text-xl font-bold text-center py-5">Auction</h1>
       </div>
-      <div className="flex xl:flex-row flex-col w-[95%] gap-10 py-4 px-4 items-center">
+      <div className="grid xl:grid-cols-4 xs:grid-cols-2 justify-items-center py-5 xs:gap-0 gap-5">
         <div
           className={`flex sm:flex-row flex-col justify-center items-center gap-2`}
         >
           <Select
-            className="ml-2 sm:w-80 xl:w-80 w-full"
+            className=" lg:w-48 w-full"
             placeholder="Select date"
             onChange={handleChange}
             value={dateInput}
@@ -417,7 +417,7 @@ const Actions = () => {
           className={`flex sm:flex-row flex-col justify-around items-center gap-2 sm:gap-8 xl:gap-2`}
         >
           <Select
-            className="ml-2 sm:w-80 xl:w-80 w-full"
+            className=" lg:w-48 w-full"
             placeholder="Select Chit Name"
             onChange={handleChangeChit}
             value={chitInput}
@@ -434,7 +434,7 @@ const Actions = () => {
           className={`flex sm:flex-row flex-col justify-around items-center gap-2 sm:gap-8 xl:gap-2`}
         >
           <Select
-            className="ml-2 sm:w-80 xl:w-80 w-full"
+            className=" lg:w-48 w-full"
             placeholder="Select Group"
             onChange={handleChangegroups}
             value={groupInput}
@@ -459,7 +459,7 @@ const Actions = () => {
       <div className="px-5">
         {customers && customers.length === 0 ? (
           <div className="flex justify-center">
-            <img src={searchImg} alt="Search" className="w-[60%]" />
+            <img src={searchImg} alt="Search" className="w-[50%]" />
           </div>
         ) : (
           <DataTable
