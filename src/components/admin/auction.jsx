@@ -41,7 +41,7 @@ const Actions = () => {
   const [groupInput, setGroupInput] = useState(undefined);
   const [status, setStatus] = useState({});
   const [isModalOpensubmit, setIsModalOpensubmit] = useState(false);
-  const [customerInput,setCustomerInput] = useState(null)
+  const [customerInput, setCustomerInput] = useState(null)
 
   const showModal = () => {
     setIsModalOpensubmit(true);
@@ -52,7 +52,7 @@ const Actions = () => {
     setCustomerInput(null)
     // forms.resetForm();
   };
-  
+
 
   const navigate = useNavigate();
   const forms = useFormik({
@@ -347,7 +347,7 @@ const Actions = () => {
         <Select
           value={customerInput}
           className="w-40"
-          onChange={(e)=>{handleConfirmsubmit(row, e)}}
+          onChange={(e) => { handleConfirmsubmit(row, e) }}
           placeholder="Select Customer"
           options={row.chitMap.map((item, index) => ({
             value: item._id,
@@ -403,7 +403,7 @@ const Actions = () => {
           className={`flex sm:flex-row flex-col justify-center items-center gap-2`}
         >
           <Select
-            className=" lg:w-48 w-full"
+            className=" sm:w-48 w-full"
             placeholder="Select date"
             onChange={handleChange}
             value={dateInput}
@@ -417,7 +417,7 @@ const Actions = () => {
           className={`flex sm:flex-row flex-col justify-around items-center gap-2 sm:gap-8 xl:gap-2`}
         >
           <Select
-            className=" lg:w-48 w-full"
+            className=" sm:w-48 w-full"
             placeholder="Select Chit Name"
             onChange={handleChangeChit}
             value={chitInput}
@@ -434,7 +434,7 @@ const Actions = () => {
           className={`flex sm:flex-row flex-col justify-around items-center gap-2 sm:gap-8 xl:gap-2`}
         >
           <Select
-            className=" lg:w-48 w-full"
+            className=" sm:w-48 w-full"
             placeholder="Select Group"
             onChange={handleChangegroups}
             value={groupInput}
@@ -474,16 +474,16 @@ const Actions = () => {
       {/* Modal */}
 
       <Modal
-          title="Confirm Submit"
-          height={"260px"}
-          open={isModalOpensubmit}
-          onCancel={handleCancelModal}
-          footer={null}
-        >
-          <div className="flex flex-col justify-center items-center">
-            <button className="bg-[#176B87] text-white px-4 py-2 rounded-md text-xl">Confirm</button>
-          </div>
-        </Modal>
+        title="Confirm Submit"
+        height={"260px"}
+        open={isModalOpensubmit}
+        onCancel={handleCancelModal}
+        footer={null}
+      >
+        <div className="flex flex-col justify-center items-center">
+          <button className="bg-[#176B87] text-white px-4 py-2 rounded-md text-xl">Confirm</button>
+        </div>
+      </Modal>
     </>
   );
 };
