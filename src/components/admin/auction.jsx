@@ -290,7 +290,7 @@ const Actions = () => {
     //   selector: (row) => row.group,
     // },
     {
-      name: <h1 className="text-lg text-gray-500">month</h1>,
+      name: <h1 className="text-lg text-gray-500">Month</h1>,
       selector: (row) => "1",
     },
     {
