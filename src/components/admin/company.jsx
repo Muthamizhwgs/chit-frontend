@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Modal, Select } from "antd";
+import { Modal, Select,DatePicker, Space } from "antd";
 import { CompanySchema, CompanyinitValue } from "../../validations/company";
 import {
   getChitUsers,
@@ -29,6 +29,9 @@ const Company = () => {
   const [id, setId] = React.useState("");
   const [edit, setEdit] = React.useState(false);
   const [err, setErr] = React.useState("");
+  const onChange = (date, dateString) => {
+    console.log(date, dateString);
+  };
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -337,21 +340,17 @@ const Company = () => {
             </div>
             <div className="flex flex-col mb-4">
               <label className="pl-4">Auction Date :</label>
-              <Select
+              <input
+                type="number"
+                placeholder="Auction Date"
+                className="h-10 pl-3 border drop-shadow-lg w-[93%] hover:focus-within:outline-none rounded-md ml-3"
                 name="auctionDates"
                 id="auctionDates"
                 onBlur={forms.handleBlur}
-                onChange={(e) => forms.setFieldValue("auctionDates", e)}
-                value={forms.values.auctionDates || undefined}
-                className="h-10 border drop-shadow-lg w-[93%] hover:focus-within:outline-none rounded-md ml-3"
-                placeholder="Select Auction Date"
-                options={[
-                  // { value: '', label: "Select Auction Date" },
-                  { value: "5", label: "Every month 5th " },
-                  { value: "second sunday", label: "Second Sunday" },
-                ]}
+                value={forms.values.auctionDates}
+                onChange={forms.handleChange}
               />
-
+              
               {forms.errors.auctionDates && forms.touched.auctionDates ? (
                 <div
                   style={{ width: "100%", color: "red", paddingLeft: "15px" }}
