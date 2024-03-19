@@ -334,15 +334,8 @@ const Actions = () => {
     //   selector: (row) => row.group,
     // },
     {
-      name: <h1 className="text-lg text-gray-500">month</h1>,
-      selector: (row) => (
-        <p>
-          {" "}
-          {row.completedMonths == true
-            ? row.noOfMonths.length
-            : row.noOfMonths.length + 1}
-        </p>
-      ),
+      name: <h1 className="text-lg text-gray-500">Month</h1>,
+      selector: (row) => "1",
     },
     {
       name: <h1 className="text-lg text-gray-500 flex">Auction Amount</h1>,

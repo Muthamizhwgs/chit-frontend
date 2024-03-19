@@ -6,13 +6,14 @@ import DataTable from "react-data-table-component";
 import Loader from "../utils/loader";
 import { getPayments } from "../../services/service";
 import CurrencyComponent from "../utils/currency";
+import { useNavigate } from "react-router-dom";
 
 function Payments() {
   const [loader, setLoader] = useState(false);
   const [searchTerm, setSearchTerm] = useState();
   const [filteredData, setFilteredData] = useState();
   const [data, setData] = useState([]);
-
+  const navigate = useNavigate()
   const handleChange = (value) => {
     setLoader(true);
     console.log(`selected ${value}`);
