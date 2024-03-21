@@ -30,35 +30,35 @@ function ChitMapping() {
   const [loader, setLoader] = React.useState(false);
   const [company, Setcompany] = React.useState([]);
   const [groups, setgroups] = React.useState([]);
-  const [companyInput, setCompanyInput] = React.useState(undefined)
-  const [chitInput, setchitInput] = React.useState(undefined)
-  const [groupInput, setgroupInput] = React.useState(undefined)
-  const [userInput, setuserInput] = React.useState(undefined)
+  const [companyInput, setCompanyInput] = React.useState(undefined);
+  const [chitInput, setchitInput] = React.useState(undefined);
+  const [groupInput, setgroupInput] = React.useState(undefined);
+  const [userInput, setuserInput] = React.useState(undefined);
 
   const handleSelectChange = (selected) => {
-    setuserInput(selected)
+    setuserInput(selected);
     setuserSelect(selected);
   };
 
   const handleChange = (e) => {
-    setCompanyInput(e)
-    setchitInput(undefined)
-    setgroupInput(undefined)
-    setuserInput(undefined)
+    setCompanyInput(e);
+    setchitInput(undefined);
+    setgroupInput(undefined);
+    setuserInput(undefined);
     getChits(company[e]._id);
   };
 
   const chithandleChange = async (e) => {
-    setchitInput(e)
-    setgroupInput(undefined)
-    setuserInput(undefined)
+    setchitInput(e);
+    setgroupInput(undefined);
+    setuserInput(undefined);
     getGroups(e);
     setChitId(e);
   };
 
   const grouphandleChange = async (e) => {
-    setgroupInput(e)
-    setuserInput(undefined)
+    setgroupInput(e);
+    setuserInput(undefined);
     setgroupId(e);
   };
 
@@ -159,7 +159,7 @@ function ChitMapping() {
       let serData = await getChitsMaps();
       setgetchitmaps(serData.data);
       // eslint-disable-next-line no-empty
-    } catch (error) { }
+    } catch (error) {}
   };
 
   const getAllCompanies = async () => {
@@ -234,10 +234,10 @@ function ChitMapping() {
     } finally {
       setLoader(false);
     }
-    setCompanyInput(undefined)
-    setchitInput(undefined)
-    setgroupInput(undefined)
-    setuserInput(undefined)
+    setCompanyInput(undefined);
+    setchitInput(undefined);
+    setgroupInput(undefined);
+    setuserInput(undefined);
   };
 
   return (
@@ -260,8 +260,8 @@ function ChitMapping() {
         >
           {company.length > 0
             ? company.map((item, ind) => (
-              <Option value={ind}>{item.companyName}</Option>
-            ))
+                <Option value={ind}>{item.companyName}</Option>
+              ))
             : null}
         </Select>
 
@@ -289,10 +289,10 @@ function ChitMapping() {
           {
             // eslint-disable-next-line no-unused-vars
             groups &&
-            groups.map((item, ind) => (
-              // eslint-disable-next-line react/jsx-key
-              <Option value={item._id}>{item.group}</Option>
-            ))
+              groups.map((item, ind) => (
+                // eslint-disable-next-line react/jsx-key
+                <Option value={item._id}>{item.group}</Option>
+              ))
           }
         </Select>
 
@@ -302,9 +302,16 @@ function ChitMapping() {
           placeholder="Select Users"
           onChange={handleSelectChange}
           value={userInput}
+          filterOption={(input, option) => {
+            const name = option.props.children;
+            const userName = chitUsers[option.props.value].name;
+            return (
+              typeof userName === "string" &&
+              userName.toLowerCase().indexOf(input.toLowerCase()) >= 0
+            );
+          }}
         >
           {chitUsers.map((item, ind) => (
-            // eslint-disable-next-line react/jsx-key
             <Option value={ind}>
               {item.name} - {item.phoneNumber}{" "}
             </Option>

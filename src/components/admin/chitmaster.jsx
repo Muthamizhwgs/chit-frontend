@@ -34,7 +34,7 @@ function ChitMaster() {
   const [companyId, setCompanyId] = React.useState("");
   const [companyAuctionDate, setCompanyAuctionDate] = React.useState("");
   const [edit, setEdit] = React.useState(false);
-  const [id, setId] = React.useState('');
+  const [id, setId] = React.useState("");
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -46,8 +46,7 @@ function ChitMaster() {
     initialValues: ChitMasterinitValue,
     validationSchema: ChitMasterSchema,
     onSubmit: (values) => {
-      edit ? EditSubmit(values) : submitForms(values)
-
+      edit ? EditSubmit(values) : submitForms(values);
     },
   });
   const showAddgroup = () => {
@@ -127,16 +126,15 @@ function ChitMaster() {
   }, []);
 
   const chengeEdit = (val) => {
-    (forms.values.companyId = val.companyName);
-    (forms.values.chitName = val.chitName);
-    (forms.values.chitAmount = val.chitAmount);
-    (forms.values.months = val.months);
-    (forms.values.noOfPeople = val.noOfPeople);
+    forms.values.companyId = val.companyName;
+    forms.values.chitName = val.chitName;
+    forms.values.chitAmount = val.chitAmount;
+    forms.values.months = val.months;
+    forms.values.noOfPeople = val.noOfPeople;
 
     setEdit(true);
     setIsModalOpen(true);
-  }
-
+  };
 
   const EditSubmit = async (values) => {
     // console.log(values)
@@ -145,13 +143,12 @@ function ChitMaster() {
     //   console.log(val, "response")
     //   getChit()
     //   handleCancel()
-
     // } catch (error) {
     //   if (error.response.status == 401) {
     //     navigate('/')
     //   }
     // }
-  }
+  };
 
   const columns = [
     {
@@ -229,16 +226,12 @@ function ChitMaster() {
   };
 
   const AuctionDateMapping = async (id) => {
+    console.log(id, "iddddd");
     let findIndex = companies.findIndex((e) => {
-      return (e._id = id);
+      return e._id == id;
     });
-    if (companies[findIndex].auctionDates == 5) {
-      setCompanyAuctionDate(`Every Month ${companies[findIndex].auctionDates}`);
-    } else {
-      setCompanyAuctionDate(`Every Month Second Sunday`);
-    }
+    setCompanyAuctionDate(`Every Month ${companies[findIndex].auctionDates}`);
     forms.setFieldValue("describeDate", companies[findIndex].auctionDates);
-    // forms.values.describeDate =
   };
 
   useEffect(() => {

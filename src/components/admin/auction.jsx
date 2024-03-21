@@ -15,6 +15,8 @@ import {
   getcustomersbyDates,
   getgroupsBychits,
   getCustomersByGroups,
+  Monthly_AuctionSubmit,
+  getAuctionsDates,
 } from "../../services/service";
 import CurrencyComponent from "../utils/currency";
 import { useFormik } from "formik";
@@ -22,6 +24,7 @@ import { AuctionInitValues, AuctionSchema } from "../../validations/auction";
 import Loader from "../utils/loader";
 import { PiFlagPennantFill } from "react-icons/pi";
 import searchImg from "../../assets/search.png";
+import { CurrentMonthName } from "../utils/currentMonths";
 
 const Actions = () => {
   const [mychit, setMychit] = useState([]);
@@ -41,18 +44,19 @@ const Actions = () => {
   const [groupInput, setGroupInput] = useState(undefined);
   const [status, setStatus] = useState({});
   const [isModalOpensubmit, setIsModalOpensubmit] = useState(false);
-  const [customerInput, setCustomerInput] = useState(null)
+  const [customerInput, setCustomerInput] = useState(null);
+  const [auctionDates, setAuctionDates] = useState([]);
+  const [auction, setAuction] = useState({});
 
   const showModal = () => {
     setIsModalOpensubmit(true);
   };
-
+  auction;
   const handleCancelModal = () => {
     setIsModalOpensubmit(false);
-    setCustomerInput(null)
+    setCustomerInput(null);
     // forms.resetForm();
   };
-
 
   const navigate = useNavigate();
   const forms = useFormik({
@@ -63,21 +67,24 @@ const Actions = () => {
     },
   });
 
-  const onChangeStatus = (e, ind) => {
-    const newStatus = { ...status };
-    newStatus[ind] = e.target.value;
-    setStatus(newStatus);
-    console.log(newStatus);
+  const onChangeStatus = (e, id) => {
+    const updatedCustomers = customers.map((customer) => {
+      if (customer._id === id) {
+        return {
+          ...customer,
+          radioStatus: e,
+        };
+      }
+      return customer;
+    });
+
+    setCustomers(updatedCustomers);
   };
 
   const handleCancel = () => {
     setIsModalOpen(false);
     forms.resetForm();
   };
-
-
-
-  const date = ["Every Month 5th", "Second Sunday"];
 
   const getMyChits = async () => {
     setLoader(true);
@@ -157,15 +164,31 @@ const Actions = () => {
       setLoader(false);
     }
   };
+  const [auct, setAuct] = useState(0);
+
+  const getdates = async () => {
+    setLoader(true);
+    try {
+      const dates = await getAuctionsDates();
+      setAuctionDates(dates.data);
+    } catch (error) {
+      if (error.response.status === 401) {
+        navigate("/");
+      }
+    } finally {
+      setLoader(false);
+    }
+  };
 
   useEffect(() => {
     getMyChits();
     getAuctions();
     getCompanies();
+    getdates();
   }, []);
 
   const handleChange = async (e) => {
-    let dates = date[e];
+    let dates = auctionDates[e];
     setLoader(true);
     try {
       const val = await getcustomersbyDates(dates);
@@ -250,7 +273,9 @@ const Actions = () => {
     let auctionAmount = parseInt(e);
     let AuctionMonths = row.chitCategory;
     // calculation of dividendAmount
-    console.log(e);
+    // console.log(e);
+    setAuct(e);
+    console.log(auct);
     let AC = auctionAmount - commision;
     let inddivAmt = AC / AuctionMonths;
     let payableAmount = month - Math.round(inddivAmt);
@@ -270,15 +295,34 @@ const Actions = () => {
     setCustomers(updatedCustomers);
   };
 
-
   const handleConfirmsubmit = (e, val) => {
-    console.log(e, val);
-    setIsModalOpensubmit(true)
-    setCustomerInput(val)
+    setIsModalOpensubmit(true);
+    setCustomerInput(val);
+    let users = e.chitMap;
+    let find = users.findIndex((a) => {
+      return a._id == val;
+    });
+    let customer = users[find];
+    let addAmt = parseInt(auct) + parseInt(e.payableAmount);
+    let paidAmt = parseInt(e.Amount) - addAmt;
+    let data = {
+      dividendAmount: e.dividendAmount,
+      payableAmount: e.payableAmount,
+      radioStatus: e.radioStatus == 0 ? "Hold" : "Completed",
+      Amount: e.Amount,
+      AuctionAmount: auct,
+      customerId: customer.costumerId,
+      chitId: customer.chitId,
+      chitMapDetailsId: customer._id,
+      chitMapId: customer.chitMapId,
+      groupId: customer.groupId,
+      customerName: customer.customerName,
+      tobePaidAmount: paidAmt,
+    };
+    setAuction(data);
+  };
 
-  }
-
-  console.log(customerInput)
+  console.log(customerInput);
 
   const columns = [
     {
@@ -290,8 +334,15 @@ const Actions = () => {
     //   selector: (row) => row.group,
     // },
     {
-      name: <h1 className="text-lg text-gray-500">Month</h1>,
-      selector: (row) => "1",
+      name: <h1 className="text-lg text-gray-500">month</h1>,
+      selector: (row) => (
+        <p>
+          {" "}
+          {row.completedMonths == true
+            ? row.noOfMonths.length
+            : row.noOfMonths.length + 1}
+        </p>
+      ),
     },
     {
       name: <h1 className="text-lg text-gray-500 flex">Auction Amount</h1>,
@@ -300,6 +351,8 @@ const Actions = () => {
           placeholder="Auction amount"
           variant="filled"
           type="number"
+          disabled={row.completedMonths}
+          readOnly={row.completedMonths}
           onChange={(e) => handleAuctionChange(row._id, e.target.value, row)}
         />
       ),
@@ -314,25 +367,26 @@ const Actions = () => {
     },
     {
       name: <h1 className="text-lg text-gray-500">Status</h1>,
-      selector: (row, index) => {
+      selector: (row) => {
         return (
           <div>
             <Radio.Group
-              onChange={(e) => onChangeStatus(e, index)}
-              value={status[index] || 1}
               className="flex flex-col"
+              disabled={row.completedMonths}
             >
               <Radio
-                value={1}
+                value={0}
                 className="flex flex-row justify-start items-center"
                 style={{ buttonBg: "red" }}
+                onChange={(e) => onChangeStatus(e.target.value, row._id)}
               >
                 Hold
               </Radio>
               <Radio
-                value={2}
+                value={1}
                 className="flex flex-row justify-start items-center"
                 style={{ buttonBg: "green" }}
+                onChange={(e) => onChangeStatus(e.target.value, row._id)}
               >
                 Completed
               </Radio>
@@ -346,8 +400,11 @@ const Actions = () => {
       selector: (row) => (
         <Select
           value={customerInput}
+          disabled={row.completedMonths}
           className="w-40"
-          onChange={(e) => { handleConfirmsubmit(row, e) }}
+          onChange={(e) => {
+            handleConfirmsubmit(row, e);
+          }}
           placeholder="Select Customer"
           options={row.chitMap.map((item, index) => ({
             value: item._id,
@@ -361,13 +418,14 @@ const Actions = () => {
   const customStyles = {
     rows: {
       style: {
-        minHeight: "48px", // override the row height
+        minHeight: "48px",
         minWidth: "800px",
+        // backgroundColor:"green"
       },
     },
     headCells: {
       style: {
-        paddingLeft: "8px", // override the cell padding for head cells
+        paddingLeft: "8px",
         paddingRight: "8px",
         backgroundColor: "#F3F4F6",
         color: "#6C737F",
@@ -383,14 +441,33 @@ const Actions = () => {
       },
     },
   };
+
   const conditionalRowStyles = [
     {
-      when: (row) => row.status === "Completed",
+      when: (row) => {
+        console.log(row); // Log the row data
+        return row.completedMonths == true; // Condition based on row data
+      },
       style: {
-        backgroundColor: "#DCF2F9",
+        backgroundColor: "#DCF2F9", // Apply green background for rows meeting the condition
       },
     },
   ];
+
+  const submitMonthyAuction = async () => {
+    setLoader(true);
+    try {
+      let val = await Monthly_AuctionSubmit(auction);
+      console.log(val);
+      handleCancelModal();
+    } catch (error) {
+      if (error.response.status === 401) {
+        navigate("/");
+      }
+    } finally {
+      setLoader(false);
+    }
+  };
 
   return (
     <>
@@ -403,13 +480,13 @@ const Actions = () => {
           className={`flex sm:flex-row flex-col justify-center items-center gap-2`}
         >
           <Select
-            className=" sm:w-48 w-full"
+            className=" sm:w-52 w-full"
             placeholder="Select date"
             onChange={handleChange}
             value={dateInput}
           >
-            {date.map((item, ind) => (
-              <Option key={ind}>{item}</Option>
+            {auctionDates.map((item, ind) => (
+              <Option key={ind}> Every Month {item}</Option>
             ))}
           </Select>
         </div>
@@ -480,8 +557,108 @@ const Actions = () => {
         onCancel={handleCancelModal}
         footer={null}
       >
-        <div className="flex flex-col justify-center items-center">
-          <button className="bg-[#176B87] text-white px-4 py-2 rounded-md text-xl">Confirm</button>
+        <div className="w-[90%] mx-auto my-5">
+          <div className="w-full flex flex-row justify-between items-center text-lg">
+            <div className="w-5/12 flex justify-start">
+              <label htmlFor="">Customer Name</label>
+            </div>
+            <div className="w-1/12 flex justify-center">
+              <p>:</p>
+            </div>
+            <div className="w-6/12 flex justify-end">
+              <p> {auction.customerName ? auction.customerName : null}</p>
+            </div>
+          </div>
+          <div className="w-full flex flex-row justify-between items-center text-lg">
+            <div className="w-5/12 flex justify-start">
+              <label htmlFor="">Chit Amount</label>
+            </div>
+            <div className="w-1/12 flex justify-center">
+              <p>:</p>
+            </div>
+            <div className="w-6/12 flex justify-end">
+              <p>
+                <CurrencyComponent
+                  amount={auction.Amount ? auction.Amount : null}
+                />
+              </p>
+            </div>
+          </div>
+
+          <div className="w-full flex flex-row justify-between items-center text-lg">
+            <div className="w-5/12 flex justify-start">
+              <label htmlFor="">Auction Amount</label>
+            </div>
+            <div className="w-1/12 flex justify-center">
+              <p>:</p>
+            </div>
+            <div className="w-6/12 flex justify-end">
+              <p>
+                <CurrencyComponent
+                  amount={auction.AuctionAmount ? auction.AuctionAmount : null}
+                />
+              </p>
+            </div>
+          </div>
+
+          <div className="w-full flex flex-row justify-between items-center text-lg">
+            <div className="w-5/12 flex justify-start">
+              <label htmlFor="">Dividend Amount</label>
+            </div>
+            <div className="w-1/12 flex justify-center">
+              <p>:</p>
+            </div>
+            <div className="w-6/12 flex justify-end">
+              <p>
+                <CurrencyComponent
+                  amount={
+                    auction.dividendAmount ? auction.dividendAmount : null
+                  }
+                />
+              </p>
+            </div>
+          </div>
+
+          <div className="w-full flex flex-row justify-between items-center text-lg">
+            <div className="w-5/12 flex justify-start">
+              <label htmlFor="">Payable Amount</label>
+            </div>
+            <div className="w-1/12 flex justify-center">
+              <p>:</p>
+            </div>
+            <div className="w-6/12 flex justify-end">
+              <p>
+                <CurrencyComponent
+                  amount={auction.payableAmount ? auction.payableAmount : null}
+                />
+              </p>
+            </div>
+          </div>
+
+          <div className="w-full flex flex-row justify-between items-center text-lg">
+            <div className="w-5/12 flex justify-start">
+              <label htmlFor="">To Be Paid Amount</label>
+            </div>
+            <div className="w-1/12 flex justify-center">
+              <p>:</p>
+            </div>
+            <div className="w-6/12 flex justify-end">
+              <p>
+                <CurrencyComponent
+                  amount={
+                    auction.tobePaidAmount ? auction.tobePaidAmount : null
+                  }
+                />
+              </p>
+            </div>
+          </div>
+
+          <button
+            className="bg-[#176B87] w-full text-white px-4 py-2 rounded-md text-xl mt-3"
+            onClick={submitMonthyAuction}
+          >
+            Confirm
+          </button>
         </div>
       </Modal>
     </>
