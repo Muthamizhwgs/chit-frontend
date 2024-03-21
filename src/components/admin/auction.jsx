@@ -517,12 +517,18 @@ const Actions = () => {
               ))}
           </Select>
         </div>
-        <div className="py-5">
+        <div className="py-5 space-x-2">
           <button
             className="cursor-pointer transition-all bg-[#176B87] text-white w-28 h-[35px] rounded-lg border-[#15414e] border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px] active:border-b-[2px] active:brightness-90 active:translate-y-[2px]"
             onClick={clearInputs}
           >
             Clear
+          </button>
+          <button
+            className="cursor-pointer transition-all bg-[#176B87] text-white w-28 h-[35px] rounded-lg border-[#15414e] border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px] active:border-b-[2px] active:brightness-90 active:translate-y-[2px]"
+            
+          >
+            Holds
           </button>
         </div>
       </div>
