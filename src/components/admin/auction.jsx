@@ -468,7 +468,7 @@ const Actions = () => {
       <div>
         <h1 className="text-xl font-bold text-center py-5">Auction</h1>
       </div>
-      <div className="grid xl:grid-cols-4 xs:grid-cols-2 justify-items-center py-5 xs:gap-0 gap-5">
+      <div className="grid xl:grid-cols-5 xs:grid-cols-2 py-5 xl:gap-0 gap-5">
         <div
           className={`flex sm:flex-row flex-col justify-center items-center gap-2`}
         >
@@ -517,20 +517,23 @@ const Actions = () => {
               ))}
           </Select>
         </div>
-        <div className="py-5 space-x-2">
+        <div className="flex ml-5 justify-center xl:justify-normal  gap-5">
           <button
             className="cursor-pointer transition-all bg-[#176B87] text-white w-28 h-[35px] rounded-lg border-[#15414e] border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px] active:border-b-[2px] active:brightness-90 active:translate-y-[2px]"
             onClick={clearInputs}
           >
             Clear
           </button>
+
           <button
             className="cursor-pointer transition-all bg-[#176B87] text-white w-28 h-[35px] rounded-lg border-[#15414e] border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px] active:border-b-[2px] active:brightness-90 active:translate-y-[2px]"
             
           >
             Holds
           </button>
+          
         </div>
+
       </div>
       <div className="px-5">
         {customers && customers.length === 0 ? (
