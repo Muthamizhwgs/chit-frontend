@@ -188,3 +188,13 @@ export const getAuctionsDates = async () => {
   let ApiResponse = await useAxiosInterceptors.get("chit/get/auctions/dates");
   return ApiResponse;
 };
+
+export const getHolds = async () => {
+  let ApiResponse = await useAxiosInterceptors.get("chit/get/holds/data");
+  return ApiResponse;
+};
+
+export const hold_To_Completed = async (id) => {
+  let ApiResponse = await useAxiosInterceptors.get("chit/hold/to/completed/"+id);
+  return ApiResponse;
+};

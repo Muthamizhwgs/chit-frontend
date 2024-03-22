@@ -33,6 +33,10 @@ function Payments() {
     }
   };
 
+const clickToMove = (id) => {
+  navigate('/homepage/payments/paymentsDetails?id='+id)
+}
+
   const columns = [
     {
       name: <h1 className="text-lg text-gray-500">S.No</h1>,
@@ -40,11 +44,11 @@ function Payments() {
     },
     {
       name: <h1 className="text-lg text-gray-500">Customer Name</h1>,
-      selector: (row) => row.customerName
+      cell: (row) => (<p className="underline cursor-pointer text-blue-500" onClick={()=>{clickToMove(row._id)}}>{row.customerName}</p>)
     },
     {
       name: <h1 className="text-lg text-gray-500">Phone Number</h1>,
-      selector: (row) => row.customerNumber,
+      selector: (row) => row.customerNumber
     },
     {
       name: <h1 className="text-lg text-gray-500">Chit</h1>,
@@ -62,6 +66,10 @@ function Payments() {
       name: <h1 className="text-lg text-gray-500">Status</h1>,
       selector: (row) => row.status=='Completed'?'Completed':"Ongoing",
     },
+    // {
+    //   name: <h1>click</h1>,
+    //   selector: (row) => <button onClick={clickToMove}>view</button>
+    // }
   ];
   const customStyles = {
     rows: {

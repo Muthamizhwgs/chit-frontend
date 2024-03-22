@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import { Link, useNavigate } from "react-router-dom";
-import { Select, Radio, Input, Modal } from "antd";
+import { Select, Radio, Input, Modal, message } from "antd";
 import { Option } from "antd/es/mentions";
 
 import {
@@ -47,6 +47,7 @@ const Actions = () => {
   const [customerInput, setCustomerInput] = useState(null);
   const [auctionDates, setAuctionDates] = useState([]);
   const [auction, setAuction] = useState({});
+  const [messageApi, contextHolder] = message.useMessage();
 
   const showModal = () => {
     setIsModalOpensubmit(true);
@@ -295,8 +296,8 @@ const Actions = () => {
     setCustomers(updatedCustomers);
   };
 
-  const handleConfirmsubmit = (e, val) => {
-    setIsModalOpensubmit(true);
+  const handleConfirmsubmit = async (e, val) => {
+    // setIsModalOpensubmit(true);
     setCustomerInput(val);
     let users = e.chitMap;
     let find = users.findIndex((a) => {
@@ -319,7 +320,33 @@ const Actions = () => {
       customerName: customer.customerName,
       tobePaidAmount: paidAmt,
     };
-    setAuction(data);
+   await setAuction(data);
+
+    if (!e.Amount > 0) {
+      messageApi.open({
+        type: "error",
+        content: "Enter Valid Auction Amount",
+      });
+    } else if (e.radioStatus != 0 && e.radioStatus != 1) {
+      messageApi.open({
+        type: "error",
+        content: "Select Status",
+      });
+    } else {
+      setLoader(true);
+      try {
+        let val = await Monthly_AuctionSubmit(data);
+        console.log(val);
+        // handleCancelModal();
+        clearInputs();
+      } catch (error) {
+        if (error.response.status === 401) {
+          navigate("/");
+        }
+      } finally {
+        setLoader(false);
+      }
+    }
   };
 
   console.log(customerInput);
@@ -464,6 +491,7 @@ const Actions = () => {
 
   return (
     <>
+      {contextHolder}
       {loader && <Loader />}
       <div>
         <h1 className="text-xl font-bold text-center py-5">Auction</h1>
@@ -529,7 +557,6 @@ const Actions = () => {
             Holds
           </button>
           </Link>
-          
         </div>
       </div>
       <div className="px-5">
