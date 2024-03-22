@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Select, Radio, Input, Modal } from "antd";
 import { Option } from "antd/es/mentions";
 
@@ -519,21 +519,18 @@ const Actions = () => {
         </div>
         <div className="flex ml-5 justify-center xl:justify-normal  gap-5">
           <button
-            className="cursor-pointer transition-all bg-[#176B87] text-white w-28 h-[35px] rounded-lg border-[#15414e] border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px] active:border-b-[2px] active:brightness-90 active:translate-y-[2px]"
+            className="cursor-pointer transition-all bg-[#176B87] text-white w-44 px-9 h-[35px] rounded-lg border-[#15414e] border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px] active:border-b-[2px] active:brightness-90 active:translate-y-[2px]"
             onClick={clearInputs}
           >
             Clear
           </button>
-
-          <button
-            className="cursor-pointer transition-all bg-[#176B87] text-white w-28 h-[35px] rounded-lg border-[#15414e] border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px] active:border-b-[2px] active:brightness-90 active:translate-y-[2px]"
-            
-          >
+          <Link to="/homepage/manageauction/holds">
+          <button className="cursor-pointer transition-all bg-[#176B87] text-white w-28 h-[35px] rounded-lg border-[#15414e] border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px] active:border-b-[2px] active:brightness-90 active:translate-y-[2px]" >
             Holds
           </button>
+          </Link>
           
         </div>
-
       </div>
       <div className="px-5">
         {customers && customers.length === 0 ? (

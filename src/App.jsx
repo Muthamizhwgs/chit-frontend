@@ -16,6 +16,7 @@ import Auctiondetails from './components/admin/auctiondetails'
 import Company from './components/admin/company'
 import ReportTable from './components/admin/reportTable'
 import AuctionDetails from './components/user/AuctionDetails'
+import Holds from './components/admin/Holds'
 
 function App() {
 
@@ -41,6 +42,7 @@ function App() {
           <Route path='/homepage/payments' element={<Payments />} />
           <Route path='/homepage/reports' element={<Reports />} />
           <Route path='/homepage/reports/reportDetails' element={<ReportTable />} />
+          <Route path='/homepage/manageauction/holds' element={<Holds/>}/>
 
           {/* user */}
           <Route path='/homepage/chits' element={<Chits />} />
