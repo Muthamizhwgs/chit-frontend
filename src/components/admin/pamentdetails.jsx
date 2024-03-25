@@ -27,6 +27,19 @@ const data = [
     total: 50000,
     status: "incomplete",
   },
+  {
+    id: 1,
+    date: "05-07-2023",
+    name: "KKR travels",
+    items: [
+      { group: "10 Lakhs B", month: 8, amount: 120000, amountToBePaid: 45500 },
+      { group: "10 Lakhs A", month: 14, amount: 70000, amountToBePaid: 48000 },
+    ],
+    amount: 96000,
+    balance: 45599,
+    total: 50000,
+    status: "incomplete",
+  },
   // Add more data objects here if needed
 ];
 
@@ -48,7 +61,7 @@ const Card = ({ data }) => {
       <div className="p-4">
         <p className="text-lg font-bold text-[#176B87]  mb-2">{data.name}</p>
         <p className="text-sm text-gray-600 mb-4">{data.date}</p>
-        <div>
+        <div className="relative">
           {data.items.map((item, i) => (
             <div key={i} className="mb-2">
               <p>
@@ -66,13 +79,15 @@ const Card = ({ data }) => {
               </p>
             </div>
           ))}
-          <span
-            className={`inline-block rounded-full px-2 py-1 text-white left-10 ${
-              data.status === "complete" ? "bg-green-500" : "bg-red-500"
-            }`}
-          >
-            {data.status === "complete" ? "Complete" : "Incomplete"}
-          </span>
+        <div className="flex flex-row  justify-end ">
+  <span
+    className={`rounded-full px-2 py-1 ${
+      data.status === "complete" ? "text-green-500" : "text-red-500"
+    } text-base font-bold mr-2`} 
+  >
+    {data.status === "complete" ? "Complete" : "Incomplete"}
+  </span>
+</div>
         </div>
         <hr className="my-4 text-[#176B87]" />
         <p className="text-lg font-bold mb-2">Summary</p>
@@ -88,7 +103,7 @@ const Card = ({ data }) => {
       </div>
 
       <button className="absolute bottom-4 right-4 cursor-pointer transition-all bg-[#176B87] text-white w-28 h-[35px] rounded-lg border-[#15414e] border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px] active:border-b-[2px] active:brightness-90 active:translate-y-[2px]">
-        Print
+       Pay & Print
       </button>
     </div>
   );
