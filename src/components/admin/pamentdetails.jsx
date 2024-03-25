@@ -45,9 +45,9 @@ const data = [
 
 const PaymentDetails = () => {
   return (
-    <div className="grid grid-cols-3 justify-center gap-4">
+    <div className="grid grid-cols-3 justify-items-stretch gap-4">
       {data.map((entry, index) => (
-        <div key={index} className="m-4">
+        <div key={index} className="m-4 flex justify-center">
           <Card data={entry} />
         </div>
       ))}
@@ -57,7 +57,8 @@ const PaymentDetails = () => {
 
 const Card = ({ data }) => {
   return (
-    <div className="bg-white rounded-lg shadow-lg w-80 relative">
+    <>
+      <div className="bg-white rounded-lg shadow-lg w-80 relative" >
       <div className="p-4">
         <p className="text-lg font-bold text-[#176B87]  mb-2">{data.name}</p>
         <p className="text-sm text-gray-600 mb-4">{data.date}</p>
@@ -106,6 +107,8 @@ const Card = ({ data }) => {
         Pay & Print
       </button>
     </div>
+    </>
+  
   );
 };
 
