@@ -198,3 +198,8 @@ export const hold_To_Completed = async (id) => {
   let ApiResponse = await useAxiosInterceptors.get("chit/hold/to/completed/"+id);
   return ApiResponse;
 };
+
+export const PayAndPrint = async (id)=>{
+  let ApiResponse = await useAxiosInterceptors.get('chit/getpayments/detailsByUser/'+id)
+  return ApiResponse
+}

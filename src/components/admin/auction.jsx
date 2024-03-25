@@ -299,6 +299,7 @@ const Actions = () => {
   const handleConfirmsubmit = async (e, val) => {
     // setIsModalOpensubmit(true);
     setCustomerInput(val);
+    console.log(e, "e", val, "val");
     let users = e.chitMap;
     let find = users.findIndex((a) => {
       return a._id == val;
@@ -320,7 +321,7 @@ const Actions = () => {
       customerName: customer.customerName,
       tobePaidAmount: paidAmt,
     };
-   await setAuction(data);
+    await setAuction(data);
 
     if (!e.Amount > 0) {
       messageApi.open({
@@ -553,9 +554,9 @@ const Actions = () => {
             Clear
           </button>
           <Link to="/homepage/manageauction/holds">
-          <button className="cursor-pointer transition-all bg-[#176B87] text-white w-28 h-[35px] rounded-lg border-[#15414e] border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px] active:border-b-[2px] active:brightness-90 active:translate-y-[2px]" >
-            Holds
-          </button>
+            <button className="cursor-pointer transition-all bg-[#176B87] text-white w-28 h-[35px] rounded-lg border-[#15414e] border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px] active:border-b-[2px] active:brightness-90 active:translate-y-[2px]">
+              Holds
+            </button>
           </Link>
         </div>
       </div>

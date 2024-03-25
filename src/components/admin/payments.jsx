@@ -34,7 +34,7 @@ function Payments() {
   };
 
 const clickToMove = (id) => {
-  navigate('/homepage/payments/paymentsDetails?id='+id)
+  navigate('/homepage/payments/paymentsDetails/'+id)
 }
 
   const columns = [
