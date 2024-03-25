@@ -40,7 +40,7 @@ const data = [
     total: 50000,
     status: "incomplete",
   },
-  // Add more data objects here if needed
+
 ];
 
 const PaymentDetails = () => {
@@ -79,15 +79,15 @@ const Card = ({ data }) => {
               </p>
             </div>
           ))}
-        <div className="flex flex-row  justify-end ">
-  <span
-    className={`rounded-full px-2 py-1 ${
-      data.status === "complete" ? "text-green-500" : "text-red-500"
-    } text-base font-bold mr-2`} 
-  >
-    {data.status === "complete" ? "Complete" : "Incomplete"}
-  </span>
-</div>
+          <div className="flex flex-row  justify-end ">
+            <span
+              className={`rounded-full px-2 py-1 ${
+                data.status === "complete" ? "text-green-500" : "text-red-500"
+              } text-base font-bold mr-2`}
+            >
+              {data.status === "complete" ? "Complete" : "Incomplete"}
+            </span>
+          </div>
         </div>
         <hr className="my-4 text-[#176B87]" />
         <p className="text-lg font-bold mb-2">Summary</p>
@@ -103,7 +103,7 @@ const Card = ({ data }) => {
       </div>
 
       <button className="absolute bottom-4 right-4 cursor-pointer transition-all bg-[#176B87] text-white w-28 h-[35px] rounded-lg border-[#15414e] border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px] active:border-b-[2px] active:brightness-90 active:translate-y-[2px]">
-       Pay & Print
+        Pay & Print
       </button>
     </div>
   );
