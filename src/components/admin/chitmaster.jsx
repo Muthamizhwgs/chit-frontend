@@ -29,15 +29,31 @@ function ChitMaster() {
   const [err, setErr] = React.useState("");
   const [chits, setChits] = React.useState([]);
   const [companies, setCompanies] = React.useState([]);
-  // const [searchTerm, setSearchTerm] = React.useState("");
+
   const [loader, setLoader] = React.useState(false);
   const [companyId, setCompanyId] = React.useState("");
   const [companyAuctionDate, setCompanyAuctionDate] = React.useState("");
   const [edit, setEdit] = React.useState(false);
   const [id, setId] = React.useState("");
 
+
+  const handleInit = () => {
+    forms.values.chitAmount = "";
+   forms.values.chitName = "";
+   forms.values.companyId = "";
+   forms.values.companyName = "";
+   forms.values.describeDate = "";
+   forms.values.group = "";
+   forms.values.months = "";
+   forms.values.noOfPeople = "";
+   setCompanyAuctionDate("");
+   forms.resetForm();
+   setInputValue("")
+ };
+ 
   const showModal = () => {
     setIsModalOpen(true);
+    handleInit()
   };
 
   let navigate = useNavigate();
@@ -72,6 +88,9 @@ function ChitMaster() {
     setCompanyAuctionDate("");
     forms.resetForm();
   };
+
+
+ 
 
   const submitForms = async (value) => {
     let datas = { ...value, ...{ groups: tags } };
@@ -126,15 +145,20 @@ function ChitMaster() {
   }, []);
 
   const chengeEdit = (val) => {
-    forms.values.companyId = val.companyName;
+     forms.values.companyId = val.companyName;
     forms.values.chitName = val.chitName;
     forms.values.chitAmount = val.chitAmount;
     forms.values.months = val.months;
-    forms.values.noOfPeople = val.noOfPeople;
-
+    forms.values.noOfPeople = val.noOfPeople; 
+    const selectedCompany = companies.find((company) => company.companyName === val.companyName);  
+    if (selectedCompany) {
+      AuctionDateMapping(selectedCompany._id);
+    }   
     setEdit(true);
     setIsModalOpen(true);
-  };
+    setTags(val.totalGroup || []);
+  }; 
+  
 
   const EditSubmit = async (values) => {
     // console.log(values)
@@ -613,6 +637,7 @@ function ChitMaster() {
             <button
               className="cursor-pointer transition-all bg-[#176B87] text-white w-28 h-[35px] rounded-lg border-[#15414e] border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px] active:border-b-[2px] active:brightness-90 active:translate-y-[2px]"
               onClick={forms.handleSubmit}
+              type="button"
             >
               Submit
             </button>
