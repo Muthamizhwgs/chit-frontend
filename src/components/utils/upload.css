@@ -1,0 +1,19 @@
+.progress-loader {
+    position: fixed;
+    width: 85%;
+    height: 100vh;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #0000005e;
+    z-index: 1000000000000000000000000000000000000000000000000000000000000;
+  }
+  .progress-container{
+    width: 30%;
+    height: 30%;
+    /* background-color: aqua; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }

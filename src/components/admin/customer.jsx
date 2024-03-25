@@ -2,6 +2,9 @@ import React, { useEffect } from "react";
 import { Modal, Select } from "antd";
 import { CustomerSchema, CustomerInitValue } from "../../validations/customers";
 import { useFormik } from "formik";
+import { MdOutlineFileUpload } from "react-icons/md";
+import axios from "axios";
+
 import {
   createUsers,
   getChitUsers,
@@ -16,6 +19,7 @@ import DateFormat from "../../components/date";
 import Loader from "../utils/loader";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Switch } from "antd";
+import UploadProgress from "../utils/Upload.Progress";
 
 function Customers() {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
@@ -29,7 +33,8 @@ function Customers() {
   const [edit, setEdit] = React.useState(false);
   const [id, setId] = React.useState("");
   const [referenceUser, setReferenceUser] = React.useState([]);
-  const [status, setStatus] = React.useState(false);
+  const [upload, setUpload] = React.useState(false);
+  const [load, setLoad] = React.useState(0);
 
   const navigate = useNavigate();
 
@@ -91,15 +96,12 @@ function Customers() {
 
   const chengeEdit = (val) => {
     setId(val._id);
-    (forms.values.name = val.name);
-    (forms.values.address = val.address);
-    (forms.values.phoneNumber = val.phoneNumber);
-    (forms.values.reference = val.reference),
-
-      setEdit(true);
+    forms.values.name = val.name;
+    forms.values.address = val.address;
+    forms.values.phoneNumber = val.phoneNumber;
+    (forms.values.reference = val.reference), setEdit(true);
     setIsModalOpen(true);
   };
-
 
   const EditSubmit = async (values) => {
     console.log(values);
@@ -132,6 +134,25 @@ function Customers() {
     }
   };
 
+  const changeFileUpload = async (e) => {
+    setUpload(true);
+    const formData = new FormData();
+    formData.append("customers", e.target.files[0]);
+
+    try {
+      const authToken = localStorage.getItem("chits");
+      const response = await axios.post(
+        "http://localhost:3000/v1/users/customer/bulk/upload",
+        formData
+      );
+      console.log(response.data);
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        navigate("/");
+      }
+    }
+  };
+
   // const handleStatus = async (id, value) => {
   //   const newStatus = value ? 0 : 1;
   //   try {
@@ -152,7 +173,7 @@ function Customers() {
   //   }
   // };
 
-  const chengeDelete = () => { };
+  const chengeDelete = () => {};
 
   const columns = [
     {
@@ -284,21 +305,59 @@ function Customers() {
   return (
     <>
       {loader ? <Loader data={loader} /> : null}
+      {upload ? <UploadProgress data={{ upload, load }} /> : null}
       <div>
-        <div className="flex xs:justify-between flex-col xs:flex-row items-center gap-2 xs:gap-0 max-w-[95%] py-5">
-          <div></div>
+        <div className="flex xs:justify-between flex-col xs:flex-row items-center gap-2 xs:gap-0 max-w-[95%] m-auto py-5">
+          <div>
+            {" "}
+            <form className="form sm:w-80 xs:w-72 w-64">
+              <label for="search">
+                <input
+                  className="input w-48 xs:w-56 sm:w-64 placeholder:text-[10.5px] xs:placeholder:text-xs  sm:placeholder:text-sm pb-1 xs:pb-0"
+                  type="text"
+                  required=""
+                  placeholder="Enter Customer Name or Phone Number"
+                  id="search"
+                  value={searchTerm}
+                  onChange={(e) => handleSearch(e.target.value)}
+                />
+                <div class="fancy-bg"></div>
+                <div class="search">
+                  <svg
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                    class="r-14j79pv r-4qtqp9 r-yyyyoo r-1xvli5t r-dnmrzs r-4wgw6l r-f727ji r-bnwqim r-1plcrui r-lrvibr"
+                  >
+                    <g>
+                      <path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"></path>
+                    </g>
+                  </svg>
+                </div>
+              </label>
+            </form>{" "}
+          </div>
           <div className="text-xl font-bold">Customers</div>
-          <div className="">
-            {/* <button onClick={showModal} className=' bg-[#176B87] hover:scale-105 transition-all duration-300 flex justify-center items-center text-white w-32 gap-1 rounded-md h-10 xs:text-base text-sm'>
-              <FaPlus className='text-white size-4' />
-              Add customers
-            </button> */}
+          <div className="flex gap-3">
             <button
               className="cursor-pointer transition-all bg-[#176B87] text-white w-32 h-10 rounded-lg border-[#15414e] border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px] active:border-b-[2px] active:brightness-90 active:translate-y-[2px]"
               onClick={showModal}
             >
               Add Customer
             </button>
+            <label
+              htmlFor="file-upload"
+              className="flex justify-center items-center gap-2 cursor-pointer transition-all bg-[#176B87] text-white w-44 h-10 rounded-lg border-[#15414e] border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px] active:border-b-[2px] active:brightness-90 active:translate-y-[2px]"
+            >
+              <MdOutlineFileUpload size={24} /> Upload Customers
+            </label>
+            <input
+              id="file-upload"
+              type="file"
+              className="hidden"
+              onChange={(e) => {
+                changeFileUpload(e);
+              }}
+            />
           </div>
         </div>
 
@@ -308,31 +367,6 @@ function Customers() {
               onChange={(e) => handleSearch(e.target.value)} />
             <FaSearch className='text-gray-300 absolute -translate-x-1/2 -translate-y-1/2 top-[50%] right-[2%]' />
           </div> */}
-          <form className="form sm:w-80 xs:w-72 w-64">
-            <label for="search">
-              <input
-                className="input w-48 xs:w-56 sm:w-64 placeholder:text-[10.5px] xs:placeholder:text-xs  sm:placeholder:text-sm pb-1 xs:pb-0"
-                type="text"
-                required=""
-                placeholder="Enter Customer Name or Phone Number"
-                id="search"
-                value={searchTerm}
-                onChange={(e) => handleSearch(e.target.value)}
-              />
-              <div class="fancy-bg"></div>
-              <div class="search">
-                <svg
-                  viewBox="0 0 24 24"
-                  aria-hidden="true"
-                  class="r-14j79pv r-4qtqp9 r-yyyyoo r-1xvli5t r-dnmrzs r-4wgw6l r-f727ji r-bnwqim r-1plcrui r-lrvibr"
-                >
-                  <g>
-                    <path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"></path>
-                  </g>
-                </svg>
-              </div>
-            </label>
-          </form>
         </div>
 
         <div className="w-[95%] m-auto mt-5 overflow-auto">

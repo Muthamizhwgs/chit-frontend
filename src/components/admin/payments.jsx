@@ -44,7 +44,7 @@ const clickToMove = (id) => {
     },
     {
       name: <h1 className="text-lg text-gray-500">Customer Name</h1>,
-      cell: (row) => (<p className="underline cursor-pointer text-blue-500" onClick={()=>{clickToMove(row._id)}}>{row.customerName}</p>)
+      cell: (row) => (<p className="underline cursor-pointer text-blue-500" onClick={()=>{clickToMove(row.customerId)}}>{row.customerName}</p>)
     },
     {
       name: <h1 className="text-lg text-gray-500">Phone Number</h1>,

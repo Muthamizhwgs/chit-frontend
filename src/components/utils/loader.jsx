@@ -1,6 +1,7 @@
 import React from 'react'
 import "./loader.css"
 
+
 function Loader(data) {
     const [loader, setLoader] = React.useState(false)
     React.useEffect(() => { setLoader(data) }, [loader])
