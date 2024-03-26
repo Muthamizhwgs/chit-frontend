@@ -34,14 +34,14 @@ const PaymentDetails = () => {
       {payments.length > 0 &&
         payments.map((entry, index) => (
           <div key={index} className="m-4 flex justify-center">
-            <Card data={entry} />
+            <Card data={entry} index={index}/>
           </div>
         ))}
     </div>
   );
 };
 
-const Card = ({ data }) => {
+const Card = ({ data, index }) => {
   return (
     <>
       <div className="bg-white rounded-lg shadow-lg w-80 relative">
@@ -66,6 +66,7 @@ const Card = ({ data }) => {
                   <span className="font-semibold">Amount:</span>{" "}
                   <CurrencyComponent amount={item.amount} />
                 </p>
+
                 <p>
                   <span className="font-semibold">Cash Given:</span>{" "}
                   <CurrencyComponent
@@ -87,6 +88,9 @@ const Card = ({ data }) => {
           <hr className="my-4 text-[#176B87]" />
           <p className="text-lg font-bold mb-2">Summary</p>
           <p>
+            <span className="font-semibold">card index:</span> {index}
+          </p>
+          <p>
             <span className="font-semibold">Amount:</span> {data.amount}
           </p>
           <p>
@@ -104,5 +108,6 @@ const Card = ({ data }) => {
     </>
   );
 };
+
 
 export default PaymentDetails;
