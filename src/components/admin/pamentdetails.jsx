@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { PayAndPrint } from "../../services/service";
 import { useNavigate, useParams } from "react-router-dom";
 import CurrencyComponent from "../utils/currency";
-import { CashGiven } from "../utils/calculation";
+import { CashGiven, Amount, AuctionAmount } from "../utils/calculation";
 
 const PaymentDetails = () => {
   const { id } = useParams();
@@ -11,6 +11,8 @@ const PaymentDetails = () => {
   const [payments, setPayments] = useState([]);
   const [customerId, setCustomerId] = useState(null);
   const [loader, setLoader] = useState(false);
+
+  console.log("amount", CashGiven, Amount, AuctionAmount);
 
   const fetchPayments = async () => {
     setLoader(true);
@@ -61,19 +63,19 @@ const Card = ({ data, index }) => {
                 </p>
                 <p>
                   <span className="font-semibold">Auction Amount:</span>{" "}
-                  <CurrencyComponent amount={item.auctionAmount} />
+                  {<CurrencyComponent amount={item.auctionAmount} />}
                 </p>
 
                 <p>
-                  <span className="font-semibold">Amount:</span>{" "}
-                  <CurrencyComponent amount={item.amount} />
+                  <span className="font-semibold">Amount:</span>
+                  {<CurrencyComponent amount={item.amount} />}
                 </p>
 
                 <p>
                   <span className="font-semibold">Cash Given:</span>{" "}
-                  <CurrencyComponent
+                 { <CurrencyComponent
                     amount={item.amountToBePaid ? item.amountToBePaid : 0}
-                  />
+                  />}
                 </p>
               </div>
             ))}
@@ -91,14 +93,17 @@ const Card = ({ data, index }) => {
           <p className="text-lg font-bold mb-2">Summary</p>
           <p>
             <span className="font-semibold">Amount:</span>{" "}
-            <CashGiven datas={data.items} />
+            <Amount datas={data.items} />
           </p>
           <p>
-            <span className="font-semibold">Balance:</span> {data.balance}
+            <span className="font-semibold">Auction Amount:</span>{" "}
+           <AuctionAmount datas={data.items} />
           </p>
           <p>
-            <span className="font-semibold">Total:</span> {data.total}
+            <span className="font-semibold">Cash Given:</span>{" "}
+           <CashGiven datas={data.items} />
           </p>
+
         </div>
 
         <button className="absolute bottom-4 right-4 cursor-pointer transition-all bg-[#176B87] text-white w-28 h-[35px] rounded-lg border-[#15414e] border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px] active:border-b-[2px] active:brightness-90 active:translate-y-[2px]">
