@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { PayAndPrint } from "../../services/service";
 import { useNavigate, useParams } from "react-router-dom";
 import CurrencyComponent from "../utils/currency";
-
+import PDFDocument from 'pdfkit';
+import fs from 'fs';
 const PaymentDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -10,6 +11,8 @@ const PaymentDetails = () => {
   const [payments, setPayments] = useState([]);
   const [customerId, setCustomerId] = useState(null);
   const [loader, setLoader] = useState(false);
+
+
 
   const fetchPayments = async () => {
     setLoader(true);
@@ -42,6 +45,14 @@ const PaymentDetails = () => {
 };
 
 const Card = ({ data }) => {
+  const generatePdf = async () => {
+    const doc = new PDFDocument({
+      size: [3 * 72, 11 * 72]
+    })
+    doc.pipe(fs.createWriteStream('output.pdf'));
+    doc.fontSize(25).text("new chit pdf", 100, 100);
+    doc.end();
+  }
   return (
     <>
       <div className="bg-white rounded-lg shadow-lg w-80 relative">
@@ -77,9 +88,8 @@ const Card = ({ data }) => {
             ))}
             <div className="flex flex-row  justify-end ">
               <span
-                className={`rounded-full px-2 py-1 ${
-                  data.status === "complete" ? "text-green-500" : "text-red-500"
-                } text-base font-bold mr-2`}
+                className={`rounded-full px-2 py-1 ${data.status === "complete" ? "text-green-500" : "text-red-500"
+                  } text-base font-bold mr-2`}
               >
                 {data.status === "complete" ? "Complete" : "Incomplete"}
               </span>
@@ -98,7 +108,7 @@ const Card = ({ data }) => {
           </p>
         </div>
 
-        <button className="absolute bottom-4 right-4 cursor-pointer transition-all bg-[#176B87] text-white w-28 h-[35px] rounded-lg border-[#15414e] border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px] active:border-b-[2px] active:brightness-90 active:translate-y-[2px]">
+        <button onClick={generatePdf} className="absolute bottom-4 right-4 cursor-pointer transition-all bg-[#176B87] text-white w-28 h-[35px] rounded-lg border-[#15414e] border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px] active:border-b-[2px] active:brightness-90 active:translate-y-[2px]">
           Pay & Print
         </button>
       </div>
