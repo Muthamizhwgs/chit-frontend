@@ -1,18 +1,15 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { PayAndPrint } from "../../services/service";
 import { useNavigate, useParams } from "react-router-dom";
 import CurrencyComponent from "../utils/currency";
 import { CashGiven, Amount, AuctionAmount } from "../utils/Calculations";
-import { Page, Text, View, Document, StyleSheet } from "@react-pdf/renderer";
 
 const PaymentDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
   const [payments, setPayments] = useState([]);
-  const [customerId, setCustomerId] = useState(null);
   const [loader, setLoader] = useState(false);
-
 
   const fetchPayments = async () => {
     setLoader(true);
@@ -20,7 +17,7 @@ const PaymentDetails = () => {
       let values = await PayAndPrint(id);
       setPayments(values.data);
     } catch (error) {
-      if (error.response.status === 401) {
+      if (error.response && error.response.status === 401) {
         navigate("/");
       }
     } finally {
@@ -30,58 +27,28 @@ const PaymentDetails = () => {
 
   useEffect(() => {
     fetchPayments();
-  }, []);
+  }, [id]); 
 
-  return (
-    <div className="grid grid-cols-3 justify-items-stretch gap-4">
-      {payments.length > 0 &&
-        payments.map((entry, index) => (
-          <div key={index} className="m-4 flex justify-center">
-            <Card data={entry} index={index} />
-          </div>
-        ))}
-    </div>
-  );
-};
-
-const Card = ({ data, index }) => {
-  const documentRef = useRef(null);
-
-  const customPageSize = "216px 108px";
-
-  const styles = StyleSheet.create({
-    page: {
-      flexDirection: "row",
-      backgroundColor: "#E4E4E4",
-    },
-    section: {
-      margin: 10,
-      padding: 10,
-      flexGrow: 1,
-    },
-  });
-
-  const MyDocument = () => (
-    <Document>
-      <Page size="A4" style={styles.page}>
-        <View style={styles.section}>
-          <Text>Section #1</Text>
-        </View>
-        <View style={styles.section}>
-          <Text>Section #2</Text>
-        </View>
-      </Page>
-    </Document>
-  );
-
-  const sendDataToBackend = async (data) => {
+  const sendDataToBackend = async (data, id) => {
     try {
+      const cashGivenValue = CashGiven({ datas: data.items });
+      const amountValue = Amount({ datas: data.items });
+      const auctionAmountValue = AuctionAmount({ datas: data.items });
+
+      const sendData = {
+        ...data,
+        cashGiven: cashGivenValue,
+        amount: amountValue,
+        auctionAmount: auctionAmountValue,
+        userId: id
+      };
+
       const response = await fetch("url_potukoooo", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(sendData),
       });
       if (response.ok) {
         console.log("Data sent successfully!");
@@ -93,21 +60,19 @@ const Card = ({ data, index }) => {
     }
   };
 
-  const handlePayAndPrint = () => {
-     sendDataToBackend(data);   
+  return (
+    <div className="grid grid-cols-3 justify-items-stretch gap-4">
+      {payments.length > 0 &&
+        payments.map((entry, index) => (
+          <div key={index} className="m-4 flex justify-center">
+            <Card data={entry} id={id} sendDataToBackend={sendDataToBackend} />
+          </div>
+        ))}
+    </div>
+  );
+};
 
-    const pdf = render(<MyDocument />);
-        const pdfBlob = pdf.toBlob();
-    const pdfUrl = URL.createObjectURL(pdfBlob);
-    
-
-    window.open(pdfUrl, "_blank");
-
-    setTimeout(() => {
-      URL.revokeObjectURL(pdfUrl);
-    }, 100);
-  };
-
+const Card = ({ data, id, sendDataToBackend }) => {
   console.log(data.items);
 
   return (
@@ -172,7 +137,7 @@ const Card = ({ data, index }) => {
         </div>
 
         <button
-          onClick={handlePayAndPrint}
+          onClick={() => sendDataToBackend(data, id)}
           className="absolute bottom-4 right-4 cursor-pointer transition-all bg-[#176B87] text-white w-28 h-[35px] rounded-lg border-[#15414e] border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px] active:border-b-[2px] active:brightness-90 active:translate-y-[2px]"
         >
           Pay & Print
