@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { PayAndPrint } from "../../services/service";
 import { useNavigate, useParams } from "react-router-dom";
 import CurrencyComponent from "../utils/currency";
 import { CashGiven, Amount, AuctionAmount } from "../utils/calculation";
+import { Page, Text, View, Document, StyleSheet } from "@react-pdf/renderer";
 
 const PaymentDetails = () => {
   const { id } = useParams();
@@ -45,6 +46,46 @@ const PaymentDetails = () => {
 };
 
 const Card = ({ data, index }) => {
+  const documentRef = useRef(null);
+
+  const customPageSize = "216px 108px";
+
+  const styles = StyleSheet.create({
+    page: {
+      flexDirection: "row",
+      backgroundColor: "#E4E4E4",
+    },
+    section: {
+      margin: 10,
+      padding: 10,
+      flexGrow: 1,
+    },
+  });
+
+  const MyDocument = () => (
+    <Document>
+      <Page size="A4" style={styles.page}>
+        <View style={styles.section}>
+          <Text>Section #1</Text>
+        </View>
+        <View style={styles.section}>
+          <Text>Section #2</Text>
+        </View>
+      </Page>
+    </Document>
+  );
+  const printPdf = () => {
+    const pdf = render(<MyDocument />);
+    const pdfBlob = pdf.toBlob();
+    const pdfUrl = URL.createObjectURL(pdfBlob);
+    window.open(pdfUrl, "_blank");
+    setTimeout(() => {
+      URL.revokeObjectURL(pdfUrl);
+    }, 100);
+  };
+
+  console.log(data.items);
+
   console.log(data.items);
   return (
     <>
@@ -73,9 +114,11 @@ const Card = ({ data, index }) => {
 
                 <p>
                   <span className="font-semibold">Cash Given:</span>{" "}
-                 { <CurrencyComponent
-                    amount={item.amountToBePaid ? item.amountToBePaid : 0}
-                  />}
+                  {
+                    <CurrencyComponent
+                      amount={item.amountToBePaid ? item.amountToBePaid : 0}
+                    />
+                  }
                 </p>
               </div>
             ))}
@@ -97,16 +140,18 @@ const Card = ({ data, index }) => {
           </p>
           <p>
             <span className="font-semibold">Auction Amount:</span>{" "}
-           <AuctionAmount datas={data.items} />
+            <AuctionAmount datas={data.items} />
           </p>
           <p>
             <span className="font-semibold">Cash Given:</span>{" "}
-           <CashGiven datas={data.items} />
+            <CashGiven datas={data.items} />
           </p>
-
         </div>
 
-        <button className="absolute bottom-4 right-4 cursor-pointer transition-all bg-[#176B87] text-white w-28 h-[35px] rounded-lg border-[#15414e] border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px] active:border-b-[2px] active:brightness-90 active:translate-y-[2px]">
+        <button
+          onClick={printPdf}
+          className="absolute bottom-4 right-4 cursor-pointer transition-all bg-[#176B87] text-white w-28 h-[35px] rounded-lg border-[#15414e] border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px] active:border-b-[2px] active:brightness-90 active:translate-y-[2px]"
+        >
           Pay & Print
         </button>
       </div>
