@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { PayAndPrint } from "../../services/service";
 import { useNavigate, useParams } from "react-router-dom";
 import CurrencyComponent from "../utils/currency";
-import { CashGiven, Amount, AuctionAmount } from "../utils/calculation";
+import { CashGiven, Amount, AuctionAmount } from "../utils/Calculations";
 
 const PaymentDetails = () => {
   const { id } = useParams();
