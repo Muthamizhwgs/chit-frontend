@@ -13,7 +13,6 @@ const PaymentDetails = () => {
   const [customerId, setCustomerId] = useState(null);
   const [loader, setLoader] = useState(false);
 
-  console.log("amount", CashGiven, Amount, AuctionAmount);
 
   const fetchPayments = async () => {
     setLoader(true);
@@ -74,11 +73,36 @@ const Card = ({ data, index }) => {
       </Page>
     </Document>
   );
-  const printPdf = () => {
+
+  const sendDataToBackend = async (data) => {
+    try {
+      const response = await fetch("url_potukoooo", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      if (response.ok) {
+        console.log("Data sent successfully!");
+      } else {
+        console.error("Failed to send data to the backend.");
+      }
+    } catch (error) {
+      console.error("Error sending data to backend:", error);
+    }
+  };
+
+  const handlePayAndPrint = () => {
+     sendDataToBackend(data);   
+
     const pdf = render(<MyDocument />);
-    const pdfBlob = pdf.toBlob();
+        const pdfBlob = pdf.toBlob();
     const pdfUrl = URL.createObjectURL(pdfBlob);
+    
+
     window.open(pdfUrl, "_blank");
+
     setTimeout(() => {
       URL.revokeObjectURL(pdfUrl);
     }, 100);
@@ -86,7 +110,6 @@ const Card = ({ data, index }) => {
 
   console.log(data.items);
 
-  console.log(data.items);
   return (
     <>
       <div className="bg-white rounded-lg shadow-lg w-80 relative">
@@ -149,7 +172,7 @@ const Card = ({ data, index }) => {
         </div>
 
         <button
-          onClick={printPdf}
+          onClick={handlePayAndPrint}
           className="absolute bottom-4 right-4 cursor-pointer transition-all bg-[#176B87] text-white w-28 h-[35px] rounded-lg border-[#15414e] border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px] active:border-b-[2px] active:brightness-90 active:translate-y-[2px]"
         >
           Pay & Print
