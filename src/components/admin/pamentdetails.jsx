@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { PayAndPrint } from "../../services/service";
+import { PDFGend, PayAndPrint } from "../../services/service";
 import { useNavigate, useParams } from "react-router-dom";
 import CurrencyComponent from "../utils/currency";
 import { CashGiven, Amount, AuctionAmount } from "../utils/Calculations";
@@ -27,7 +27,7 @@ const PaymentDetails = () => {
 
   useEffect(() => {
     fetchPayments();
-  }, [id]); 
+  }, [id]);
 
   const sendDataToBackend = async (data, id) => {
     try {
@@ -40,21 +40,32 @@ const PaymentDetails = () => {
         cashGiven: cashGivenValue,
         amount: amountValue,
         auctionAmount: auctionAmountValue,
-        userId: id
+        userId: id,
       };
 
-      const response = await fetch("url_potukoooo", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(sendData),
-      });
-      if (response.ok) {
-        console.log("Data sent successfully!");
-      } else {
-        console.error("Failed to send data to the backend.");
+      try {
+        let val = await PDFGend(sendData);
+        console.log(val);
+      } catch (error) {
+        if (error.response.status === 401) {
+          navigate("/");
+        }
+      } finally {
+        
       }
+
+      // const response = await fetch("url_potukoooo", {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify(sendData),
+      // });
+      // if (response.ok) {
+      //   console.log("Data sent successfully!");
+      // } else {
+      //   console.error("Failed to send data to the backend.");
+      // }
     } catch (error) {
       console.error("Error sending data to backend:", error);
     }
