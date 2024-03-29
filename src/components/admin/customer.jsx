@@ -142,7 +142,7 @@ function Customers() {
     try {
       const authToken = localStorage.getItem("chits");
       const response = await axios.post(
-        "http://localhost:3000/v1/users/customer/bulk/upload",
+        "https://chitapi.whydev.co.in/v1/users/customer/bulk/upload",
         formData
       );
       console.log(response.data);

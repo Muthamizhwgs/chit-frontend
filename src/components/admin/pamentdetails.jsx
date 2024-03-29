@@ -51,7 +51,6 @@ const PaymentDetails = () => {
           navigate("/");
         }
       } finally {
-        
       }
 
       // const response = await fetch("url_potukoooo", {
