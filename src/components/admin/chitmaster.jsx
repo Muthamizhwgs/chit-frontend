@@ -36,6 +36,8 @@ function ChitMaster() {
   const [edit, setEdit] = React.useState(false);
   const [id, setId] = React.useState("");
 
+  console.log("row id", id);
+
 
   const handleInit = () => {
     forms.values.chitAmount = "";
@@ -144,35 +146,69 @@ function ChitMaster() {
     }
   }, []);
 
-  const chengeEdit = (val) => {
-     forms.values.companyId = val.companyName;
-    forms.values.chitName = val.chitName;
-    forms.values.chitAmount = val.chitAmount;
-    forms.values.months = val.months;
-    forms.values.noOfPeople = val.noOfPeople; 
-    const selectedCompany = companies.find((company) => company.companyName === val.companyName);  
+  const chengeEdit = (rowData) => {
+    const { _id, chitName, chitAmount, months, noOfPeople, companyName, totalGroup } = rowData;
+  
+    forms.values.companyId = companyName;
+    forms.values.chitName = chitName;
+    forms.values.chitAmount = chitAmount;
+    forms.values.months = months;
+    forms.values.noOfPeople = noOfPeople;
+    forms.values.totalGroup = totalGroup; 
+
+    const selectedCompany = companies.find((company) => company.companyName === companyName);
     if (selectedCompany) {
       AuctionDateMapping(selectedCompany._id);
-    }   
+    }
+
     setEdit(true);
     setIsModalOpen(true);
-    setTags(val.totalGroup || []);
-  }; 
+    setId(_id); 
+    setTags(totalGroup);
+};
+
+  
+  
   
 
-  const EditSubmit = async (values) => {
-    // console.log(values)
-    // try {
-    //   let val = await UpdateChituserById(id, values)
-    //   console.log(val, "response")
-    //   getChit()
-    //   handleCancel()
-    // } catch (error) {
-    //   if (error.response.status == 401) {
-    //     navigate('/')
-    //   }
-    // }
-  };
+const EditSubmit = async (values) => {
+  console.log(values);
+  try {
+    values.totalGroup = tags;
+    let val = await UpdateChituserById(values);
+    console.log(val, "response");
+    getChit();
+    handleCancel();
+  } catch (error) {
+    if (error.response.status == 401) {
+      navigate("/");
+    }
+  }
+};
+
+  
+
+
+  const UpdateChituserById = async (values) => {
+    try {
+        const response = await fetch(`http://localhost:3000/api/chits/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(values),
+        });
+        
+        if (!response.ok) {
+            throw new Error('Failed to update chit data');
+        }
+        
+        return response.json();
+    } catch (error) {
+        throw error;
+    }
+};
+
 
   const columns = [
     {
@@ -209,15 +245,14 @@ function ChitMaster() {
       cell: (row) => (
         <>
           <>
-            <FaEdit
-              className="size-5 cursor-pointer"
-              onClick={() => {
-                chengeEdit(row);
-              }}
-              color="#176b87"
-            />
-            <span className="ml-2">{row.id}</span>
-            <span className="ml-2">{row.id}</span>
+          <FaEdit
+  className="size-5 cursor-pointer"
+  onClick={() => chengeEdit(row)}
+  color="#176b87"
+/>
+
+            {/* <span className="ml-2">{row.id}</span> */}
+      
           </>
         </>
       ),
@@ -539,26 +574,7 @@ function ChitMaster() {
           onCancel={handleCancel}
           footer={null}
         >
-          {/* <div className="flex flex-col mb-4">
-            <label className="pl-4">Group :</label>
-            <input
-              type="text"
-              placeholder="Enter Group"
-              className="h-10 pl-3 border drop-shadow-lg w-[93%] hover:focus-within:outline-none rounded-md ml-3"
-              name="group"
-              id="group"
-              onBlur={forms.handleBlur}
-              value={forms.values.group}
-              onChange={forms.handleChange}
-            />
-
-            {forms.errors.group && forms.touched.group ? (
-              <div style={{ width: "100%", color: "red", paddingLeft: "15px" }}>
-                {forms.errors.group}
-              </div>
-            ) : null}
-          </div> */}
-
+         
           <div>
             <Flex gap="small" wrap="wrap" className="justify-center">
               {tags.map((tag, index) => {
