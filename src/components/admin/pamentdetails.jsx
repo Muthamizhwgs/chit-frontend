@@ -34,7 +34,7 @@ const PaymentDetails = () => {
       const cashGivenValue = CashGiven({ datas: data.items });
       const amountValue = Amount({ datas: data.items });
       const auctionAmountValue = AuctionAmount({ datas: data.items });
-
+  
       const sendData = {
         ...data,
         cashGiven: cashGivenValue,
@@ -42,33 +42,26 @@ const PaymentDetails = () => {
         auctionAmount: auctionAmountValue,
         userId: id,
       };
-
+  
       try {
-        let val = await PDFGend(sendData);
-        console.log(val);
-      } catch (error) {
-        if (error.response.status === 401) {
-          navigate("/");
+        let response = await PDFGend(sendData);
+        if (response.data && response.data.pdf) {
+          window.open(`http://localhost:3000/${response.data.pdf}`, '_blank');
+        } else {
+          console.error("PDF link not found in the response.");
         }
-      } finally {
+      } catch (error) {
+        if (error.response && error.response.status === 401) {
+          navigate("/");
+        } else {
+          console.error("Error generating PDF:", error);
+        }
       }
-
-      // const response = await fetch("url_potukoooo", {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify(sendData),
-      // });
-      // if (response.ok) {
-      //   console.log("Data sent successfully!");
-      // } else {
-      //   console.error("Failed to send data to the backend.");
-      // }
     } catch (error) {
       console.error("Error sending data to backend:", error);
     }
   };
+  
 
   return (
     <div className="grid grid-cols-3 justify-items-stretch gap-4">
