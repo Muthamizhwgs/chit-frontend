@@ -29,7 +29,23 @@ const PaymentDetails = () => {
     fetchPayments();
   }, [id, chitId, grpId]);
 
-  const sendDataToBackend = async (data, id) => {
+  
+
+  return (
+    <div className="grid grid-cols-3 justify-items-stretch gap-4">
+      {payments.length > 0 &&
+        payments.map((entry, index) => (
+          <div key={index} className="m-4 flex justify-center">
+            <Card data={entry} id={id}  />
+          </div>
+        ))}
+    </div>
+  );
+};
+
+const Card = ({ data, id, }) => {
+  console.log(data.items);
+  const sendDataToBackends = async (data, id) => {
     try {
       const cashGivenValue = CashGiven({ datas: data.items });
       const amountValue = Amount({ datas: data.items });
@@ -46,7 +62,9 @@ const PaymentDetails = () => {
       try {
         let response = await PDFGend(sendData);
         if (response.data && response.data.pdf) {
-          window.open(`https://chitapi.whydev.co.in/${response.data.pdf}`, "_blank");
+          // window.open(`https://chitapi.whydev.co.in/${response.data.pdf}`, "_blank");
+          window.open(`http://localhost:3000${response.data.pdf}`, "_blank");
+
         } else {
           console.error("PDF link not found in the response.");
         }
@@ -61,21 +79,6 @@ const PaymentDetails = () => {
       console.error("Error sending data to backend:", error);
     }
   };
-
-  return (
-    <div className="grid grid-cols-3 justify-items-stretch gap-4">
-      {payments.length > 0 &&
-        payments.map((entry, index) => (
-          <div key={index} className="m-4 flex justify-center">
-            <Card data={entry} id={id} sendDataToBackend={sendDataToBackend} />
-          </div>
-        ))}
-    </div>
-  );
-};
-
-const Card = ({ data, id, sendDataToBackend }) => {
-  console.log(data.items);
 
   return (
     <>
@@ -139,7 +142,7 @@ const Card = ({ data, id, sendDataToBackend }) => {
         </div>
 
         <button
-          onClick={() => sendDataToBackend(data, id)}
+          onClick={() => sendDataToBackends(data, id)}
           className="absolute bottom-4 right-4 cursor-pointer transition-all bg-[#176B87] text-white w-28 h-[35px] rounded-lg border-[#15414e] border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px] active:border-b-[2px] active:brightness-90 active:translate-y-[2px]"
         >
           Pay & Print
