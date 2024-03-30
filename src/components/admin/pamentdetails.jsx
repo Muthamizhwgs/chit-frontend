@@ -46,7 +46,7 @@ const PaymentDetails = () => {
       try {
         let response = await PDFGend(sendData);
         if (response.data && response.data.pdf) {
-          window.open(`http://localhost:3000/${response.data.pdf}`, "_blank");
+          window.open(`https://chitapi.whydev.co.in/${response.data.pdf}`, "_blank");
         } else {
           console.error("PDF link not found in the response.");
         }

@@ -5,6 +5,7 @@ import { Modal, Select, Radio, Tag } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { Flex, Input, theme, Tooltip } from "antd";
 import { FaEdit } from "react-icons/fa";
+
 const tagInputStyle = {
   width: 64,
   height: 32,
@@ -16,7 +17,7 @@ import {
   ChitMasterinitValue,
 } from "../../validations/chitMaster";
 import { useFormik } from "formik";
-import { AddChit, getChits, getAllCompany } from "../../services/service";
+import { AddChit, getChits, getAllCompany,updateChitById } from "../../services/service";
 import DataTable from "react-data-table-component";
 import DateFormat from "../date";
 import EmtyPage from "../../../public/emptypage.png";
@@ -91,7 +92,14 @@ function ChitMaster() {
   };
 
   const submitForms = async (value) => {
-    let datas = { ...value, ...{ groups: tags, companyName: forms.values.companyName, describeDate: forms.values.describeDate } }; 
+    let datas = {
+      ...value,
+      ...{
+        groups: tags,
+        companyName: forms.values.companyName,
+        describeDate: forms.values.describeDate,
+      },
+    };
     console.log(datas, "asdasd");
     setLoader(true);
     try {
@@ -108,7 +116,6 @@ function ChitMaster() {
       setLoader(false);
     }
   };
-  
 
   const getChit = async () => {
     setLoader(true);
@@ -183,10 +190,12 @@ function ChitMaster() {
       const updatedValues = {
         ...values,
         totalGroup: tags,
-        newGroup: tags.filter(tag => !forms.values.totalGroup.includes(tag))
+        newGroup: tags.filter((tag) => !forms.values.totalGroup.includes(tag)),
       };
-  
-      let val = await UpdateChituserById(updatedValues);
+
+      let updatedObject = delete updatedValues["group"];
+      console.log(updatedObject);
+      let val = await updateChitById(id, updatedValues);
       console.log(val, "response");
       getChit();
       handleCancel();
@@ -196,10 +205,9 @@ function ChitMaster() {
       }
     }
   };
-  
-  
 
   const UpdateChituserById = async (values) => {
+    console.log(values);
     try {
       const response = await fetch(`http://localhost:3000/api/chits/${id}`, {
         method: "PUT",

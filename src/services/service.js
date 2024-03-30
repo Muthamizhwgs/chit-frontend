@@ -208,3 +208,9 @@ export const PDFGend = async (data)=>{
   let ApiResponse  = await useAxiosInterceptors.post('chit/generate/Pdf', data)
   return ApiResponse
 }
+
+
+export const updateChitById = async (id,data)=>{
+  let ApiResponse  = await useAxiosInterceptors.put('chit/updateChitById/'+id, data)
+  return ApiResponse
+}
