@@ -172,7 +172,7 @@ function ChitMaster() {
   
 
 const EditSubmit = async (values) => {
-  console.log(values);
+  console.log(values, "EDITE DATA");
   try {
     values.totalGroup = tags;
     let val = await UpdateChituserById(values);
@@ -311,6 +311,7 @@ const EditSubmit = async (values) => {
   // for add group
   const { token } = theme.useToken();
   const [tags, setTags] = useState([]);
+
   console.log(tags);
   const [inputVisible, setInputVisible] = useState(false);
   const [inputValue, setInputValue] = useState("");
