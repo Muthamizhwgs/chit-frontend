@@ -14,6 +14,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Loader from "../utils/loader";
 import { GoDotFill } from "react-icons/go";
 import CurrencyComponent from "../utils/currency";
+import { FaEdit } from "react-icons/fa";
 
 function ChitMapping() {
   let navigate = useNavigate();
@@ -336,7 +337,7 @@ function ChitMapping() {
             // eslint-disable-next-line react/jsx-key
             <div className="w-full rounded-md bg-[#f7ffff] p-2 drop-shadow-md cursor-pointer">
               <Link to={"/homepage/chitmapping/chitmapdetails?id=" + data._id}>
-                <div className="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-2 lg:grid-cols-5 xl:grid-cols-5 bg-white p-2 rounded cursor-pointer">
+                <div className="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-2 lg:grid-cols-6 xl:grid-cols-6 bg-white p-2 rounded cursor-pointer">
                   <section className="flex flex-col">
                     <p className="font-bold">{data.chitName}</p>
                     <p>{data.createdAt}</p>
@@ -366,10 +367,13 @@ function ChitMapping() {
                     <p className="font-bold">Months</p>
                     <p>{data.months}</p>
                   </section>
-                  {/* <section className="">
-                    <p className="font-bold">Members</p>
-                    <p>{data.no_of_Peoples}</p>
-                  </section> */}
+                  <section className="">
+                    <FaEdit
+                      className="size-5 cursor-pointer"
+                      // onClick={() => chengeEdit(row)}
+                      color="#176b87"
+                    />
+                  </section>
                 </div>
               </Link>
             </div>
