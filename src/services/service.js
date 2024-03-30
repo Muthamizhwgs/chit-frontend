@@ -199,8 +199,8 @@ export const hold_To_Completed = async (id) => {
   return ApiResponse;
 };
 
-export const PayAndPrint = async (id)=>{
-  let ApiResponse = await useAxiosInterceptors.get('chit/getpayments/detailsByUser/'+id)
+export const PayAndPrint = async (id,chitId,grpId)=>{
+  let ApiResponse = await useAxiosInterceptors.get('chit/getpayments/detailsByUser/'+id+'/'+chitId+'/'+grpId)
   return ApiResponse
 }
 

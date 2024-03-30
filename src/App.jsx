@@ -44,7 +44,7 @@ function App() {
           />
           <Route path="/homepage/payments" element={<Payments />} />
           <Route
-            path="/homepage/payments/paymentsDetails/:id"
+            path="/homepage/payments/paymentsDetails/:id/:chitId/:grpId"
             element={<Pamentdetails />}
           />
           <Route path="/homepage/reports" element={<Reports />} />

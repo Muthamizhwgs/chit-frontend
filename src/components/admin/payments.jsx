@@ -10,10 +10,11 @@ import { useNavigate } from "react-router-dom";
 
 function Payments() {
   const [loader, setLoader] = useState(false);
-  const [searchTerm, setSearchTerm] = useState();
+  const [searchTerm, setSearchTerm] = useState("");
   const [filteredData, setFilteredData] = useState();
   const [data, setData] = useState([]);
-  const navigate = useNavigate()
+
+  const navigate = useNavigate();
   const handleChange = (value) => {
     setLoader(true);
     console.log(`selected ${value}`);
@@ -33,9 +34,22 @@ function Payments() {
     }
   };
 
-const clickToMove = (id) => {
-  navigate('/homepage/payments/paymentsDetails/'+id)
-}
+  const clickToMove = (id, chitId,grpId) => {
+    navigate("/homepage/payments/paymentsDetails/" + id+'/'+chitId+'/'+grpId);
+  };
+
+  const handleSearch = (searchValue) => {
+    setSearchTerm(searchValue);
+    if (!searchValue) {
+      setFilteredData(data);
+      return;
+    }
+    const filteredResults = data.filter((user) => 
+      user.customerName.toLowerCase().includes(searchValue.toLowerCase()) ||
+      user.customerNumber.toString().includes(searchValue)
+    );
+    setFilteredData(filteredResults);
+};
 
   const columns = [
     {
@@ -44,11 +58,20 @@ const clickToMove = (id) => {
     },
     {
       name: <h1 className="text-lg text-gray-500">Customer Name</h1>,
-      cell: (row) => (<p className="underline cursor-pointer text-blue-500" onClick={()=>{clickToMove(row.customerId)}}>{row.customerName}</p>)
+      cell: (row) => (
+        <p
+          className="underline cursor-pointer text-blue-500"
+          onClick={() => {
+            clickToMove(row.customerId, row.chitId, row.groupId);
+          }}
+        >
+          {row.customerName}
+        </p>
+      ),
     },
     {
       name: <h1 className="text-lg text-gray-500">Phone Number</h1>,
-      selector: (row) => row.customerNumber
+      selector: (row) => row.customerNumber,
     },
     {
       name: <h1 className="text-lg text-gray-500">Chit</h1>,
@@ -60,11 +83,11 @@ const clickToMove = (id) => {
     },
     {
       name: <h1 className="text-lg text-gray-500">Outstanding Amount</h1>,
-      selector: (row) => <CurrencyComponent amount={row.monthlyInstallment}/> ,
+      selector: (row) => <CurrencyComponent amount={row.monthlyInstallment} />,
     },
     {
       name: <h1 className="text-lg text-gray-500">Status</h1>,
-      selector: (row) => row.status=='Completed'?'Completed':"Ongoing",
+      selector: (row) => (row.status == "Completed" ? "Completed" : "Ongoing"),
     },
     // {
     //   name: <h1>click</h1>,
@@ -99,10 +122,15 @@ const clickToMove = (id) => {
   // const Category = ["Second Sunday", "Every Month 5th"];
   // const Group = ["A", "B", "C"];
   // const Amount = ["100000", "200000"]
+  const dataTableData = searchTerm ? filteredData : data;
 
   useEffect(() => {
     getCustomers();
-  }, []);
+    if (searchTerm === "") {
+      setFilteredData(data);
+    }
+  }, [searchTerm]);
+
 
   return (
     <div>
@@ -121,6 +149,7 @@ const clickToMove = (id) => {
                 placeholder="Enter Customer Name or Phone Number"
                 id="search"
                 value={searchTerm}
+                onChange={(e) => handleSearch(e.target.value)}
               />
               <div class="fancy-bg"></div>
               <div class="search">
@@ -144,7 +173,7 @@ const clickToMove = (id) => {
         <div className="w-[95%] m-auto mt-5 overflow-auto">
           <DataTable
             columns={columns}
-            data={data}
+            data={dataTableData}
             fixedHeader
             pagination
             bordered1

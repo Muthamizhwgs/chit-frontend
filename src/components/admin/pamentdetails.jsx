@@ -5,7 +5,7 @@ import CurrencyComponent from "../utils/currency";
 import { CashGiven, Amount, AuctionAmount } from "../utils/Calculations";
 
 const PaymentDetails = () => {
-  const { id } = useParams();
+  const { id, chitId, grpId } = useParams();
   const navigate = useNavigate();
 
   const [payments, setPayments] = useState([]);
@@ -14,7 +14,7 @@ const PaymentDetails = () => {
   const fetchPayments = async () => {
     setLoader(true);
     try {
-      let values = await PayAndPrint(id);
+      let values = await PayAndPrint(id,chitId,grpId);
       setPayments(values.data);
     } catch (error) {
       if (error.response && error.response.status === 401) {
@@ -27,14 +27,14 @@ const PaymentDetails = () => {
 
   useEffect(() => {
     fetchPayments();
-  }, [id]);
+  }, [id, chitId, grpId]);
 
   const sendDataToBackend = async (data, id) => {
     try {
       const cashGivenValue = CashGiven({ datas: data.items });
       const amountValue = Amount({ datas: data.items });
       const auctionAmountValue = AuctionAmount({ datas: data.items });
-  
+
       const sendData = {
         ...data,
         cashGiven: cashGivenValue,
@@ -42,11 +42,11 @@ const PaymentDetails = () => {
         auctionAmount: auctionAmountValue,
         userId: id,
       };
-  
+
       try {
         let response = await PDFGend(sendData);
         if (response.data && response.data.pdf) {
-          window.open(`http://localhost:3000/${response.data.pdf}`, '_blank');
+          window.open(`http://localhost:3000/${response.data.pdf}`, "_blank");
         } else {
           console.error("PDF link not found in the response.");
         }
@@ -61,7 +61,6 @@ const PaymentDetails = () => {
       console.error("Error sending data to backend:", error);
     }
   };
-  
 
   return (
     <div className="grid grid-cols-3 justify-items-stretch gap-4">
