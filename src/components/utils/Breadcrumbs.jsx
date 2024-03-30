@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Breadcrumbs = ({ paths }) => {
-  const filteredPaths = paths.filter((_, index) => index !== 3);
+  const filteredPaths = paths.filter((_, index) => index <= 2);
 
   return (
     <div className='pl-8 py-5 '>

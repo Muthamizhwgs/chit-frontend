@@ -38,24 +38,23 @@ function ChitMaster() {
 
   console.log("row id", id);
 
-
   const handleInit = () => {
     forms.values.chitAmount = "";
-   forms.values.chitName = "";
-   forms.values.companyId = "";
-   forms.values.companyName = "";
-   forms.values.describeDate = "";
-   forms.values.group = "";
-   forms.values.months = "";
-   forms.values.noOfPeople = "";
-   setCompanyAuctionDate("");
-   forms.resetForm();
-   setInputValue("")
- };
- 
+    forms.values.chitName = "";
+    forms.values.companyId = "";
+    forms.values.companyName = "";
+    forms.values.describeDate = "";
+    forms.values.group = "";
+    forms.values.months = "";
+    forms.values.noOfPeople = "";
+    setCompanyAuctionDate("");
+    forms.resetForm();
+    setInputValue("");
+  };
+
   const showModal = () => {
     setIsModalOpen(true);
-    handleInit()
+    handleInit();
   };
 
   let navigate = useNavigate();
@@ -91,11 +90,8 @@ function ChitMaster() {
     forms.resetForm();
   };
 
-
- 
-
   const submitForms = async (value) => {
-    let datas = { ...value, ...{ groups: tags } };
+    let datas = { ...value, ...{ groups: tags, companyName: forms.values.companyName, describeDate: forms.values.describeDate } }; 
     console.log(datas, "asdasd");
     setLoader(true);
     try {
@@ -112,6 +108,7 @@ function ChitMaster() {
       setLoader(false);
     }
   };
+  
 
   const getChit = async () => {
     setLoader(true);
@@ -147,68 +144,80 @@ function ChitMaster() {
   }, []);
 
   const chengeEdit = (rowData) => {
-    const { _id, chitName, chitAmount, months, noOfPeople, companyName, totalGroup } = rowData;
-  
-    forms.values.companyId = companyName;
+    const {
+      _id,
+      chitName,
+      chitAmount,
+      months,
+      noOfPeople,
+      companyName,
+      companyId,
+      describeDate,
+      totalGroup,
+    } = rowData;
+
+    forms.values.companyId = companyId;
+    forms.values.companyName = companyName;
     forms.values.chitName = chitName;
     forms.values.chitAmount = chitAmount;
     forms.values.months = months;
     forms.values.noOfPeople = noOfPeople;
-    forms.values.totalGroup = totalGroup; 
+    forms.values.describeDate = describeDate;
+    forms.values.totalGroup = totalGroup;
 
-    const selectedCompany = companies.find((company) => company.companyName === companyName);
+    const selectedCompany = companies.find(
+      (company) => company.companyName === companyName
+    );
     if (selectedCompany) {
       AuctionDateMapping(selectedCompany._id);
     }
 
     setEdit(true);
     setIsModalOpen(true);
-    setId(_id); 
+    setId(_id);
     setTags(totalGroup);
-};
+  };
 
+  const EditSubmit = async (values) => {
+    try {
+      const updatedValues = {
+        ...values,
+        totalGroup: tags,
+        newGroup: tags.filter(tag => !forms.values.totalGroup.includes(tag))
+      };
   
-  
-  
-
-const EditSubmit = async (values) => {
-  console.log(values, "EDITE DATA");
-  try {
-    values.totalGroup = tags;
-    let val = await UpdateChituserById(values);
-    console.log(val, "response");
-    getChit();
-    handleCancel();
-  } catch (error) {
-    if (error.response.status == 401) {
-      navigate("/");
+      let val = await UpdateChituserById(updatedValues);
+      console.log(val, "response");
+      getChit();
+      handleCancel();
+    } catch (error) {
+      if (error.response.status == 401) {
+        navigate("/");
+      }
     }
-  }
-};
-
+  };
   
-
+  
 
   const UpdateChituserById = async (values) => {
     try {
-        const response = await fetch(`http://localhost:3000/api/chits/${id}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(values),
-        });
-        
-        if (!response.ok) {
-            throw new Error('Failed to update chit data');
-        }
-        
-        return response.json();
-    } catch (error) {
-        throw error;
-    }
-};
+      const response = await fetch(`http://localhost:3000/api/chits/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
 
+      if (!response.ok) {
+        throw new Error("Failed to update chit data");
+      }
+
+      return response.json();
+    } catch (error) {
+      throw error;
+    }
+  };
 
   const columns = [
     {
@@ -245,14 +254,13 @@ const EditSubmit = async (values) => {
       cell: (row) => (
         <>
           <>
-          <FaEdit
-  className="size-5 cursor-pointer"
-  onClick={() => chengeEdit(row)}
-  color="#176b87"
-/>
+            <FaEdit
+              className="size-5 cursor-pointer"
+              onClick={() => chengeEdit(row)}
+              color="#176b87"
+            />
 
             {/* <span className="ml-2">{row.id}</span> */}
-      
           </>
         </>
       ),
@@ -575,7 +583,6 @@ const EditSubmit = async (values) => {
           onCancel={handleCancel}
           footer={null}
         >
-         
           <div>
             <Flex gap="small" wrap="wrap" className="justify-center">
               {tags.map((tag, index) => {
