@@ -51,6 +51,7 @@ function ChitMaster() {
     setCompanyAuctionDate("");
     forms.resetForm();
     setInputValue("");
+    setTags([]);
   };
 
   const showModal = () => {
@@ -62,20 +63,29 @@ function ChitMaster() {
 
   const forms = useFormik({
     initialValues: ChitMasterinitValue,
-    validationSchema: ChitMasterSchema,
+    validationSchema: ChitMasterSchema, 
     onSubmit: (values) => {
-      edit ? EditSubmit(values) : submitForms(values);
+      if (edit) {
+        EditSubmit(values);
+      } else {
+        submitForms(values);
+      }
     },
   });
+  
   const showAddgroup = () => {
-    var size = Object.keys(forms.errors).length;
-    if (size > 0) {
-      console.log(size);
-    } else {
-      setIsModalOpen(false);
-      setIsGroupOpen(true);
-    }
+    forms.validateForm().then((errors) => {
+      const hasErrors = Object.keys(errors).length > 0;
+      if (!hasErrors) {
+        setIsModalOpen(false);
+        setIsGroupOpen(true);
+      } else {
+        console.log("Form has validation errors.");
+        forms.handleSubmit();
+      }
+    });
   };
+  
   const handleCancel = () => {
     setIsModalOpen(false);
     setIsGroupOpen(false);
@@ -556,15 +566,21 @@ function ChitMaster() {
             </div>
 
             <div className="flex flex-col mb-4">
-              <label className="pl-4">Auction Date :</label>
-              <input
-                type="text"
-                placeholder="Enter Auction Date"
-                className="h-10 pl-3 border drop-shadow-lg w-[93%] hover:focus-within:outline-none rounded-md ml-3"
-                readOnly
-                value={companyAuctionDate}
-              />
-            </div>
+  <label className="pl-4">Auction Date :</label>
+  <input
+    type="text"
+    placeholder="Enter Auction Date"
+    className="h-10 pl-3 border drop-shadow-lg w-[93%] hover:focus-within:outline-none rounded-md ml-3"
+    readOnly
+    value={companyAuctionDate}
+  />
+  {forms.errors.describeDate && forms.touched.describeDate ? (
+    <div style={{ width: "100%", color: "red", paddingLeft: "15px" }}>
+      {forms.errors.describeDate}
+    </div>
+  ) : null}
+</div>
+
 
             <div className="flex justify-center">
               {/* <button
@@ -606,6 +622,7 @@ function ChitMaster() {
                       onBlur={handleEditInputConfirm}
                       onPressEnter={handleEditInputConfirm}
                     />
+                    
                   );
                 }
                 const isLongTag = tag.length > 20;
@@ -663,6 +680,7 @@ function ChitMaster() {
                 </Tag>
               )}
             </Flex>
+            
           </div>
 
           <div className="flex justify-center py-5">
