@@ -8,6 +8,7 @@ import {
   getAllCompany,
   getchitsByCompany,
   getgroupsBychits,
+  getChitMapsById,
 } from "../../services/service";
 const { Option } = Select;
 import { Link, useNavigate } from "react-router-dom";
@@ -15,6 +16,7 @@ import Loader from "../utils/loader";
 import { GoDotFill } from "react-icons/go";
 import CurrencyComponent from "../utils/currency";
 import { FaEdit } from "react-icons/fa";
+import { Modal, Button } from "antd";
 
 function ChitMapping() {
   let navigate = useNavigate();
@@ -35,6 +37,55 @@ function ChitMapping() {
   const [chitInput, setchitInput] = React.useState(undefined);
   const [groupInput, setgroupInput] = React.useState(undefined);
   const [userInput, setuserInput] = React.useState(undefined);
+  const [isModalVisible, setIsModalVisible] = React.useState(false);
+  const [rowDataForEdit, setRowDataForEdit] = React.useState(null);
+
+  const chengeEdit = async (id) => {
+    try {
+      console.log("Editing chit map with ID:", id);
+      const response = await getChitMapsById(id);
+      getUserList(id);
+      getAllCompany(id);
+   
+      getAllCompany(id);
+      const chitMapData = response.data[0];
+      const companyObject = company.find(
+        (company) => company._id === chitMapData.companyId
+
+      );
+      getchitsByCompany(chitMapData.companyId)
+      if (companyObject) {
+        setCompanyInput(companyObject.companyName);
+        console.log("Company name set to:", companyObject.companyName);
+      } else {
+        console.error("Company not found for ID:", chitMapData.companyId);
+      }
+
+ 
+        setchitInput(chitMapData.chitName);
+
+
+      setgroupInput(chitMapData.group);
+
+      const userList = chitMapData.chitMap.map(
+        (user) => `${user.name} - ${user.phoneNumber}`
+      );
+      setuserInput(userList);
+
+      setRowDataForEdit(chitMapData);
+      console.log("Row data set for edit:", chitMapData);
+      setIsModalVisible(true);
+      console.log("Modal should be visible now");
+    } catch (error) {
+      console.error("Error fetching chit map data:", error);
+    }
+  };
+
+  console.log("row data", rowDataForEdit);
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
 
   const handleSelectChange = (selected) => {
     setuserInput(selected);
@@ -251,7 +302,85 @@ function ChitMapping() {
           <h1 className="font-bold py-2">Chit Mapping</h1>
         </div>
       </div>
+      <Modal
+        title="Edit Chit Details"
+        visible={isModalVisible}
+        onCancel={handleCancel}
+        width="900px"
+        footer={[,]}
+      >
+        {rowDataForEdit && (
+          <div className="grid grid-cols-1 xs:grid-cols-2 justify-items-center lg:flex justify-center gap-4  p-5">
+            <Select
+              placeholder="Select Company"
+              className="lg:w-48 w-full"
+              onChange={handleChange}
+              value={companyInput}
+            >
+              {company.length > 0
+                ? company.map((item, ind) => (
+                    <Option value={ind}>{item.companyName}</Option>
+                  ))
+                : null}
+            </Select>
 
+            <Select
+              placeholder="Select Chit"
+              className="lg:w-48 w-full"
+              onChange={chithandleChange}
+              value={chitInput}
+            >
+              {
+                // eslint-disable-next-line no-unused-vars
+                chit.map((item, ind) => (
+                  // eslint-disable-next-line react/jsx-key
+                  <Option value={item._id}>{item.chitName}</Option>
+                ))
+              }
+            </Select>
+
+            <Select
+              className=" lg:w-48 w-full"
+              placeholder="Select Group"
+              onChange={grouphandleChange}
+              value={groupInput}
+            >
+              {groups &&
+                groups.map((item, ind) => (
+                  <Option value={item._id}>{item.group}</Option>
+                ))}
+            </Select>
+
+            <Select
+              className="placeholder:text-black lg:w-48 w-full"
+              mode="multiple"
+              placeholder="Select Users"
+              onChange={handleSelectChange}
+              value={userInput}
+              filterOption={(input, option) => {
+                const name = option.props.children;
+                const userName = chitUsers[option.props.value].name;
+                return (
+                  typeof userName === "string" &&
+                  userName.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                );
+              }}
+            >
+              {chitUsers.map((item, ind) => (
+                <Option value={ind}>
+                  {item.name} - {item.phoneNumber}{" "}
+                </Option>
+              ))}
+            </Select>
+            <button
+              className="cursor-pointer transition-all bg-[#176B87] text-white w-28 h-[35px] rounded-lg border-[#15414e] border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px] active:border-b-[2px] active:brightness-90 active:translate-y-[2px]"
+              onClick={getusers}
+            >
+              Edit Chit
+            </button>
+          </div>
+        )}
+      </Modal>
       <div className="grid grid-cols-1 xs:grid-cols-2 justify-items-center lg:flex justify-center gap-4  p-5">
         <Select
           placeholder="Select Company"
@@ -327,58 +456,62 @@ function ChitMapping() {
           Map Chit
         </button>
       </div>
-
-      {/* cards design */}
-
       <div className="w-[95%] m-auto flex flex-col gap-3">
-        {
-          // eslint-disable-next-line no-unused-vars
-          getchitmaps.map((data, ind) => (
-            // eslint-disable-next-line react/jsx-key
-            <div className="w-full rounded-md bg-[#f7ffff] p-2 drop-shadow-md cursor-pointer">
+        {getchitmaps.map((data, ind) => (
+          <div className="w-full rounded-md bg-[#f7ffff] p-2 drop-shadow-md cursor-pointer">
+            <div className="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-2 lg:grid-cols-6 xl:grid-cols-6 bg-white p-2 rounded cursor-pointer">
+              <section className="flex flex-col">
+                <Link
+                  to={"/homepage/chitmapping/chitmapdetails?id=" + data._id}
+                >
+                  <p className="font-bold">{data.chitName}</p>
+                  <p>{data.createdAt}</p>
+                </Link>
+              </section>
               <Link to={"/homepage/chitmapping/chitmapdetails?id=" + data._id}>
-                <div className="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-2 lg:grid-cols-6 xl:grid-cols-6 bg-white p-2 rounded cursor-pointer">
-                  <section className="flex flex-col">
-                    <p className="font-bold">{data.chitName}</p>
-                    <p>{data.createdAt}</p>
-                  </section>
-                  <section className="flex p-1 px-2 rounded-xl bg-slate-200 w-fit h-fit mt-2">
-                    {data.active ? (
-                      <div className="text-green-600 flex justify-center items-center text-center">
-                        <GoDotFill /> <p className="text-sm">Active</p>
-                      </div>
-                    ) : (
-                      <div className="text-red-600 flex justify-center items-center text-center">
-                        <GoDotFill /> <p className="text-sm">In active</p>
-                      </div>
-                    )}
-                  </section>
-                  <section className="">
-                    <p className="font-bold">Amount</p>
-                    <p>
-                      <CurrencyComponent amount={data.chitAmount} />
-                    </p>
-                  </section>
-                  <section className="">
-                    <p className="font-bold">Group</p>
-                    <p>{data.group}</p>
-                  </section>
-                  <section className="">
-                    <p className="font-bold">Months</p>
-                    <p>{data.months}</p>
-                  </section>
-                  <section className="">
-                    <FaEdit
-                      className="size-5 cursor-pointer"
-                      // onClick={() => chengeEdit(row)}
-                      color="#176b87"
-                    />
-                  </section>
-                </div>
+                <section className="flex p-1 px-2 rounded-xl bg-slate-200 w-fit h-fit mt-2">
+                  {data.active ? (
+                    <div className="text-green-600 flex justify-center items-center text-center">
+                      <GoDotFill /> <p className="text-sm">Active</p>
+                    </div>
+                  ) : (
+                    <div className="text-red-600 flex justify-center items-center text-center">
+                      <GoDotFill /> <p className="text-sm">In active</p>
+                    </div>
+                  )}
+                </section>
               </Link>
+              <Link to={"/homepage/chitmapping/chitmapdetails?id=" + data._id}>
+                <section className="">
+                  <p className="font-bold">Amount</p>
+                  <p>
+                    <CurrencyComponent amount={data.chitAmount} />
+                  </p>
+                </section>
+              </Link>
+              <Link to={"/homepage/chitmapping/chitmapdetails?id=" + data._id}>
+                <section className="">
+                  <p className="font-bold">Group</p>
+                  <p>{data.group}</p>
+                </section>
+              </Link>
+              <Link to={"/homepage/chitmapping/chitmapdetails?id=" + data._id}>
+                <section className="">
+                  <p className="font-bold">Months</p>
+                  <p>{data.months}</p>
+                </section>
+              </Link>
+
+              <section className="">
+                <FaEdit
+                  className="size-5 cursor-pointer"
+                  onClick={() => chengeEdit(data._id)}
+                  color="#176b87"
+                />
+              </section>
             </div>
-          ))
-        }
+          </div>
+        ))}
       </div>
 
       {/* drawer */}
@@ -418,7 +551,6 @@ function ChitMapping() {
             </>
           ))}
           <div className="flex justify-center mt-8">
-            {/* <button className='bg-[#176B87] flex justify-center items-center text-white w-20 gap-1 rounded-md h-8' onClick={submitMapping}>Submit</button> */}
             <button
               className="cursor-pointer transition-all bg-[#176B87] text-white w-28 h-[35px] rounded-lg border-[#15414e] border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px] active:border-b-[2px] active:brightness-90 active:translate-y-[2px]"
               onClick={submitMapping}
@@ -429,69 +561,6 @@ function ChitMapping() {
         </Drawer>
       </div>
     </>
-
-    // <>
-    //   {loader ? <Loader data={loader} /> : null}
-    //   <div className=''>
-    //     <div className='flex justify-center max-w-[95%] pt-5'>
-    //       <div></div>
-    //       <div className='text-xl'>
-    //         <h1>Chit Mapping</h1>
-    //       </div>
-    //     </div>
-
-    //     {/* cards design */}
-    //     <section className=' flex w-[95%] m-auto gap-4 mt-4 items-center mb-4'>
-    //       Chit Name:<Select
-    //         defaultValue="select chit"
-    //         style={{
-    //           width: 120,
-    //         }}
-    //         onChange={handleChange}
-    //       >
-    //         {
-    //           // eslint-disable-next-line no-unused-vars
-    //           chits.map((item, ind) => (
-    //             // eslint-disable-next-line react/jsx-data
-    //             <Option value={item._id}>{item.chitName}</Option>
-    //           ))
-    //         }
-    //       </Select>
-    //     </section>
-
-    //     <div className='w-[95%] m-auto grid grid-cols-1 gap-2'>
-
-    //       {chits.map((key, value) => (
-    //         <section key={key} className='grid md:grid-cols-3 sm:grid-cols-2 grid-cols-2 lg:grid-cols-6  xl:grid-cols-6 bg-white p-2 rounded cursor-pointer'>
-    //           <section className='flex flex-col'>
-    //             <p className='font-bold'>{key.chitName}</p>
-    //             <p>{key.createdAt}</p>
-    //           </section>
-    //           <section className='flex p-1 rounded-xl bg-slate-200 w-fit h-fit mt-2'>
-    //             {key.active ? <div className='text-green-600 flex justify-center items-center text-center'><GoDotFill /> <p className='text-sm'>Active</p></div> : <div className='text-red-600 flex justify-center items-center text-center'><GoDotFill /> <p className='text-sm'>Pending</p></div>}
-    //           </section>
-    //           <section className=''>
-    //             <p className='font-bold'>Amount</p>
-    //             <p>{key.chitAmount}</p>
-    //           </section>
-    //           <section className=''>
-    //             <p className='font-bold'>Group</p>
-    //             <p>{key.group}</p>
-    //           </section>
-    //           <section className=''>
-    //             <p className='font-bold'>Months</p>
-    //             <p>{key.months}</p>
-    //           </section>
-    //           <section className=''>
-    //             <p className='font-bold'>Members</p>
-    //             <p>{key.noOfPeople}</p>
-    //           </section>
-    //         </section>
-    //       ))}
-
-    //     </div>
-    //   </div>
-    // </>
   );
 }
 

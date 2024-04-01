@@ -214,3 +214,9 @@ export const updateChitById = async (id,data)=>{
   let ApiResponse  = await useAxiosInterceptors.put('chit/updateChitById/'+id, data)
   return ApiResponse
 }
+
+
+export const getChitMapsById = async (id)=>{
+  let ApiResponse  = await useAxiosInterceptors.get('chit/getChits/mapsbyId/'+id)
+  return ApiResponse
+}
