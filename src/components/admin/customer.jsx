@@ -224,7 +224,7 @@ function Customers() {
               }}
               color="#176b87"
             />
-            <span className="ml-2">{row.id}</span>
+            {/* <span className="ml-2">{row.id}</span> */}
             {/* <MdDelete className='size-5 cursor-pointer' onClick={chengeDelete} color='red'/><span className='ml-2'>{row.id}</span> */}
           </>
         </>
