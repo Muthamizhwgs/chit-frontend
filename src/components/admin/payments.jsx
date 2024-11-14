@@ -70,8 +70,8 @@ function Payments() {
       ),
     },
     {
-      name: <h1 className="text-lg text-gray-500">Phone Number</h1>,
-      selector: (row) => row.customerNumber,
+      name: <h1 className="text-lg text-gray-500" >Phone Number</h1>,
+      selector: (row) => row.phoneNumber,
     },
     {
       name: <h1 className="text-lg text-gray-500">Chit</h1>,

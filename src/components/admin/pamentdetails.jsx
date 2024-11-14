@@ -141,12 +141,14 @@ const Card = ({ data, id, }) => {
           </p>
         </div>
 
+        <div className="flex justify-end pb-5 pr-2">
         <button
           onClick={() => sendDataToBackends(data, id)}
-          className="absolute bottom-4 right-4 cursor-pointer transition-all bg-[#176B87] text-white w-28 h-[35px] rounded-lg border-[#15414e] border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px] active:border-b-[2px] active:brightness-90 active:translate-y-[2px]"
+          className=" cursor-pointer transition-all bg-[#176B87] text-white w-28 h-[35px] rounded-lg border-[#15414e] border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px] active:border-b-[2px] active:brightness-90 active:translate-y-[2px]"
         >
           Pay & Print
         </button>
+        </div>
       </div>
     </>
   );
