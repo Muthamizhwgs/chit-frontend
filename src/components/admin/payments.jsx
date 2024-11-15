@@ -15,41 +15,41 @@ function Payments() {
   const [data, setData] = useState([]);
 
   const navigate = useNavigate();
-  const handleChange = (value) => {
-    setLoader(true);
-    console.log(`selected ${value}`);
-  };
+  // const handleChange = (value) => {
+  //   setLoader(true);
+  //   console.log(`selected ${value}`);
+  // };
 
-  const getCustomers = async () => {
-    setLoader(true);
-    try {
-      let val = await getPayments();
-      setData(val.data);
-    } catch (error) {
-      if (error.response.status === 401) {
-        navigate("/");
-      }
-    } finally {
-      setLoader(false);
-    }
-  };
+  // const getCustomers = async () => {
+  //   setLoader(true);
+  //   try {
+  //     let val = await getPayments();
+  //     setData(val.data);
+  //   } catch (error) {
+  //     if (error.response.status === 401) {
+  //       navigate("/");
+  //     }
+  //   } finally {
+  //     setLoader(false);
+  //   }
+  // };
 
   const clickToMove = (id, chitId,grpId) => {
     navigate("/homepage/payments/paymentsDetails/" + id+'/'+chitId+'/'+grpId);
   };
 
-  const handleSearch = (searchValue) => {
-    setSearchTerm(searchValue);
-    if (!searchValue) {
-      setFilteredData(data);
-      return;
-    }
-    const filteredResults = data.filter((user) => 
-      user.customerName.toLowerCase().includes(searchValue.toLowerCase()) ||
-      user.customerNumber.toString().includes(searchValue)
-    );
-    setFilteredData(filteredResults);
-};
+//   const handleSearch = (searchValue) => {
+//     setSearchTerm(searchValue);
+//     if (!searchValue) {
+//       setFilteredData(data);
+//       return;
+//     }
+//     const filteredResults = data.filter((user) => 
+//       user.customerName.toLowerCase().includes(searchValue.toLowerCase()) ||
+//       user.customerNumber.toString().includes(searchValue)
+//     );
+//     setFilteredData(filteredResults);
+// };
 
   const columns = [
     {
@@ -124,12 +124,48 @@ function Payments() {
   // const Amount = ["100000", "200000"]
   const dataTableData = searchTerm ? filteredData : data;
 
+  // useEffect(() => {
+  //   getCustomers();
+  //   if (searchTerm === "") {
+  //     setFilteredData(data);
+  //   }
+  // }, [searchTerm]);
+
   useEffect(() => {
-    getCustomers();
-    if (searchTerm === "") {
-      setFilteredData(data);
+    const fetchData = async () => {
+      setLoader(true);
+      try {
+        const val = await getPayments();
+        const payments = val.data;
+        setData(payments);
+        setFilteredData(payments); // Initialize filteredData with fetched data
+      } catch (error) {
+        if (error.response?.status === 401) {
+          navigate("/");
+        }
+      } finally {
+        setLoader(false);
+      }
+    };
+  
+    fetchData();
+  }, []);
+
+  const handleSearch = (searchValue) => {
+    setSearchTerm(searchValue);
+    if (!searchValue) {
+      setFilteredData(data); // Reset filtered data when search is cleared
+      return;
     }
-  }, [searchTerm]);
+  
+    const filteredResults = data.filter(
+      (user) =>
+        user.customerName.toLowerCase().includes(searchValue.toLowerCase()) ||
+        user.customerNumber?.toString().includes(searchValue)
+    );
+  
+    setFilteredData(filteredResults);
+  };
 
 
   return (
