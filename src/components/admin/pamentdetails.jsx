@@ -3,6 +3,7 @@ import { PDFGend, PayAndPrint } from "../../services/service";
 import { useNavigate, useParams } from "react-router-dom";
 import CurrencyComponent from "../utils/currency";
 import { CashGiven, Amount, AuctionAmount } from "../utils/Calculations";
+import DataTable from "react-data-table-component";
 
 const PaymentDetails = () => {
   const { id, chitId, grpId } = useParams();
@@ -32,7 +33,7 @@ const PaymentDetails = () => {
   
 
   return (
-    <div className="grid grid-cols-3 justify-items-stretch gap-4">
+    <div className="grid grid-cols-1 justify-items-stretch gap-4">
       {payments.length > 0 &&
         payments.map((entry, index) => (
           <div key={index} className="m-4 flex justify-center">
@@ -81,9 +82,77 @@ const Card = ({ data, id, }) => {
     }
   };
 
+  const columns = [
+    {
+      name: <h1 className="text-lg text-gray-500">S.No</h1>,
+      selector: (row, ind) => ind + 1,
+    },
+    {
+      name: <h1 className="text-lg text-gray-500">Name</h1>,
+      selector: (row) => row.name,
+    },
+    {
+      name: <h1 className="text-lg text-gray-500">Chits</h1>,
+      selector: (row) => row.chitName,
+    },
+    {
+      name: <h1 className="text-lg text-gray-500">Groups</h1>,
+      selector: (row) => row.group,
+    },
+    {
+      name: <h1 className="text-lg text-gray-500">Month</h1>,
+      selector: (row) => row.month,
+    },
+    {
+      name: <h1 className="text-lg text-gray-500">Dividend Amount</h1>,
+      selector: (row) => row.CurrentDivAmt,
+    },
+    {
+      name: <h1 className="text-lg text-gray-500">Auction Amount</h1>,
+      selector: (row) => <div><CurrencyComponent amount={row.auctionAmount} /></div>,
+    },
+    {
+      name: <h1 className="text-lg text-gray-500">Amount</h1>,
+      selector: (row) => <div><CurrencyComponent amount={row.amount} /></div>,
+    },
+    {
+      name: <h1 className="text-lg text-gray-500">Payable Amount</h1>,
+      selector: (row) => <div><CurrencyComponent
+      amount={row.amountToBePaid ? row.amountToBePaid : 0}
+    /></div>,
+    },
+    
+  ];
+
+  const customStyles = {
+    rows: {
+      style: {
+        minHeight: "48px", // override the row height
+        minWidth: "800px",
+      },
+    },
+    headCells: {
+      style: {
+        paddingLeft: "8px", // override the cell padding for head cells
+        paddingRight: "8px",
+        backgroundColor: "#F3F4F6",
+        color: "#6c737f",
+        fontWeight: "bold",
+      },
+    },
+    cells: {
+      style: {
+        paddingLeft: "10px", // override the cell padding for data cells
+        paddingRight: "8px",
+        fontSize: "16px",
+        color: "#364353",
+      },
+    },
+  };
+
   return (
     <>
-      <div className="bg-white rounded-lg shadow-lg w-80 relative">
+      {/* <div className="bg-white rounded-lg shadow-lg w-80 relative">
         <div className="p-4">
           <p className="text-lg font-bold text-[#176B87]  mb-2">{data.name}</p>
           <p className="text-sm text-gray-600 mb-4">{data.date}</p>
@@ -116,6 +185,56 @@ const Card = ({ data, id, }) => {
                 </p>
               </div>
             ))}
+            <div className="flex flex-row  justify-end ">
+              <span
+                className={`rounded-full px-2 py-1 ${
+                  data.status === "complete" ? "text-green-500" : "text-red-500"
+                } text-base font-bold mr-2`}
+              >
+                {data.status === "complete" ? "Complete" : "Incomplete"}
+              </span>
+            </div>
+          </div>
+          <hr className="my-4 text-[#176B87]" />
+          <p className="text-lg font-bold mb-2">Summary</p>
+          <p>
+            <span className="font-semibold">Amount:</span>{" "}
+            <Amount datas={data.items} />
+          </p>
+          <p>
+            <span className="font-semibold">Auction Amount:</span>{" "}
+            <AuctionAmount datas={data.items} />
+          </p>
+          <p>
+            <span className="font-semibold">Cash Given:</span>{" "}
+            <CashGiven datas={data.items} />
+          </p>
+        </div>
+
+        <div className="flex justify-end pb-5 pr-2">
+        <button
+          onClick={() => sendDataToBackends(data, id)}
+          className=" cursor-pointer transition-all bg-[#176B87] text-white w-28 h-[35px] rounded-lg border-[#15414e] border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px] active:border-b-[2px] active:brightness-90 active:translate-y-[2px]"
+        >
+          Pay & Print
+        </button>
+        </div>
+      </div> */}
+
+<div className="bg-white rounded-lg shadow-lg w-full ">
+        <div className="p-4 w-full">
+          <p className="text-lg font-bold text-[#176B87]  mb-2">{data.name}</p>
+          <p className="text-sm text-gray-600 mb-4">{data.date}</p>
+          <div className="relative">
+            
+            <DataTable
+            columns={columns}
+            data={data.items}
+            fixedHeader
+            pagination
+            bordered1
+            customStyles={customStyles}
+          />
             <div className="flex flex-row  justify-end ">
               <span
                 className={`rounded-full px-2 py-1 ${
