@@ -63,8 +63,9 @@ const Card = ({ data, id, }) => {
         let response = await PDFGend(sendData);
         if (response.data && response.data.pdf) {
           // window.open(`https://chitapi.whydev.co.in/${response.data.pdf}`, "_blank");
-          window.open(`http://localhost:3000${response.data.pdf}`, "_blank");
-
+          // window.open(`http://localhost:3000${response.data.pdf}`, "_blank");
+          window.open(`https://api.kamatchiammantrust.co.in${response.data.pdf}`, "_blank");
+          
         } else {
           console.error("PDF link not found in the response.");
         }
