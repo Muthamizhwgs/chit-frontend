@@ -1,51 +1,170 @@
 import React, { useEffect, useState } from "react";
-import { PDFGend, PayAndPrint } from "../../services/service";
+import { PDFGend, PayAndPrint, getUserData } from "../../services/service";
 import { useNavigate, useParams } from "react-router-dom";
 import CurrencyComponent from "../utils/currency";
 import { CashGiven, Amount, AuctionAmount } from "../utils/Calculations";
 import DataTable from "react-data-table-component";
+import Loader from "../utils/loader";
 
 const PaymentDetails = () => {
   const { id, chitId, grpId } = useParams();
   const navigate = useNavigate();
 
   const [payments, setPayments] = useState([]);
+  const [userData, setUserData] = useState([]);
+  const [auctinAmt, setAuctionamt] = useState(0);
+  const [paidAuctionAmt, setpaidAuctionAmt] = useState(0);
   const [loader, setLoader] = useState(false);
 
   const fetchPayments = async () => {
     setLoader(true);
     try {
       let values = await PayAndPrint(id,chitId,grpId);
+      fetchuserData()
       setPayments(values.data);
     } catch (error) {
       if (error.response && error.response.status === 401) {
         navigate("/");
       }
+    } 
+  };
+
+  const fetchuserData = async()=> {
+    try {
+      let val = await getUserData(id);
+      setUserData(val.data);
+      // setAuctionamt(val.data.setAuctionamt);
+      if (val.data.values.length == 0) {
+        messageApi.open({
+          type: "error",
+          content: "Auction Didn't Start Yet. For This Month",
+        });
+      } else {
+        let auctionAmt = val.data.TotalChitAmountOfAuction
+          ? val.data.TotalChitAmountOfAuction
+          : 0;
+        setAuctionamt(auctionAmt);
+        setpaidAuctionAmt(val.data.auctionPaidAmt);
+      }
+    } catch (error) {
+      if (error.response.status === 401) {
+        navigate("/");
+      } else {
+      }
     } finally {
       setLoader(false);
     }
-  };
+  }
 
   useEffect(() => {
     fetchPayments();
   }, [id, chitId, grpId]);
 
-  
+  const handlePrint = async () => {
+    let auctioTotal = 0;
+    if (userData.auctions > 0) {
+      auctioTotal = await userData.auctions.reduce(
+        (acc, obj) => acc + obj.AuctionAmount
+      );
+    }
+    setPaymentAmount(0);
+    console.log(userData.auctions, "asd");
+
+    let datas = {
+      items: userData.values,
+      TotalAmt: userData.balanceAmt,
+      amount: paymentAmount,
+      userId: selectedCustomerId,
+      auctions: userData.auctions,
+      auctionTotal: userData.totalCompletedAuction,
+      chitAmount: userData.ChitAmountPrint,
+      totalPayable1: userData.TotalPayablePrint1
+        ? userData.TotalPayablePrint1
+        : 0,
+      totalPayable2: userData.TotalPayablePrint2
+        ? userData.TotalPayablePrint2
+        : 0,
+      totalPayable3: userData.TotalPayablePrint3
+        ? userData.TotalPayablePrint3
+        : 0,
+      paidAmount: userData.paidAmount ? userData.paidAmount : 0,
+      interestAmount: interestAmount ? interestAmount : 0,
+      // labelText: inputText ? inputText : null,
+    };
+    try {
+      let values = await PDFGend(datas);
+      // window.open(`https://chitapi.whytap.tech${values.data.pdf}`, "_blank");
+      window.open(`http://localhost:3000${values.data.pdf}`, "_blank");
+      handleChange(selectedCustomerId);
+      setinterestAmount(0);
+      setinputText("");
+
+      // window.open(`http://localhost:3000`, "_blank");      // window.location.reload();
+    } catch (error) {}
+    console.log(datas);
+  };
 
   return (
-    <div className="grid grid-cols-1 justify-items-stretch gap-4">
-      {payments.length > 0 &&
-        payments.map((entry, index) => (
-          <div key={index} className="m-4 flex justify-center">
-            <Card data={entry} id={id}  />
-          </div>
-        ))}
-    </div>
+    <section>
+      {
+        loader ? <Loader/> :
+        <div className="grid grid-cols-1 justify-items-stretch gap-4">
+          {payments.length > 0 &&
+            payments.map((entry, index) => (
+              <div key={index} className="m-4 flex justify-center">
+                <Card data={entry} id={id} userData={userData}  />
+              </div>
+            ))}
+        </div>
+      }
+    </section>
   );
 };
 
-const Card = ({ data, id, }) => {
-  console.log(data.items);
+const Card = ({ data, id,userData }) => {
+  console.log(data,"datatatata");
+  const handlePrint = async () => {
+    let auctioTotal = 0;
+    if (userData.auctions > 0) {
+      auctioTotal = await userData.auctions.reduce(
+        (acc, obj) => acc + obj.AuctionAmount
+      );
+    }
+    const amountValue = Amount({ datas: data.items });
+
+    let datas = {
+      items: data.items,
+      TotalAmt: userData.balanceAmt,
+      amount: amountValue,
+      userId: id,
+      auctions: userData.auctions,
+      auctionTotal: userData.totalCompletedAuction,
+      chitAmount: userData.ChitAmountPrint,
+      totalPayable1: userData.TotalPayablePrint1
+        ? userData.TotalPayablePrint1
+        : 0,
+      totalPayable2: userData.TotalPayablePrint2
+        ? userData.TotalPayablePrint2
+        : 0,
+      totalPayable3: userData.TotalPayablePrint3
+        ? userData.TotalPayablePrint3
+        : 0,
+      paidAmount: userData.paidAmount ? userData.paidAmount : 0,
+      // interestAmount: interestAmount ? interestAmount : 0,
+      // labelText: inputText ? inputText : null,
+    };
+    try {
+      let values = await PDFGend(datas);
+      window.open(`https://api.kamatchiammantrust.co.in${values.data.pdf}`, "_blank");
+      // window.open(`http://localhost:3000${values.data.pdf}`, "_blank");
+      handleChange(selectedCustomerId);
+      setinterestAmount(0);
+      setinputText("");
+
+      // window.open(`http://localhost:3000`, "_blank");      // window.location.reload();
+    } catch (error) {}
+    console.log(datas);
+  };
   const sendDataToBackends = async (data, id) => {
     try {
       const cashGivenValue = CashGiven({ datas: data.items });
@@ -64,8 +183,8 @@ const Card = ({ data, id, }) => {
         let response = await PDFGend(sendData);
         if (response.data && response.data.pdf) {
           // window.open(`https://chitapi.whydev.co.in/${response.data.pdf}`, "_blank");
-          // window.open(`http://localhost:3000${response.data.pdf}`, "_blank");
-          window.open(`https://api.kamatchiammantrust.co.in${response.data.pdf}`, "_blank");
+          window.open(`http://localhost:3000${response.data.pdf}`, "_blank");
+          // window.open(`https://api.kamatchiammantrust.co.in${response.data.pdf}`, "_blank");
           
         } else {
           console.error("PDF link not found in the response.");
@@ -263,7 +382,7 @@ const Card = ({ data, id, }) => {
 
         <div className="flex justify-end pb-5 pr-2">
         <button
-          onClick={() => sendDataToBackends(data, id)}
+          onClick={handlePrint}
           className=" cursor-pointer transition-all bg-[#176B87] text-white w-28 h-[35px] rounded-lg border-[#15414e] border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px] active:border-b-[2px] active:brightness-90 active:translate-y-[2px]"
         >
           Pay & Print

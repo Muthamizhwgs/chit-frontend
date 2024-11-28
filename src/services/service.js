@@ -204,6 +204,13 @@ export const PayAndPrint = async (id,chitId,grpId)=>{
   return ApiResponse
 }
 
+export const getUserData = async (id) => {
+  let ApiResponse = await useAxiosInterceptors.get(
+    "chit/get/payments/details/" + id
+  );
+  return ApiResponse;
+};
+
 export const PDFGend = async (data)=>{
   let ApiResponse  = await useAxiosInterceptors.post('chit/generate/Pdf', data)
   return ApiResponse

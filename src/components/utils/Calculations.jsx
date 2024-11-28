@@ -58,4 +58,6 @@ export const CashGiven = ({ datas }) => {
       return 0;
     }
   };
+
+  
   
