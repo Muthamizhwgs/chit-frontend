@@ -125,6 +125,19 @@ export const getAuctionDetails = async (company, group) => {
   return ApiResponse;
 };
 
+//from2.0
+export const ResetAuction = async (data)=>{
+  let ApiResponse = await useAxiosInterceptors.post("chit/reset/auctions", data);
+  return ApiResponse
+}
+export const updateAuctioToEveryOne = async (id, data) => {
+  let ApiResponse = await useAxiosInterceptors.put(
+    "chit/update/auction/toeveryone/" + id,
+    data
+  );
+  return ApiResponse;
+};
+
 export const getAuctionDetailsByChit = async (id) => {
   let ApiResponse = await useAxiosInterceptors.get(
     "chit/getauctions/Detail/byChit/" + id
