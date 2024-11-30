@@ -130,6 +130,12 @@ export const ResetAuction = async (data)=>{
   let ApiResponse = await useAxiosInterceptors.post("chit/reset/auctions", data);
   return ApiResponse
 }
+
+export const AuctionPayment = async (data)=>{
+  let ApiResponse = await useAxiosInterceptors.post("chit/auction/payment", data);
+  return ApiResponse
+}
+
 export const updateAuctioToEveryOne = async (id, data) => {
   let ApiResponse = await useAxiosInterceptors.put(
     "chit/update/auction/toeveryone/" + id,
