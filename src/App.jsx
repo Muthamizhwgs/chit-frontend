@@ -6,7 +6,7 @@ import Admin from "./components/superadmin/SuperAdminHome";
 import Actions from "./components/user/auction";
 import Chitmaster from "./components/admin/chitmaster";
 import Customer from "./components/admin/customer";
-import ChitMapping from "./components/admin/chitmapping";
+import ChitMapping from "./components/admin/chitmapping2.0";
 import Auction from "./components/admin/Auction2.0";
 import Payments from "./components/admin/payments";
 import Reports from "./components/admin/reports";

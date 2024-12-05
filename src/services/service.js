@@ -246,3 +246,16 @@ export const getChitMapsById = async (id)=>{
   let ApiResponse  = await useAxiosInterceptors.get('chit/getChits/mapsbyId/'+id)
   return ApiResponse
 }
+
+export const deleteChitGroup = async (data)=>{
+  let ApiResponse = await useAxiosInterceptors.post("chit/delete/chitGroup", data);
+  return ApiResponse
+}
+
+export const UpdateChitMapsDetaills = async (data) => {
+  let ApiResponse = await useAxiosInterceptors.post(
+    "chit/update/chitmap/details",
+    data
+  );
+  return ApiResponse;
+};
