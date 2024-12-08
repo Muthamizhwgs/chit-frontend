@@ -32,6 +32,9 @@ function ChitMapping() {
   const [chitId, setChitId] = React.useState("");
   const [groupId, setgroupId] = React.useState("");
   const [getchitmaps, setgetchitmaps] = React.useState([]);
+  const [companygetchitmaps, setcompanygetchitmaps] = React.useState([]);
+  const [companytogroupgetchitmaps, setcompanytogroupgetchitmaps] = React.useState([]);
+  const [getfilterchitmaps, setfiltergetchitmaps] = React.useState([]);
 
   const [open, setOpen] = React.useState(false);
   const [loader, setLoader] = React.useState(false);
@@ -177,6 +180,10 @@ function ChitMapping() {
     setgroupInput(undefined);
     setuserInput(undefined);
     getChits(company[e]._id);
+    const getchits = getchitmaps.filter((item) => item.companyId === company[e]._id);
+    console.log(getchits," console.log(getchits)")
+    setcompanygetchitmaps(getchits)
+    setfiltergetchitmaps(getchits)
   };
 
   //edit handle change;
@@ -188,6 +195,7 @@ function ChitMapping() {
     setEditGroupInput(undefined);
     setEditUserInput(undefined);
     getChits(editCompany[e]._id);
+    
   };
 
   const chithandleChange = async (e) => {
@@ -196,6 +204,11 @@ function ChitMapping() {
     setuserInput(undefined);
     getGroups(e);
     setChitId(e);
+    console.log(e,"e")
+    const chitIndex = chit.findIndex((item)=>item._id===e)
+    const companieschit = companygetchitmaps.filter((item)=>item.chitName===chit[chitIndex].chitName)
+    setfiltergetchitmaps(companieschit)
+    setcompanytogroupgetchitmaps(companieschit)
   };
 
   //edit chit handle change
@@ -212,6 +225,9 @@ function ChitMapping() {
     setgroupInput(e);
     setuserInput(undefined);
     setgroupId(e);
+    // const groupIndex = groups.findIndex((item)=>item._id===e)
+    const companytogroup = companytogroupgetchitmaps.filter((item)=>item.groupId===e)
+    setfiltergetchitmaps(companytogroup)
   };
 
   // EDIT GROUP HANDLE CHANGE
@@ -240,6 +256,8 @@ function ChitMapping() {
     setchitInput(undefined);
     setgroupInput(undefined);
     setuserInput(undefined);
+    console.log(getchitmaps,"getchitmaps")
+    setfiltergetchitmaps(getchitmaps)
   };
 
   let arr = [];
@@ -452,6 +470,8 @@ function ChitMapping() {
     try {
       let serData = await getChitsMaps();
       setgetchitmaps(serData.data);
+      setfiltergetchitmaps(serData.data)
+      console.log(serData.data,"serData")
       // eslint-disable-next-line no-empty
     } catch (error) {}
   };
@@ -461,6 +481,7 @@ function ChitMapping() {
     try {
       let values = await getAllCompany();
       Setcompany(values.data);
+      console.log(values.data,"allcompneies")
       SetEditCompany(values.data);
     } catch (error) {
       if (error.response.status == 401) {
@@ -751,7 +772,7 @@ function ChitMapping() {
         </button>
       </div>
       <div className="w-[95%] m-auto flex flex-col gap-3">
-        {getchitmaps.map((data, ind) => (
+        {getfilterchitmaps.map((data, ind) => (
           <div
             className="w-full rounded-md bg-[#f7ffff] p-2 drop-shadow-md cursor-pointer"
             key={ind}
@@ -762,7 +783,7 @@ function ChitMapping() {
                   to={"/homepage/chitmapping/chitmapdetails?id=" + data._id}
                 >
                   <p className="font-bold">{data.chitName}</p>
-                  <p>{data.createdAt}</p>
+                  {/* <p>{data.createdAt}</p> */}
                 </Link>
               </section>
               <Link to={"/homepage/chitmapping/chitmapdetails?id=" + data._id}>
