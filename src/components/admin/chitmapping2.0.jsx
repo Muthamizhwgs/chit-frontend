@@ -72,7 +72,8 @@ function ChitMapping() {
 
   const [opennew, setOpennew] = useState(false);
   const [disabled, setDisabled] = useState(true);
-  const [deleteChit, SetDeleteChit] = useState({});
+  const [deleteChit, 
+    SetDeleteChit] = useState({});
   const [bounds, setBounds] = useState({
     left: 0,
     top: 0,

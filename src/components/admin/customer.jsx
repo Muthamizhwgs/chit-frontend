@@ -95,10 +95,11 @@ function Customers() {
   };
 
   const chengeEdit = (val) => {
+    console.log(forms,"forms")
     setId(val._id);
     forms.values.name = val.name;
     forms.values.address = val.address;
-    forms.values.phoneNumber = val.phoneNumber;
+    forms.values.phoneNumber = val.phoneNumber ? val.phoneNumber : "";
     (forms.values.reference = val.reference), setEdit(true);
     setIsModalOpen(true);
   };
@@ -109,6 +110,7 @@ function Customers() {
       let val = await UpdateChituserById(id, values);
       console.log(val, "response");
       getChit();
+      getReferenceUSers();
       handleCancel();
     } catch (error) {
       if (error.response.status == 401) {
@@ -200,7 +202,7 @@ function Customers() {
             <Switch
               checkedChildren={``}
               unCheckedChildren={``}
-              onChange={() => Active_Inactive(row._id, row)}
+              onChange={() => Active_Inactive(row.id, row)}
               defaultChecked={row.active}
               className={
                 row.active ? "custom-switch-checked" : "custom-switch-unchecked"
@@ -220,7 +222,7 @@ function Customers() {
             <FaEdit
               className="size-5 cursor-pointer"
               onClick={() => {
-                chengeEdit(row), setId(row._id);
+                chengeEdit(row), setId(row.id);
               }}
               color="#176b87"
             />
@@ -280,27 +282,21 @@ function Customers() {
 
   //for searchbar
   const handleSearch = (searchValue) => {
-    setSearchTerm(searchValue);
-    if (!searchValue) {
-      setFilteredData([]);
-      return;
-    }
-    const filteredResults = users.filter(
-      (user) =>
-        user.name.toLowerCase().includes(searchValue.toLowerCase()) ||
-        user.phoneNumber.toString().includes(searchValue)
-    );
-    setFilteredData(filteredResults);
+    setSearchTerm(searchValue); 
   };
 
   useEffect(() => {
     if (searchTerm === "") {
       setFilteredData(users);
+    } else {
+      const filteredResults = users.filter((user) =>
+        user.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setFilteredData(filteredResults);
     }
   }, [searchTerm, users]);
 
-  // Update DataTable component to use filteredData if searchTerm is not empty
-  const dataTableData = searchTerm ? filteredData : users;
+ 
 
   return (
     <>
@@ -316,7 +312,7 @@ function Customers() {
                   className="input w-48 xs:w-56 sm:w-64 placeholder:text-[10.5px] xs:placeholder:text-xs  sm:placeholder:text-sm pb-1 xs:pb-0"
                   type="text"
                   required=""
-                  placeholder="Enter Customer Name or Phone Number"
+                  placeholder="Enter Customer Name"
                   id="search"
                   value={searchTerm}
                   onChange={(e) => handleSearch(e.target.value)}
@@ -372,7 +368,7 @@ function Customers() {
         <div className="w-[95%] m-auto mt-5 overflow-auto">
           <DataTable
             columns={columns}
-            data={dataTableData}
+            data={filteredData}
             fixedHeader
             pagination
             bordered
@@ -414,7 +410,6 @@ function Customers() {
               <label className="pl-4"> Phone number :</label>
               <input
                 type="number"
-                disabled={edit}
                 placeholder="Enter Phone Number"
                 className="h-10 pl-3 border drop-shadow-lg w-[93%] hover:focus-within:outline-none rounded-md ml-3"
                 name="phoneNumber"
@@ -450,7 +445,7 @@ function Customers() {
             ) : null}
 
             <div className="flex flex-col mb-4">
-              <label className="pl-4">Reference name :</label>
+              <label className="pl-4">Reference name:</label>
               {/* {edit ? (
                 <Select
                   name="reference"
@@ -469,9 +464,15 @@ function Customers() {
               <Select
                 name="reference"
                 id="reference"
+                showSearch
+                allowClear
                 value={forms.values.reference || undefined}
                 onBlur={forms.handleBlur}
-                onChange={(e) => forms.setFieldValue("reference", e)}
+                filterOption={(input, option) =>
+                  option.label &&
+                  option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                }
+                onChange={(e) => forms.setFieldValue("reference", e||"")}
                 className="h-10 border drop-shadow-lg w-[93%] hover:focus-within:outline-none rounded-md ml-3"
                 placeholder="Select reference"
                 options={
