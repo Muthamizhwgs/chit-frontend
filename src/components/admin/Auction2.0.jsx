@@ -343,6 +343,7 @@ const Actions2 = () => {
   };
 
   const handleConfirmsubmit = async (e, val) => {
+    console.log(e,"e")
     let users = e.chitMap;
     let find = users.findIndex((a) => {
       return a._id == val;
@@ -363,8 +364,9 @@ const Actions2 = () => {
       groupId: customer.groupId,
       customerName: customer.customerName,
       tobePaidAmount: paidAmt,
-      month: e.months,
+      month: e.months+1,
     };
+    console.log(data,"data")
     setAuction(data);
 
     if (!e.Amount > 0) {
@@ -515,7 +517,7 @@ const Actions2 = () => {
     },
     {
       name: <h1 className="text-lg text-gray-500">Month</h1>,
-      selector: (row) => row.months,
+      selector: (row) => row.months+1,
     },
     {
       name: <h1 className="text-lg text-gray-500 flex">Auction Amount</h1>,
@@ -533,11 +535,11 @@ const Actions2 = () => {
     },
     {
       name: <h1 className="text-lg text-gray-500">Dividend Amount</h1>,
-      selector: (row) => <CurrencyComponent amount={row.dividendAmount} />,
+      selector: (row) => !isNaN(row.dividendAmount)?<CurrencyComponent amount={row.dividendAmount}/>:0,
     },
     {
       name: <h1 className="text-lg text-gray-500">Payable Amount</h1>,
-      selector: (row) => <CurrencyComponent amount={row.payableAmount} />,
+      selector: (row) =>!isNaN(row.payableAmount)? <CurrencyComponent amount={row.payableAmount} />:0,
     },
     {
       name: <h1 className="text-lg text-gray-500">Status</h1>,
@@ -607,6 +609,7 @@ const Actions2 = () => {
             className="w-40"
             onChange={(e) => {
               handleConfirmsubmit(row, e);
+              console.log(row.chitMap.length)
             }}
             filterOption={filterOption}
             placeholder="Select Customer"

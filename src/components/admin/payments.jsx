@@ -233,8 +233,8 @@ function Payments() {
     };
     try {
       let values = await PDFGend(datas);
-      window.open(`https://api.kamatchiammantrust.co.in${values.data.pdf}`, "_blank");
-      // window.open(`http://localhost:3000${values.data.pdf}`, "_blank");
+      // window.open(`https://api.kamatchiammantrust.co.in${values.data.pdf}`, "_blank");
+      window.open(`http://localhost:3000${values.data.pdf}`, "_blank");
       handleChange(selectedCustomerId);
       setinterestAmount(0);
       setinputText("");
@@ -361,7 +361,9 @@ function Payments() {
             </div> */}
             {/* {tab == 1 ? ( */}
             <div className="flex flex-row items-center justify-end pr-[300px]">
-              <div className="flex flex-col items-start justify-center ">
+              {
+                userData.auctions && userData.auctions.length > 0 &&
+                <div className="flex flex-col items-start justify-center ">
                 <h1 className="text-lg font-bold ">Auctions :-</h1>
                 <div className="space-y-6">
                   {userData.auctions && userData.auctions.length > 0 ? (
@@ -387,21 +389,35 @@ function Payments() {
                   )}
                 </div>
               </div>
+              }
+              
               <div className="flex flex-col py-6 space-y-6 mt-10 items-start justify-center ml-10">
-                <p>
+                {
+                  userData.totalPayable!==0&&
+                  <p>
                   <span className="font-medium">Customer's Payable :</span>{" "}
                   <span className="px-4">{userData.totalPayable} </span>
                 </p>
-                <p className="font-bold text-red-600">
+                }
+                
+                {
+                  userData.PendingAmount!==0&&
+                  <p className="font-bold text-red-600">
                   <span className="font-medium">Pending Amount :</span>{" "}
                   <span className="px-4">{userData.PendingAmount}</span>
                 </p>
+                }
+                {
+                userData.balanceAmt!==0&&
                 <p>
                   <span className="font-medium">Customer's Balance :</span>{" "}
                   <span className="px-4">{userData.balanceAmt}</span>
                 </p>
+                }
 
-                <p>
+                {
+                  userData.TotalChitAmountOfAuction - userData.totalPayable > 0 &&
+                  <p>
                   <span className="font-medium">Client's Payable :</span>{" "}
                   <span className="px-4">
                     {userData.TotalChitAmountOfAuction - userData.totalPayable <
@@ -411,11 +427,17 @@ function Payments() {
                         userData.totalPayable}
                   </span>
                 </p>
-
-                <p>
+                }
+                
+                {
+                  userData.paidAmount!==0&&
+                  <p>
                   <span className="font-medium">Paid Amount :</span>{" "}
                   <span className="px-4">{userData.paidAmount}</span>
                 </p>
+                }
+
+                
                 {/* <p className="">
                 <span className="font-medium">Balance To Pay :</span>{" "}
                 <span className="px-4">5000</span>
